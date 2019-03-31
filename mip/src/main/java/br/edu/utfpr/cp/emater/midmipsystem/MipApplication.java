@@ -14,14 +14,10 @@ import br.edu.utfpr.cp.emater.midmipsystem.domain.base.Region;
 import br.edu.utfpr.cp.emater.midmipsystem.domain.base.RegionRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.domain.base.State;
 import br.edu.utfpr.cp.emater.midmipsystem.domain.mip.GrowthPhase;
-import br.edu.utfpr.cp.emater.midmipsystem.domain.mip.MipPestSurvey;
-import br.edu.utfpr.cp.emater.midmipsystem.domain.mip.MipPestSurveyRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.domain.mip.Pest;
-import br.edu.utfpr.cp.emater.midmipsystem.domain.mip.PestOccurrence;
+import br.edu.utfpr.cp.emater.midmipsystem.domain.mip.PestFluctuationSample;
+import br.edu.utfpr.cp.emater.midmipsystem.domain.mip.PestFluctuationSampleRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.domain.mip.PestRepository;
-import br.edu.utfpr.cp.emater.midmipsystem.domain.mip.PestSize;
-import br.edu.utfpr.cp.emater.midmipsystem.domain.mip.SamplePest;
-import br.edu.utfpr.cp.emater.midmipsystem.domain.mip.SamplePestRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.domain.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.domain.survey.HarvestRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.domain.survey.DateData;
@@ -34,6 +30,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.domain.survey.SurveyFieldRepository;
 import freemarker.template.Configuration;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -102,14 +99,17 @@ class CLR implements CommandLineRunner {
     @Autowired
     private HarvestRepository harvestRepository;
 
-    @Autowired
-    private MipPestSurveyRepository mipPestSurveyRepository;
+//    @Autowired
+//    private MipPestSurveyRepository mipPestSurveyRepository;
 
     @Autowired
     private PestRepository pestRepository;
 
     @Autowired
-    private SamplePestRepository samplePestRepository;
+    private PestFluctuationSampleRepository sampleRepository;
+
+//    @Autowired
+//    private SamplePestRepository samplePestRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -247,45 +247,38 @@ class CLR implements CommandLineRunner {
         sf5.setLocationData(new LocationData(7.5, 8.5));
         surveyFieldRepository.save(sf5);
 
-        Pest p1 = pestRepository
-                .save(new Pest(null, "Lagarta da soja", "Anticarsia gemmatalis", PestSize.GREATER_15CM));
-        Pest p2 = pestRepository
-                .save(new Pest(null, "Lagarta da soja", "Anticarsia gemmatalis", PestSize.SMALLER_15CM));
-        Pest p3 = pestRepository.save(new Pest(null, "Falsa medideira", "Chrysodeixis spp.", PestSize.GREATER_15CM));
-        Pest p4 = pestRepository.save(new Pest(null, "Falsa medideira", "Chrysodeixis spp.", PestSize.SMALLER_15CM));
-        Pest p5 = pestRepository.save(new Pest(null, "Lagarta das vagens", "Spodoptera spp.", PestSize.GREATER_15CM));
-        Pest p6 = pestRepository.save(new Pest(null, "Lagarta das vagens", "Spodoptera spp.", PestSize.SMALLER_15CM));
-        Pest p7 = pestRepository.save(new Pest(null, "Grupo Heliothinae", "", PestSize.GREATER_15CM));
-        Pest p8 = pestRepository.save(new Pest(null, "Grupo Heliothinae", "Chrysodeixis spp.", PestSize.SMALLER_15CM));
-        Pest p9 = pestRepository.save(new Pest(null, "Percevejo verde", "Nezara sp.", PestSize.THIRD_TO_FIFTH_INSTAR));
-        Pest p10 = pestRepository.save(new Pest(null, "Percevejo verde", "Nezara sp.", PestSize.ADULT));
-        Pest p11 = pestRepository
-                .save(new Pest(null, "Percevejo verde pequeno", "Piezodorus sp.", PestSize.THIRD_TO_FIFTH_INSTAR));
-        Pest p12 = pestRepository.save(new Pest(null, "Percevejo verde pequeno", "Piezodorus sp.", PestSize.ADULT));
-        Pest p13 = pestRepository
-                .save(new Pest(null, "Percevejo Marrom", "Eushistus sp.", PestSize.THIRD_TO_FIFTH_INSTAR));
-        Pest p14 = pestRepository.save(new Pest(null, "Percevejo Marrom", "Eushistus sp.", PestSize.ADULT));
-        Pest p15 = pestRepository
-                .save(new Pest(null, "Percevejo Barriga verde", "Dichelops ssp.", PestSize.THIRD_TO_FIFTH_INSTAR));
-        Pest p16 = pestRepository.save(new Pest(null, "Percevejo Barriga verde", "Dichelops ssp.", PestSize.ADULT));
-        Pest p17 = pestRepository.save(new Pest(null, "Outros percevejos", "", PestSize.THIRD_TO_FIFTH_INSTAR));
-        Pest p18 = pestRepository.save(new Pest(null, "Outros percevejos", "", PestSize.ADULT));
 
-        MipPestSurvey mps1 = mipPestSurveyRepository.save(new MipPestSurvey(null, sf1));
-        MipPestSurvey mps2 = mipPestSurveyRepository.save(new MipPestSurvey(null, sf2));
-        MipPestSurvey mps3 = mipPestSurveyRepository.save(new MipPestSurvey(null, sf3));
-        MipPestSurvey mps4 = mipPestSurveyRepository.save(new MipPestSurvey(null, sf4));
-        MipPestSurvey mps5 = mipPestSurveyRepository.save(new MipPestSurvey(null, sf5));
 
-        PestOccurrence po1 = new PestOccurrence(1.3, p1);
-        PestOccurrence po2 = new PestOccurrence(2.3, p2);
-        PestOccurrence po3 = new PestOccurrence(3.3, p3);
-        PestOccurrence po4 = new PestOccurrence(4.3, p4);
+        Pest p1  = pestRepository.save(Pest.builder().usualName("Lagarta da soja").scientificName("Anticarsia gemmatalis").pestSize(Pest.PestSize.GREATER_15CM).build());
+        Pest p2  = pestRepository.save(Pest.builder().usualName("Lagarta da soja").scientificName("Anticarsia gemmatalis").pestSize(Pest.PestSize.SMALLER_15CM).build());
+        Pest p3  = pestRepository.save(Pest.builder().usualName("Falsa medideira").scientificName("Chrysodeixis spp.").pestSize(Pest.PestSize.GREATER_15CM).build());
+        Pest p4  = pestRepository.save(Pest.builder().usualName("Falsa medideira").scientificName("Chrysodeixis spp.").pestSize(Pest.PestSize.SMALLER_15CM).build());
+        Pest p5  = pestRepository.save(Pest.builder().usualName("Lagarta das vagens").scientificName("Spodoptera spp.").pestSize(Pest.PestSize.GREATER_15CM).build());
+        Pest p6  = pestRepository.save(Pest.builder().usualName("Lagarta das vagens").scientificName("Spodoptera spp.").pestSize(Pest.PestSize.SMALLER_15CM).build());
+        Pest p7  = pestRepository.save(Pest.builder().usualName("Grupo Heliothinae").scientificName("").pestSize(Pest.PestSize.GREATER_15CM).build());
+        Pest p8  = pestRepository.save(Pest.builder().usualName("Grupo Heliothinae").scientificName("Chrysodeixis spp.").pestSize(Pest.PestSize.SMALLER_15CM).build());
+        Pest p9  = pestRepository.save(Pest.builder().usualName("Percevejo verde").scientificName("Nezara sp.").pestSize(Pest.PestSize.THIRD_TO_FIFTH_INSTAR).build());
+        Pest p10 = pestRepository.save(Pest.builder().usualName("Percevejo verde").scientificName("Nezara sp.").pestSize(Pest.PestSize.ADULT).build());
+        Pest p11 = pestRepository.save(Pest.builder().usualName("Percevejo verde pequeno").scientificName("Piezodorus sp.").pestSize(Pest.PestSize.THIRD_TO_FIFTH_INSTAR).build());
+        Pest p12 = pestRepository.save(Pest.builder().usualName("Percevejo verde pequeno").scientificName("Piezodorus sp.").pestSize(Pest.PestSize.ADULT).build());
+        Pest p13 = pestRepository.save(Pest.builder().usualName("Percevejo Marrom").scientificName("Eushistus sp.").pestSize(Pest.PestSize.THIRD_TO_FIFTH_INSTAR).build());
+        Pest p14 = pestRepository.save(Pest.builder().usualName("Percevejo Marrom").scientificName("Eushistus sp.").pestSize(Pest.PestSize.ADULT).build());
+        Pest p15 = pestRepository.save(Pest.builder().usualName("Percevejo Barriga verde").scientificName("Dichelops ssp.").pestSize(Pest.PestSize.THIRD_TO_FIFTH_INSTAR).build());
+        Pest p16 = pestRepository.save(Pest.builder().usualName("Percevejo Barriga verde").scientificName("Dichelops ssp.").pestSize(Pest.PestSize.ADULT).build());
+        Pest p17 = pestRepository.save(Pest.builder().usualName("Outros percevejos").scientificName("").pestSize(Pest.PestSize.THIRD_TO_FIFTH_INSTAR).build());
+        Pest p18 = pestRepository.save(Pest.builder().usualName("Outros percevejos").scientificName("").pestSize(Pest.PestSize.ADULT).build());
 
-        java.util.List<PestOccurrence> pestOccurrences = Stream.of(po1, po2, po3, po4).collect(Collectors.toList());
+        PestFluctuationSample sample1 = PestFluctuationSample.builder().collectedDate(LocalDate.now()).daysAfterEmergence(3).defoliation(4).growthPhase(GrowthPhase.R2).surveyFieldId(sf1.getId()).build();
 
-        SamplePest sp1 = samplePestRepository
-                .save(new SamplePest(null, new Date(), 3, 4, GrowthPhase.R2, pestOccurrences, mps1));
+        sample1.addOccurrence(p1, 1.3);
+        sample1.addOccurrence(p2, 2.3);
+        sample1.addOccurrence(p3, 3.3);
+        sample1.addOccurrence(p3, 3.3);
+        sample1.addOccurrence(p4, 4.3);
+        sample1.addOccurrence(p4, 4.3);
+
+        sampleRepository.save(sample1);
+
     }
 
 }

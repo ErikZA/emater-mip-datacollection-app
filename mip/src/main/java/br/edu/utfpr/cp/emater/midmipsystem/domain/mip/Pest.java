@@ -1,40 +1,47 @@
 package br.edu.utfpr.cp.emater.midmipsystem.domain.mip;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.apache.commons.text.WordUtils;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
-import br.edu.utfpr.cp.emater.midmipsystem.library.AuditingPersistenceEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+@Getter
+@EqualsAndHashCode (onlyExplicitlyIncluded = true)
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Pest extends AuditingPersistenceEntity implements Serializable {
-    
-    @Id @GeneratedValue (strategy = GenerationType.IDENTITY)
+public class Pest {
+
+    public enum PestSize {
+        GREATER_15CM,
+        SMALLER_15CM,
+        THIRD_TO_FIFTH_INSTAR,
+        ADULT;
+    }
+
+    @EqualsAndHashCode.Include
+    @Id @GeneratedValue
     private Long id;
-    
     private String usualName;
+
+    @EqualsAndHashCode.Include
     private String scientificName;
-    
+
     @Enumerated (EnumType.STRING)
     private PestSize pestSize;
 
-    public void setUsualName (String usualName) {
-        this.usualName = WordUtils.capitalize(usualName.toLowerCase());
-    }
+    private Pest() {}
 
-    public void setScientificName (String scientificName) {
-        this.scientificName = WordUtils.capitalize(scientificName.toLowerCase());
+    @Builder
+    public static Pest create (String usualName, String scientificName, PestSize pestSize) {
+        Pest instance = new Pest();
+        instance.usualName = usualName;
+        instance.scientificName = scientificName;
+        instance.pestSize = pestSize;
+
+        return instance;
     }
 }

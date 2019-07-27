@@ -37,7 +37,7 @@ public class MIDRustSampleDetailController {
         try {
             this.setCurrentSurvey(midRustSampleService.readSurveyById(id));
 
-            return "/mid/rust-sample/sample-detail/view-sample-details.xhtml";
+            return "/mid/rust-sample/sample-detail/view-sample-details.xhtml?faces-redirect=true";
 
         } catch (EntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Monitoramento da ferrugem não pode ser feito porque a UR não foi encontrada na base de dados!"));

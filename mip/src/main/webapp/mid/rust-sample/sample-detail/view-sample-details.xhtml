@@ -1,140 +1,142 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/templates/template.xhtml">
 
-    <h:body>
-        <ui:composition template="/mid/rust-sample/main.xhtml">
+    <ui:define name="title">
+        Amostra de Monitoramento da Ferrugem
+    </ui:define>
 
-            <ui:define name="main-component">
-                <p:panel style="margin-top: 15px">
+    <ui:define name="description">
+        UR '#{midRustSampleDetailController.currentSurvey.fieldName}' para '#{midRustSampleDetailController.currentSurvey.harvestName}' 
+    </ui:define>
 
+    <ui:define name="body">
+        <h:form>
+            <p:focus context="@form"/>
+            <p:panel styleClass="box-primary card">
+                <div id="main-buttons" class="hidden-sm hidden-xs">
+                    <p:commandButton ajax="false" value="Voltar" immediate="true"
+                                     action="/mid/rust-sample/index.xhtml?faces-redirect=true"
+                                     process="@this"
+                                     icon="fa fa-reply"/>
+                </div>
+
+                <hr/>
+
+                <h:inputHidden value="#{midRustSampleDetailController.currentSurvey}"></h:inputHidden>
+
+                <p:dataTable paginatorPosition="bottom" id="sampleTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{midRustSampleDetailController.readAllMIDRustSampleByCurrentSurvey()}" var="aSample" >
                     <f:facet name="header">
-                        <h4>Amostra de Monitoramento da Ferrugem para a UR '#{midRustSampleDetailController.currentSurvey.fieldName}' na Safra '#{midRustSampleDetailController.currentSurvey.harvestName}'</h4>
-                    </f:facet>     
+                        <p:panelGrid columns="4" layout="grid" columnClasses="ui-lg-3 ui-g-3 ui-md-12 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
+                            <h:inputHidden></h:inputHidden>
+                            <h:inputHidden></h:inputHidden>
+                            <p:columnToggler datasource="sampleTable" trigger="toggler"></p:columnToggler>
+                            <p:commandButton id="toggler" type="button" styleClass="btn-primary" value="Escolher Dados Visíveis" icon="fa fw fa-align-justify" ></p:commandButton>
 
-                    <h:inputHidden value="#{midRustSampleDetailController.currentSurvey}"></h:inputHidden>
-
-                    <p:dataTable paginatorPosition="bottom" id="sampleTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{midRustSampleDetailController.readAllMIDRustSampleByCurrentSurvey()}" var="aSample" >
-
-                        <f:facet name="header">
-                            <p:panelGrid columns="6" layout="grid" columnClasses="ui-lg-2 ui-g-2 ui-md-12 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
-                                <h:inputHidden></h:inputHidden>
-                                <h:inputHidden></h:inputHidden>
-                                <h:inputHidden></h:inputHidden>
-                                <h:inputHidden></h:inputHidden>
-                                <p:columnToggler datasource="sampleTable" trigger="toggler"></p:columnToggler>
-                                <p:commandButton id="toggler" type="button" value="Escolher Dados Visíveis" icon="fa fw fa-align-justify" ></p:commandButton>
-
-                            </p:panelGrid>
-                        </f:facet>
-
-                        <p:columnGroup type="header">
-                            <p:row>
-                                <p:column rowspan="2" headerText="Data da Amostra" />
-                                <p:column colspan="5" headerText="Coletor de Esporos" />
-                                <p:column colspan="2" headerText="Inspeção Foliar" />
-                                <p:column colspan="4" headerText="Aplicação de Fungicida" />                                
-                                <p:column rowspan="2" headerText="Ações" />
-                            </p:row>
-                            <p:row>
-                                <p:column headerText="Lâmina Colocada na Véspera da Frente Fria" />
-                                <p:column headerText="Profissional Responsável pela Leitura da Lâmina" />
-                                <p:column headerText="Entidade do Responsável pela Leitura e Local" />
-                                <p:column headerText="Data de Leitura da Lâmina" />
-                                <p:column headerText="Resultado da Leitura da Lâmina para Uredosporos da Ferrugem Asiática" />
-                                
-                                <p:column headerText="Estádio das Plantas" />
-                                <p:column headerText="Resultado da Inspeção Foliar para Ferrugem Asiática" />
-                                
-                                <p:column headerText="Aplicou para Ferrugem Asiática" />
-                                <p:column headerText="Aplicou para Outras Doenças" />
-                                <p:column headerText="Data de Aplicação do Fungicida" />
-                                <p:column headerText="Observações" />
-
-                            </p:row>
-                        </p:columnGroup>
-
-                        <p:column>
-                            <h:outputText value="#{aSample.sampleDate}" />
-                        </p:column>
-
-                        <p:column>
-                            <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeInstalledPreCold}" />
-                        </p:column>
-
-                        <p:column >
-                            <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingResponsiblePerson.name}" />
-                        </p:column>
-
-                        <p:column >
-                            <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingResponsiblePerson.entityName}" />
-                        </p:column>
-
-                        <p:column >
-                            <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingDate}" />
-                        </p:column>
-
-                        <p:column >
-                            <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingRustResultCollector.description}" />
-                        </p:column>
-
-                        <p:column >
-                            <h:outputText value="#{aSample.leafInspectionOccurrence.growthPhase}" />
-                        </p:column>
-
-                        <p:column >
-                            <h:outputText value="#{aSample.leafInspectionOccurrence.bladeReadingRustResultLeafInspection.description}" />
-                        </p:column>
-
-                        <p:column >
-                            <h:outputText value="#{aSample.fungicideOccurrence.asiaticRustApplication}" />
-                        </p:column>
-
-                        <p:column >
-                            <h:outputText value="#{aSample.fungicideOccurrence.otherDiseasesApplication}" />
-                        </p:column>
-
-                        <p:column >
-                            <h:outputText value="#{aSample.fungicideOccurrence.fungicideApplicationDate}" />
-                        </p:column>
-
-                        <p:column >
-                            <h:outputText value="#{aSample.fungicideOccurrence.notes}" />
-                        </p:column>
-
-
-                        <p:column width="100">
-                            <p:commandButton immediate="true" update="sampleTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{midRustSampleController.delete(aSample.id)}" >
-                                <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir amostra coletada em '#{aSample.sampleDate}'? Essa ação NÃO pode ser desfeita." />
-                            </p:commandButton>
-                            <p:tooltip for="@previous" value="Excluir" position="top" />
-
-                            <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
-                                <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" />
-                                <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-ban" />
-                            </p:confirmDialog>                          
-                        </p:column>
-                    </p:dataTable>  
-
-                    <f:facet name="footer">
-                        <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-                            <p:panelGrid columns="1" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"></p:panelGrid>
-                            <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-
-                                <h:inputHidden ></h:inputHidden>
-                                <p:button icon="fa fa-fw fa-ban" value="Voltar" outcome="/mid/rust-sample/index.xhtml" ></p:button>
-
-                            </p:panelGrid>
                         </p:panelGrid>
-                    </f:facet>
+                    </f:facet>                        
 
-                </p:panel>
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column rowspan="2" headerText="Data da Amostra" />
+                            <p:column colspan="5" headerText="Coletor de Esporos" />
+                            <p:column colspan="2" headerText="Inspeção Foliar" />
+                            <p:column colspan="4" headerText="Aplicação de Fungicida" />                                
+                            <p:column rowspan="2" headerText="Ações" />
+                        </p:row>
+                        <p:row>
+                            <p:column headerText="Lâmina Colocada na Véspera da Frente Fria" />
+                            <p:column headerText="Profissional Responsável pela Leitura da Lâmina" />
+                            <p:column headerText="Entidade do Responsável pela Leitura e Local" />
+                            <p:column headerText="Data de Leitura da Lâmina" />
+                            <p:column headerText="Resultado da Leitura da Lâmina para Uredosporos da Ferrugem Asiática" />
 
-            </ui:define>
-        </ui:composition>
-    </h:body>
-</html>
+                            <p:column headerText="Estádio das Plantas" />
+                            <p:column headerText="Resultado da Inspeção Foliar para Ferrugem Asiática" />
+
+                            <p:column headerText="Aplicou para Ferrugem Asiática" />
+                            <p:column headerText="Aplicou para Outras Doenças" />
+                            <p:column headerText="Data de Aplicação do Fungicida" />
+                            <p:column headerText="Observações" />
+
+                        </p:row>
+                    </p:columnGroup>
+
+                    <p:column>
+                        <h:outputText value="#{aSample.sampleDate}" >
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeInstalledPreCold ? 'Sim' : 'Não'}" />
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingResponsiblePerson.name}" />
+                    </p:column>
+
+                    <p:column >
+                        <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingResponsiblePerson.entityName}" />
+                    </p:column>
+
+                    <p:column >
+                        <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingDate}" >
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column >
+                        <h:outputText value="#{aSample.sporeCollectorOccurrence.bladeReadingRustResultCollector.description}" />
+                    </p:column>
+
+                    <p:column >
+                        <h:outputText value="#{aSample.leafInspectionOccurrence.growthPhase}" />
+                    </p:column>
+
+                    <p:column >
+                        <h:outputText value="#{aSample.leafInspectionOccurrence.bladeReadingRustResultLeafInspection.description}" />
+                    </p:column>
+
+                    <p:column >
+                        <h:outputText value="#{aSample.fungicideOccurrence.asiaticRustApplication ? 'Sim' : 'Não'}" />
+                    </p:column>
+
+                    <p:column >
+                        <h:outputText value="#{aSample.fungicideOccurrence.otherDiseasesApplication ? 'Sim' : 'Não'}" />
+                    </p:column>
+
+                    <p:column >
+                        <h:outputText value="#{aSample.fungicideOccurrence.fungicideApplicationDate}" >
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column >
+                        <h:outputText value="#{aSample.fungicideOccurrence.notes}" />
+                    </p:column>
+
+
+                    <p:column width="100">
+                        <p:commandButton immediate="true" update="sampleTable" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{midRustSampleController.delete(aSample.id)}" >
+                            <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir amostra coletada em '#{aSample.sampleDate}'? Essa ação NÃO pode ser desfeita." />
+                        </p:commandButton>
+                        <p:tooltip for="@previous" value="Excluir" position="top" />
+
+                        <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
+                            <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes btn-danger" icon="fa fa-fw fa-trash" />
+                            <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no btn-primary" icon="fa fa-fw fa-ban" />
+                        </p:confirmDialog>                          
+
+                    </p:column>
+                </p:dataTable>  
+
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

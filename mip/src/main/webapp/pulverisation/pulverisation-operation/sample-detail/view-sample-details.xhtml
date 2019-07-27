@@ -1,125 +1,140 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/templates/template.xhtml">
 
-    <h:body>
-        <ui:composition template="/pulverisation/pulverisation-operation/main.xhtml">
+    <ui:define name="title">
+        Operações de Pulverização/Aplicação
+    </ui:define>
 
-            <ui:define name="main-component">
-                <p:panel style="margin-top: 15px">
+    <ui:define name="description">
+        UR '#{pulverisationDetailController.currentSurvey.fieldName}' para '#{pulverisationDetailController.currentSurvey.harvestName}' 
+    </ui:define>
 
+    <ui:define name="body">
+        <h:form>
+            <p:focus context="@form"/>
+            <p:panel styleClass="box-primary card">
+                <div id="main-buttons" class="hidden-sm hidden-xs">
+                    <p:commandButton ajax="false" value="Voltar" immediate="true"
+                                     action="/pulverisation/pulverisation-operation/index.xhtml?faces-redirect=true"
+                                     process="@this"
+                                     icon="fa fa-reply"/>
+                </div>
+
+                <hr/>
+
+                <h:inputHidden value="#{pulverisationDetailController.currentSurvey}"></h:inputHidden>
+
+                <p:dataTable id="sampleTable" var="aPulverisation" value="#{pulverisationDetailController.readAllPulverisationOperationBySurvey()}">
                     <f:facet name="header">
-                        <h4>Operações de Pulverização/Aplicação da UR '#{pulverisationDetailController.currentSurvey.fieldName}' para '#{pulverisationDetailController.currentSurvey.harvestName}'</h4>
-                    </f:facet>     
-
-                    <h:inputHidden value="#{pulverisationDetailController.currentSurvey}"></h:inputHidden>
-
-                    <p:dataTable id="sampleTable" var="aPulverisation" value="#{pulverisationDetailController.readAllPulverisationOperationBySurvey()}">
-                        <f:facet name="header">
-                            Operações Registradas
-                        </f:facet>
-                        <p:column style="width:16px">
-                            <p:rowToggler />
-                        </p:column>
-                        <p:column headerText="Data da Amostra">
-                            <h:outputText value="#{aPulverisation.sampleDate}" />
-                        </p:column>
-
-                        <p:column headerText="Dias Após Emergência">
-                            <h:outputText value="#{aPulverisation.daysAfterEmergence}" />
-                        </p:column>
-
-                        <p:column headerText="Estádio da Cultura">
-                            <h:outputText value="#{aPulverisation.growthPhase}" />
-                        </p:column>
-
-                        <p:column headerText="Volume de Calda (l/ha)">
-                            <h:outputText value="#{aPulverisation.caldaVolume}" />
-                        </p:column>
-
-                        <p:column headerText="Preço da Soja (R$/sc)">
-                            <h:outputText value="#{aPulverisation.soyaPrice}" />
-                        </p:column>
-
-                        <p:column headerText="Custo da Operação de Pulverização (R$/ha)">
-                            <h:outputText value="#{aPulverisation.operationCostCurrency}" />
-                        </p:column>
-
-                        <p:column headerText="Custo Total da Operação (R$/ha)">
-                            <h:outputText value="#{aPulverisation.totalOperationCostCurrency}" />
-                        </p:column>
-
-                        <p:column headerText="Custo da Aplicação (sc/ha)">
-                            <h:outputText value="#{aPulverisation.operationCostQty}" />
-                        </p:column>
-
-                        <p:column headerText="Custo Total da Operação (sc/ha)">
-                            <h:outputText value="#{aPulverisation.totalOperationCostQty}" />
-                        </p:column>
-
-                        <p:column headerText="Ações" width="100">
-                            <p:commandButton immediate="true" update="sampleTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{pulverisationOperationController.delete(aPulverisation.id)}" >
-                                <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir a operação realizada em '#{aPulverisation.sampleDate}'? Essa ação NÃO pode ser desfeita." />
-                            </p:commandButton>
-                            <p:tooltip for="@previous" value="Excluir" position="top" />
-
-                            <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
-                                <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" />
-                                <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-ban" />
-                            </p:confirmDialog>                          
-                        </p:column>  
-
-                        <p:rowExpansion>
-                            <p:dataTable var="anOccurrence" value="#{aPulverisation.operationOccurrences}">
-
-                                <p:column headerText="Categoria do Produto">
-                                    <h:outputText value="#{anOccurrence.targetCategoryDescription}" />
-                                </p:column>
-
-                                <p:column headerText="Alvo Principal/Função">
-                                    <h:outputText value="#{anOccurrence.targetDescription}" />
-                                </p:column>
-
-                                <p:column headerText="Nome do Produto - Dosagem (Unidade)">
-                                    <h:outputText value="#{anOccurrence.productFormattedName}" />
-                                </p:column>
-
-                                <p:column headerText="Preço">
-                                    <h:outputText value="#{anOccurrence.productPrice}" />
-                                </p:column>
-
-                                <p:column headerText="Custo Produto (R$/ha)">
-                                    <h:outputText value="#{anOccurrence.productCostCurrency}" />
-                                </p:column>
-
-                                <p:column headerText="Custo Produto (sc/ha)">
-                                    <h:outputText value="#{anOccurrence.productCostQty}" />
-                                </p:column>
-                                
-                            </p:dataTable>  
-                        </p:rowExpansion>
-                        
-                    </p:dataTable>  
-
-                    <f:facet name="footer">
-                        <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-                            <p:panelGrid columns="1" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"></p:panelGrid>
-                            <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-
-                                <h:inputHidden ></h:inputHidden>
-                                <p:button icon="fa fa-fw fa-ban" value="Voltar" outcome="/pulverisation/pulverisation-operation/index.xhtml" ></p:button>
-
-                            </p:panelGrid>
-                        </p:panelGrid>
+                        Operações Registradas
                     </f:facet>
+                    <p:column style="width:16px">
+                        <p:rowToggler />
+                    </p:column>
+                    <p:column headerText="Data da Amostra">
+                        <h:outputText value="#{aPulverisation.sampleDate}" >
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                        </h:outputText>
+                    </p:column>
 
-                </p:panel>
+                    <p:column headerText="Dias Após Emergência">
+                        <h:outputText value="#{aPulverisation.daysAfterEmergence}" />
+                    </p:column>
 
-            </ui:define>
-        </ui:composition>
-    </h:body>
-</html>
+                    <p:column headerText="Estádio da Cultura">
+                        <h:outputText value="#{aPulverisation.growthPhase}" />
+                    </p:column>
+
+                    <p:column headerText="Volume de Calda (l/ha)">
+                        <h:outputText value="#{aPulverisation.caldaVolume}" />
+                    </p:column>
+
+                    <p:column headerText="Preço da Soja (R$/sc)">
+                        <h:outputText value="#{aPulverisation.soyaPrice}" >
+                            <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2" locale="pt_BR" />
+                        </h:outputText>    
+                    </p:column>
+
+                    <p:column headerText="Custo da Operação de Pulverização (R$/ha)">
+                        <h:outputText value="#{aPulverisation.operationCostCurrency}" >
+                            <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2" locale="pt_BR" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Custo Total da Operação (R$/ha)">
+                        <h:outputText value="#{aPulverisation.totalOperationCostCurrency}" >
+                            <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2" locale="pt_BR" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Custo da Aplicação (sc/ha)">
+                        <h:outputText value="#{aPulverisation.operationCostQty}" >
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Custo Total da Operação (sc/ha)">
+                        <h:outputText value="#{aPulverisation.totalOperationCostQty}" >
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Ações" width="100">                        
+                        <p:commandButton immediate="true" update="sampleTable" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{pulverisationOperationController.delete(aPulverisation.id)}" >
+                            <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir a operação realizada em '#{aPulverisation.sampleDate}'? Essa ação NÃO pode ser desfeita." />
+                        </p:commandButton>
+                        <p:tooltip for="@previous" value="Excluir" position="top" />
+
+                        <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
+                            <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes btn-danger" icon="fa fa-fw fa-trash" />
+                            <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no btn-primary" icon="fa fa-fw fa-ban" />
+                        </p:confirmDialog>                          
+
+                    </p:column>  
+
+                    <p:rowExpansion>
+                        <p:dataTable var="anOccurrence" value="#{aPulverisation.operationOccurrences}">
+
+                            <p:column headerText="Categoria do Produto">
+                                <h:outputText value="#{anOccurrence.targetCategoryDescription}" />
+                            </p:column>
+
+                            <p:column headerText="Alvo Principal/Função">
+                                <h:outputText value="#{anOccurrence.targetDescription}" />
+                            </p:column>
+
+                            <p:column headerText="Nome do Produto - Dosagem (Unidade)">
+                                <h:outputText value="#{anOccurrence.productFormattedName}" />
+                            </p:column>
+
+                            <p:column headerText="Preço">
+                                <h:outputText value="#{anOccurrence.productPrice}" >
+                                    <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2" locale="pt_BR" />
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Custo Produto (R$/ha)">
+                                <h:outputText value="#{anOccurrence.productCostCurrency}" >
+                                    <f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2" locale="pt_BR" />
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Custo Produto (sc/ha)">
+                                <h:outputText value="#{anOccurrence.productCostQty}" >
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                            </p:column>
+
+                        </p:dataTable>  
+                    </p:rowExpansion>
+
+                </p:dataTable>  
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

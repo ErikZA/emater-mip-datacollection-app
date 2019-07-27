@@ -16,7 +16,7 @@
     </ui:define>
 
     <ui:define name="description">
-        Flutuação das pragas, doenças e inimigos naturais
+        <!--Flutuação das pragas, doenças e inimigos naturais-->
     </ui:define>
     
     <ui:define name="body">
@@ -26,7 +26,7 @@
 
                     <p:separator/>
 
-                    <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{mipSampleController.readAllSurveysUniqueEntries()}" var="aSurvey" >                    
+                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{mipSampleController.readAllSurveysUniqueEntries()}" var="aSurvey" >                    
 
                         <p:column headerText="Safra" filterBy="#{aSurvey.harvestName}" filterMatchMode="contains" >
                             <h:outputText value="#{aSurvey.harvestName}" />

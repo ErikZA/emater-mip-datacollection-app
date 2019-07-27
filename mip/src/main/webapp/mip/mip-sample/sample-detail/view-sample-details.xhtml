@@ -16,7 +16,7 @@
     </ui:define>
 
     <ui:define name="body">
-        <h:form id="form" prependId="false">
+        <h:form>
             <p:focus context="@form"/>
             <p:panel styleClass="box-primary card">
                 <div id="main-buttons" class="hidden-sm hidden-xs">
@@ -38,7 +38,9 @@
                         <p:rowToggler />
                     </p:column>
                     <p:column headerText="Data da Amostra">
-                        <h:outputText value="#{aSample.sampleDate}" />
+                        <h:outputText value="#{aSample.sampleDate}" >
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                        </h:outputText>
                     </p:column>
 
                     <p:column headerText="Dias Após Emergência">
@@ -54,7 +56,7 @@
                     </p:column>
 
                     <p:column headerText="Ações" width="100">
-                        <p:commandButton update="sampleTable" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{mipSampleController.delete(aSample.id)}" >
+                        <p:commandButton immediate="true" update="sampleTable" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{mipSampleController.delete(aSample.id)}" >
                             <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir amostra coletada em '#{aSample.sampleDate}'? Essa ação NÃO pode ser desfeita." />
                         </p:commandButton>
                         <p:tooltip for="@previous" value="Excluir" position="top" />
@@ -100,10 +102,10 @@
                         <p:dataTable var="aNaturalPredatorSample" value="#{aSample.mipSampleNaturalPredatorOccurrence}">
 
                             <f:facet name="header">
-                                Inimigos Naturais
+                                Amigos Naturais
                             </f:facet>
 
-                            <p:column headerText="Inimigo Natural">
+                            <p:column headerText="Amigo Natural">
                                 <h:outputText value="#{aNaturalPredatorSample.pestNaturalPredatorUsualName}" />
                             </p:column>
 

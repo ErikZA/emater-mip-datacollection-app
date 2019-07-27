@@ -13,7 +13,7 @@
     </ui:define>
 
     <ui:define name="logo-mini">
-        
+
     </ui:define>
 
     <ui:define name="menu">
@@ -25,14 +25,52 @@
                 </p:link>
             </li>
             <li class="header">
-                General
+                Opções
             </li>
-            <li>
-                <p:link outcome="/base/field/index.xhtml">
+
+            <li class="treeview">
+                <a href="#">
                     <i class="fa fw fa-group"></i>
                     <span>Unidades de Referência</span>
-                </p:link>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <p:link outcome="/base/field/index.xhtml" title="Gerenciamento das Unidades de Referência">
+                            <i class="fa fw fa-group"></i>
+                            <span>Gerenciamento das URs</span>
+                        </p:link>
+                    </li>
+                    <li>
+                        <p:link outcome="/base/supervisor/index.xhtml" title="Gerenciamento dos Técnicos">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Responsável Técnico</span>
+                        </p:link>
+                    </li>
+                    <li>
+                        <p:link outcome="/base/farmer/index.xhtml" title="Gerenciamento dos Produtores">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Produtor</span>
+                        </p:link>
+                    </li>
+                    <li>
+                        <p:link outcome="/base/region/index.xhtml" title="Gerenciamento das Regiões">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Região</span>
+                        </p:link>
+                    </li>
+                    <li>
+                        <p:link outcome="/base/macro-region/index.xhtml" title="Gerenciamento das Macrorregiões">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Macrorregião</span>
+                        </p:link>
+                    </li>
+
+                </ul>
             </li>
+
             <li>
                 <p:link outcome="/survey/survey/index.xhtml">
                     <i class="fa fw fa-book"></i>
@@ -60,7 +98,7 @@
                     <span>Pulverizações</span>
                 </p:link>
             </li>            
-            
+
         </ul>
     </ui:define>
 

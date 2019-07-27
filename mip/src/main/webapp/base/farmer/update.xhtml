@@ -1,46 +1,57 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">      
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/templates/template.xhtml">
 
-    <h:body>
-        <ui:composition template="main.xhtml">     
-            <ui:define name="main-component">      
+    <ui:define name="title">
+        Alterar Produtor
+    </ui:define>
 
-                <p:panel style="margin-top: 15px">
+    <ui:define name="description">
+        Alterar dados do produtor existente 
+    </ui:define>
 
-                    <f:facet name="header">
-                        <h4>Alterar Produtor</h4>
-                    </f:facet>     
+    <ui:define name="body">
+        <h:form id="form" prependId="false">
+            <p:focus context="@form"/>
+            <p:panel styleClass="box-primary card">
+                <div id="main-buttons" class="hidden-sm hidden-xs">
+                    <p:commandButton ajax="false" value="Alterar" action="#{farmerController.update()}" 
+                                     icon="fa fa-check" styleClass="btn-warning"/>
 
-                    <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
-                        <p:outputLabel for="@next" value="Nome"></p:outputLabel>
-                        <p:inputText value="#{farmerController.name}" ></p:inputText>
-                        <p:message for="@previous" ></p:message>
-                    </p:panelGrid>
-                    
+                    <p:spacer width="5" />
+
+                    <p:commandButton ajax="false" value="Cancelar" immediate="true"
+                                     action="index?faces-redirect=true"
+                                     process="@this"
+                                     icon="fa fa-reply"/>
+                </div>
+                <p:splitButton ajax="false" value="Alterar" action="#{farmerController.update()}" 
+                               icon="fa fa-check"
+                               styleClass="hidden-md hidden-lg btn-warning">
+
+                    <p:separator/>
+
+                    <p:menuitem ajax="false" value="Voltar" action="index?faces-redirect=true"
+                                process="@this" immediate="true"
+                                icon="fa fa-reply"/>
+                </p:splitButton>
+
+                <hr/>
+
+                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                    <p:outputLabel for="@next" value="Nome"></p:outputLabel>
+                    <p:inputText value="#{farmerController.name}" ></p:inputText>
+                    <p:message for="@previous" ></p:message>
+
                     <h:inputHidden value="#{farmerController.id}" ></h:inputHidden>
+                </p:panelGrid>
 
-                    <f:facet name="footer">
-                        <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-                            <p:panelGrid columns="1" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"></p:panelGrid>
-                            <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+            </p:panel>
 
-                                <p:button icon="fa fa-fw fa-ban" value="Cancelar" outcome="index.xhtml" ></p:button>                   
-                                <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" ajax="false" value="Alterar" action="#{farmerController.update()}" ></p:commandButton>                                                    
-
-                            </p:panelGrid>
-                        </p:panelGrid>
-                    </f:facet>
-
-                </p:panel>
-
-            </ui:define>
-        </ui:composition>
-
-    </h:body>
-</html>
-
+        </h:form>
+    </ui:define>
+</ui:composition>

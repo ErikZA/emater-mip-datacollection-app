@@ -16,7 +16,7 @@
     </ui:define>
 
     <ui:define name="description">
-        Adicionar URs à pesquisa e realizar coleta de amostras
+        <!--Adicionar URs à pesquisa e realizar coleta de amostras-->
     </ui:define>
     <ui:define name="body">
         <h:form>
@@ -60,27 +60,33 @@
                         </p:column>
 
                         <p:column visible="false" headerText="Resist. Ferrugem" filterBy="#{aSurvey.rustResistant}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.rustResistant}" />
+                            <h:outputText value="#{aSurvey.rustResistant ? 'Sim' : 'Não' }" />
                         </p:column>
 
                         <p:column headerText="BT" filterBy="#{aSurvey.bt}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.bt}" />
+                            <h:outputText value="#{aSurvey.bt ? 'Sim' : 'Não'}" />
                         </p:column>
 
                         <p:column visible="false" headerText="Col. Esporos Instal." filterBy="#{aSurvey.sporeCollectorPresent}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.sporeCollectorPresent}" />
+                            <h:outputText value="#{aSurvey.sporeCollectorPresent ? 'Sim' : 'Não' }" />
                         </p:column>
 
                         <p:column headerText="Data da Semeadura" filterBy="#{aSurvey.sowedDate}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.sowedDate}" />
+                            <h:outputText value="#{aSurvey.sowedDate}" >
+                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                            </h:outputText>
                         </p:column>
 
                         <p:column headerText="Data da Emergência" filterBy="#{aSurvey.emergenceDate}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.emergenceDate}" />
+                            <h:outputText value="#{aSurvey.emergenceDate}" >
+                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                            </h:outputText>
                         </p:column>
 
                         <p:column visible="false" headerText="Data da Colheita" filterBy="#{aSurvey.harvestDate}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.harvestDate}" />
+                            <h:outputText value="#{aSurvey.harvestDate}" >
+                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                            </h:outputText>
                         </p:column>
 
                         <p:column visible="false" headerText="Produtividade da Unidade" filterBy="#{aSurvey.productivityField}" filterMatchMode="contains" >
@@ -92,7 +98,7 @@
                         </p:column>
 
                         <p:column visible="false" headerText="Pesou em Separado" filterBy="#{aSurvey.separatedWeight}" filterMatchMode="contains" >
-                            <h:outputText value="#{aSurvey.separatedWeight}" />
+                            <h:outputText value="#{aSurvey.separatedWeight ? 'Sim' : 'Não'}" />
                         </p:column>
 
                         <p:column visible="false" headerText="Área da Unidade" filterBy="#{aSurvey.totalArea}" filterMatchMode="contains" >

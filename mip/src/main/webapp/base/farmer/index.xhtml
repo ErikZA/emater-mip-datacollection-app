@@ -1,37 +1,64 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">      
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/template.xhtml">
 
-    <h:body>
-        <ui:composition template="main.xhtml">     
-            <ui:define name="main-component">
-                <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{farmerController.readAll()}" var="aFarmer" >
+    <ui:define name="metadata">
+        <ui:param name="title" value="Gerenciamento de Produtores"/> 
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+        </style>
+    </ui:define>
 
-                    <p:column headerText="Nome" >
-                        <h:outputText value="#{aFarmer.name}" />
-                    </p:column>
+    <ui:define name="description">
+        Criar, alterar, listar e excluir produtores
+    </ui:define>
 
-                    <p:column headerText="Ações" width="100">
-                        <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" action="#{farmerController.prepareUpdate(aFarmer.id)}" ></p:commandButton>
-                        <p:tooltip for="@previous" value="Alterar" position="top" />
+    <ui:define name="body">
+        <h:form>
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div id="main-buttons" class="hidden-sm hidden-xs">
+                        <p:commandButton action="create?faces-redirect=true" icon="fa fa-plus"
+                                         value="Novo Produtor" styleClass="btn-primary"/>
+                        <p:spacer width="5"/>
+                    </div>
 
-                        <p:commandButton update="mainTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{farmerController.delete(aFarmer.id)}" >
-                            <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir o produtor '#{aFarmer.name}'? Essa ação NÃO pode ser desfeita." />
-                        </p:commandButton>
-                        <p:tooltip for="@previous" value="Excluir" position="top" />
+                    <p:splitButton value="Novo Produtor" action="create?faces-redirect=true"
+                                   icon="fa fa-plus"
+                                   styleClass="hidden-md hidden-lg btn-primary">
+                    </p:splitButton>
 
-                        <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
-                            <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" />
-                            <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-ban" />
-                        </p:confirmDialog>                           
-                    </p:column>                    
-                </p:dataTable>                
+                    <p:separator/>
 
-            </ui:define>
-        </ui:composition>
-    </h:body>
-</html>
+                    <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{farmerController.readAll()}" var="aFarmer" >
+
+                        <p:column headerText="Nome" >
+                            <h:outputText value="#{aFarmer.name}" />
+                        </p:column>
+
+                        <p:column headerText="Ações" width="100">
+                            <p:commandButton ajax="false" styleClass="btn-warning" icon="fa fa-fw fa-pencil" action="#{farmerController.prepareUpdate(aFarmer.id)}" ></p:commandButton>
+                            <p:tooltip for="@previous" value="Alterar" position="top" />
+
+                            <p:commandButton immediate="true" update="mainTable" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{farmerController.delete(aFarmer.id)}" >
+                                <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir o produtor '#{aFarmer.name}'? Essa ação NÃO pode ser desfeita." />
+                            </p:commandButton>
+                            <p:tooltip for="@previous" value="Excluir" position="top" />
+
+                            <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
+                                <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes btn-danger" icon="fa fa-fw fa-trash" />
+                                <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no btn-primary" icon="fa fa-fw fa-ban" />
+                            </p:confirmDialog>                           
+                        </p:column>                    
+                    </p:dataTable>                
+
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

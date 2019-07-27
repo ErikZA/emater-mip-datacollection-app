@@ -15,7 +15,7 @@
     </ui:define>
 
     <ui:define name="description">
-        Criar, alterar, listar e excluir unidades de referência
+        <!--Criar, alterar, listar e excluir unidades de referência-->
     </ui:define>
     <ui:define name="body">
         <h:form>
@@ -34,7 +34,7 @@
 
                     <p:separator/>
 
-                    <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{fieldController.readAll()}" var="aField" >
+                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{fieldController.readAll()}" var="aField" >
 
                         <p:column headerText="Identificação" filterBy="#{aField.name}" filterMatchMode="contains">
                             <h:outputText value="#{aField.name}" />
@@ -60,7 +60,7 @@
                             <p:commandButton ajax="false" styleClass="btn-warning" icon="fa fa-fw fa-pencil" action="#{fieldController.prepareUpdate(aField.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Alterar" position="top" />
 
-                            <p:commandButton update="mainTable" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{fieldController.delete(aField.id)}" >
+                            <p:commandButton immediate="true" update="mainTable" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{fieldController.delete(aField.id)}" >
                                 <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir a unidade de referência '#{aField.name}'? Essa ação NÃO pode ser desfeita." />
                             </p:commandButton>
                             <p:tooltip for="@previous" value="Excluir" position="top" />

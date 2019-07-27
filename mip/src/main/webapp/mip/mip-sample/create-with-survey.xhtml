@@ -66,7 +66,7 @@
 
                                     <p:panelGrid columns="1" >
                                         <p:outputLabel for="@next" value="% de Desfolha (em números inteiros)"></p:outputLabel>
-                                        <p:inputText value="#{mipSampleController.defoliation}" ></p:inputText>
+                                        <p:inputNumber decimalSeparator="," symbol="%"  value="#{mipSampleController.defoliation}" ></p:inputNumber>
                                         <p:message for="@previous" ></p:message>
                                     </p:panelGrid>
 
@@ -116,8 +116,8 @@
                             </p:panel>
                         </p:tab>
 
-                        <p:tab id="area" title="Inimigos Naturais"> 
-                            <p:panel header="Passo 4/4: Informar Dados de Inimigos Naturais">
+                        <p:tab id="area" title="Amigos Naturais"> 
+                            <p:panel header="Passo 4/4: Informar Dados de Amigos Naturais">
 
                                 <p:panelGrid columns="3" layout="grid" columnClasses="ui-lg-8 ui-g-8 ui-md-8 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
 

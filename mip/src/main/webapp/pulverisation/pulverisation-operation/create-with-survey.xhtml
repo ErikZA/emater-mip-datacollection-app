@@ -46,7 +46,7 @@
 
                 <hr/>
 
-                <p:wizard>
+                <p:wizard nextLabel="Próximo" backLabel="Anterior" >
 
                     <p:tab title="Custos">
                         <p:panel header="Passo 1/3: ">
@@ -54,13 +54,13 @@
                             <p:panelGrid columns="3" layout="grid" columnClasses="ui-lg-4 ui-g-4 ui-md-12 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
                                 <p:panelGrid columns="1" >
                                     <p:outputLabel for="@next" value="Preço sc Soja (R$/sc, no balcão, no dia do depósito)"></p:outputLabel>
-                                    <p:inputText value="#{pulverisationOperationController.soyaPrice}" ></p:inputText>
+                                    <p:inputNumber symbol="R$ " symbolPosition="p" decimalSeparator="," thousandSeparator="." value="#{pulverisationOperationController.soyaPrice}" ></p:inputNumber>
                                     <p:message for="@previous" ></p:message>
                                 </p:panelGrid>
 
                                 <p:panelGrid columns="1" >
                                     <p:outputLabel for="@next" value="Custo da Operação de Pulverização"></p:outputLabel>
-                                    <p:inputText value="#{pulverisationOperationController.operationCostCurrency}" ></p:inputText>
+                                    <p:inputNumber symbol="R$ " symbolPosition="p" decimalSeparator="," thousandSeparator="." value="#{pulverisationOperationController.operationCostCurrency}" ></p:inputNumber>
                                     <p:message for="@previous" ></p:message>
                                 </p:panelGrid>
 
@@ -91,7 +91,7 @@
 
                                 <p:panelGrid columns="1" >
                                     <p:outputLabel for="@next" value="Volume de Calda (l/ha)"></p:outputLabel>
-                                    <p:inputText value="#{pulverisationOperationController.caldaVolume}" ></p:inputText>
+                                    <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{pulverisationOperationController.caldaVolume}" ></p:inputNumber>
                                     <p:message for="@previous" ></p:message>
                                 </p:panelGrid>
 

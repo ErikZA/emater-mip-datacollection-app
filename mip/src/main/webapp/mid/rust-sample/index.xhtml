@@ -16,7 +16,7 @@
     </ui:define>
 
     <ui:define name="description">
-        Monitoramento da ferrugem
+        <!--Monitoramento da ferrugem-->
     </ui:define>
     <ui:define name="body">
         <h:form>
@@ -25,7 +25,7 @@
 
                     <p:separator/>
 
-                    <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{midRustSampleController.readAllSurveysUniqueEntries()}" var="aSurvey" >                    
+                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{midRustSampleController.readAllSurveysUniqueEntries()}" var="aSurvey" >                    
 
                         <p:column headerText="Safra" filterBy="#{aSurvey.harvestName}" filterMatchMode="contains" >
                             <h:outputText value="#{aSurvey.harvestName}" />
@@ -52,7 +52,7 @@
                         </p:column>
 
                         <p:column headerText="Ações" width="100">
-                            <p:commandButton action="#{midRustSampleDetailController.selectTargetSurvey(aSurvey.id)}" icon="fa fa-fw fa-eye" ></p:commandButton>
+                            <p:commandButton ajax="false" action="#{midRustSampleDetailController.selectTargetSurvey(aSurvey.id)}" icon="fa fa-fw fa-eye" ></p:commandButton>
                             <p:tooltip for="@previous" value="Visualizar amostras coletadas para esta UR" position="top" />
 
                             <p:commandButton ajax="false" styleClass="btn-success" icon="fa fa-fw fa-leaf" action="#{midRustSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>

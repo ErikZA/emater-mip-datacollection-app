@@ -15,14 +15,4 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SurveyServiceTest {
-
-
-    private MockMvc mockMVC;
-
-    @Before
-    public void setUp(){
-        this.mockMVC = MockMvcBuilders.webAppContextSetup((WebApplicationContext) this).build();
-    }
-
-
 }

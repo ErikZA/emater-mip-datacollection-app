@@ -115,8 +115,8 @@ public class FieldServiceTest {
                 .isNotNull();
     }
 
-    @Test //os dados do CLR entrão primeiro no banco
-    public void Test04ReadCityByIdNotFound() {
+    @Test //os dados do CLR entrão primeiro no banco - redorna o indice 0 da tabela
+    public void test04ReadCityByIdNotFound() {
         assertThat(this.fieldService.readCityById((long) -999)).
                 isEqualTo(this.cityRepository.findAll().get(0))
                 .isNotNull();
@@ -129,7 +129,7 @@ public class FieldServiceTest {
                 .isNotNull();
     }
 
-    @Test //os dados do CLR entrão primeiro no banco
+    @Test //os dados do CLR entrão primeiro no banco - redorna o indice 0 da tabela
     public void test06ReadFarmerByIdNotFound() {
         assertThat(this.fieldService.readFarmerById((long) -999)).
                 isEqualTo(this.farmerRepository.findAll().get(0))
@@ -169,10 +169,11 @@ public class FieldServiceTest {
         //this.fieldService.create(field2);
     }
 
-    @Test
+    @Test (expected =EntityNotFoundException.class )
     public void test12DeleteField() throws EntityNotFoundException, AnyPersistenceException, EntityInUseException {
         this.fieldService.delete(field1.getId());
-        assertThat(fieldRepository.findById(field1.getId()).isPresent()).isEqualTo(false);
+        assertThat(this.fieldRepository.findById(this.field1.getId()).isPresent()).isEqualTo(false);
+        this.fieldService.readById(this.field1.getId());
     }
 
     @Test (expected = EntityNotFoundException.class)
@@ -223,8 +224,17 @@ public class FieldServiceTest {
     }
 
     @Test (expected = EntityAlreadyExistsException.class)
-    public void test16UpdateFieldEntityAlreadyExistsException() throws AnyPersistenceException, SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException {
+    public void test17UpdateFieldEntityAlreadyExistsException() throws AnyPersistenceException, SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException {
         this.fieldService.create(this.field1);
+    }
+
+    @Test
+    public void test18UpdateField() throws AnyPersistenceException, SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException {
+        this.field1.setCity(this.c2);
+        this.field1.addSupervisor(this.s2);
+        this.field1.setName("MOdulo Teste");
+        this.fieldService.update(this.field1);
+        //Esta falando que cidades não foi inicializada;
     }
 
 }

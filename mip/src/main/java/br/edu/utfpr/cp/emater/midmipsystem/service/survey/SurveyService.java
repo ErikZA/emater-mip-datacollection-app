@@ -49,8 +49,9 @@ public class SurveyService implements ICRUDService<Survey> {
     public Field readFieldbyId(Long anId) throws EntityNotFoundException {
         return fieldService.readById(anId);
     }
-    
-    public List<Survey> readByHarvestId(Long harvestId) throws EntityNotFoundException {
+
+    //não dispara a exception, retorna uma lista vazia
+    public List<Survey> readByHarvestId(Long harvestId) throws EntityNotFoundException { 
         return List.copyOf(surveyRepository.findAll().stream().filter(currentSurvey -> currentSurvey.getHarvestId().equals(harvestId)).collect(Collectors.toList()));
     }
     

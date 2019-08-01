@@ -60,6 +60,7 @@ public class FieldServiceTest {
     private City c1,c2,c3,c4,c5;
     private Farmer f1,f2, f3;
     private Supervisor s1, s2, s3;
+    private Region region1;
     @Before
     public void SetUp(){
         var mr1 = this.macroRegionRepository.save(MacroRegion.builder().name("Macro Leste").build());
@@ -69,7 +70,7 @@ public class FieldServiceTest {
         this.c3 = this.cityRepository.save(City.builder().name("Curitiba").state(State.PR).build());
         this.c4 = City.builder().name("Paranagua").state(State.PR).build();
         this.c5 = City.builder().name("Colombo").state(State.PR).build();
-        var region1 = Region.builder().name("Curitiba").macroRegion(mr1).build();
+        this.region1 = Region.builder().name("Curitiba").macroRegion(mr1).build();
         region1.addCity(c1);
         var r1 = this.regionRepository.save(region1);
         var region2 = Region.builder().name("Ponta Grossa").macroRegion(mr1).build();
@@ -117,7 +118,9 @@ public class FieldServiceTest {
 
     @Test //os dados do CLR entrão primeiro no banco - redorna o indice 0 da tabela
     public void test04ReadCityByIdNotFound() {
-        assertThat(this.fieldService.readCityById((long) -999)).
+        this.c4 = this.cityRepository.save(c4);
+        this.cityRepository.deleteById(c4.getId());
+        assertThat(this.fieldService.readCityById(c4.getId())).
                 isEqualTo(this.cityRepository.findAll().get(0))
                 .isNotNull();
     }
@@ -131,8 +134,10 @@ public class FieldServiceTest {
 
     @Test //os dados do CLR entrão primeiro no banco - redorna o indice 0 da tabela
     public void test06ReadFarmerByIdNotFound() {
-        assertThat(this.fieldService.readFarmerById((long) -999)).
-                isEqualTo(this.farmerRepository.findAll().get(0))
+        this.f3 = this.farmerRepository.save(this.f3);
+        this.farmerRepository.deleteById(this.f3.getId());
+        assertThat(this.fieldService.readFarmerById(this.f3.getId()))
+                .isEqualTo(this.farmerRepository.findAll().get(0))
                 .isNotNull();
     }
 
@@ -159,14 +164,19 @@ public class FieldServiceTest {
 
     @Test (expected = EntityNotFoundException.class)
     public void test10ReadByIdFieldNotFoundException() throws EntityNotFoundException {
-        this.fieldService.readById((long) -999);
+        this.field3 = this.fieldRepository.save(this.field3);
+        this.fieldRepository.deleteById(field3.getId());
+        this.fieldService.readById(field3.getId());
     }
 
 
     @Test //se id de cidade ou id de produtor for null, gera exception.
     public void test11CreateField() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
-        // Esta falando que cidades não foi inicializada;
-        //this.fieldService.create(field2);
+        //Teste
+        this.region1.addCity(this.c4);
+        this.regionRepository.save(this.region1);
+        this.fieldRepository.delete(field2);
+        this.fieldService.create(field2);
     }
 
     @Test (expected =EntityNotFoundException.class )
@@ -178,7 +188,9 @@ public class FieldServiceTest {
 
     @Test (expected = EntityNotFoundException.class)
     public void test13DeleteFieldNotFoundException() throws EntityNotFoundException, AnyPersistenceException, EntityInUseException {
-        this.fieldService.delete((long)-999);
+        this.field3 = this.fieldRepository.save(this.field3);
+        this.fieldRepository.deleteById(field3.getId());
+        this.fieldService.delete(field3.getId());
     }
 
     @Test(expected = EntityInUseException.class)
@@ -230,11 +242,12 @@ public class FieldServiceTest {
 
     @Test
     public void test18UpdateField() throws AnyPersistenceException, SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException {
+        this.region1.addCity(this.c2);
         this.field1.setCity(this.c2);
         this.field1.addSupervisor(this.s2);
-        this.field1.setName("MOdulo Teste");
+        this.field1.setName("Modulo Teste");
         this.fieldService.update(this.field1);
-        //Esta falando que cidades não foi inicializada;
+        //Esta falando que cidades não foi inicializada; Aparentemente funcionou!!
     }
 
 }

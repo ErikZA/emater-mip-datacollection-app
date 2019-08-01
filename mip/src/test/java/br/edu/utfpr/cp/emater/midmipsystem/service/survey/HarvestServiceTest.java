@@ -142,7 +142,8 @@ public class HarvestServiceTest {
 
     @Test (expected = EntityNotFoundException.class)
     public void test03ReadByIdHarvestEntityNotFoundException() throws EntityNotFoundException {
-        this.harvestService.readById((long)-999);
+        this.harvestRepository.deleteById(harvest2.getId());
+        this.harvestService.readById(harvest2.getId());
     }
 
 
@@ -163,7 +164,8 @@ public class HarvestServiceTest {
 
     @Test (expected = EntityNotFoundException.class)
     public void test06DeleteHarvestEntityNotFoundException() throws EntityNotFoundException, AnyPersistenceException, EntityInUseException {
-        this.harvestService.delete((long)-999);
+        this.harvestRepository.deleteById(harvest2.getId());
+        this.harvestService.delete(harvest2.getId());
     }
 
     @Test (expected = EntityNotFoundException.class)

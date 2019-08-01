@@ -57,86 +57,98 @@ public class FieldServiceTest {
     private FarmerService farmerService;
 
     private Field field1, field2, field3;
-    private City c1,c2,c3,c4,c5;
-    private Farmer f1,f2, f3;
-    private Supervisor s1, s2, s3;
+    private City city1,city2,city3,city4,city5;
+    private Farmer farmer1,farmer2, farmer3;
+    private Supervisor supervisor1, supervisor2, supervisor3;
     private Region region1;
     @Before
     public void SetUp(){
         var mr1 = this.macroRegionRepository.save(MacroRegion.builder().name("Macro Leste").build());
 
-        this.c1 = this.cityRepository.save(City.builder().name("Ponta Grossa").state(State.PR).build());
-        this.c2 = this.cityRepository.save(City.builder().name("Pinhais").state(State.PR).build());
-        this.c3 = this.cityRepository.save(City.builder().name("Curitiba").state(State.PR).build());
-        this.c4 = City.builder().name("Paranagua").state(State.PR).build();
-        this.c5 = City.builder().name("Colombo").state(State.PR).build();
+        this.city1
+ = this.cityRepository.save(City.builder().name("Ponta Grossa").state(State.PR).build());
+        this.city2 = this.cityRepository.save(City.builder().name("Pinhais").state(State.PR).build());
+        this.city3 = this.cityRepository.save(City.builder().name("Curitiba").state(State.PR).build());
+        this.city4
+ = City.builder().name("Paranagua").state(State.PR).build();
+        this.city5 = City.builder().name("Colombo").state(State.PR).build();
         this.region1 = Region.builder().name("Curitiba").macroRegion(mr1).build();
-        region1.addCity(c1);
+        region1.addCity(city1
+);
         var r1 = this.regionRepository.save(region1);
         var region2 = Region.builder().name("Ponta Grossa").macroRegion(mr1).build();
-        region2.addCity(c2);
-        region2.addCity(c3);
+        region2.addCity(city2);
+        region2.addCity(city3);
         var r2 = this.regionRepository.save(region2);
-        this.f1 = this.farmerRepository.save(Farmer.builder().name("Marcos Paulo").build());
-        this.f2 = this.farmerRepository.save(Farmer.builder().name("Otaviano Gregorio").build());
-        this.f3 = Farmer.builder().name("Malakoi silva").build();
+        this.farmer1 = this.farmerRepository.save(Farmer.builder().name("Marcos Paulo").build());
+        this.farmer2 = this.farmerRepository.save(Farmer.builder().name("Otaviano Gregorio").build());
+        this.farmer3 = Farmer.builder().name("Malakoi silva").build();
 
-        this.s1 = this.supervisorRepository.save(Supervisor.builder().name("Inoan Martins").email("InoanMartins@emater.pr.gov.br").region(r1).build());
-        this.s2 = this.supervisorRepository.save(Supervisor.builder().name("David Luiz").email("DavidLuiz@emater.pr.gov.br").region(r2).build());
-        this.s3 = Supervisor.builder().name("Marcos Paulo Nunes").email("MarcosPauloNunes@emater.pr.gov.br").region(r2).build();
+        this.supervisor1 = this.supervisorRepository.save(Supervisor.builder().name("Inoan Martins").email("InoanMartins@emater.pr.gov.br").region(r1).build());
+        this.supervisor2 = this.supervisorRepository.save(Supervisor.builder().name("David Luiz").email("DavidLuiz@emater.pr.gov.br").region(r2).build());
+        this.supervisor3 = Supervisor.builder().name("Marcos Paulo Nunes").email("MarcosPauloNunes@emater.pr.gov.br").region(r2).build();
 
-        this.field1 = Field.builder().name("Macaxeira").location("").city(c1).farmer(f1).build();
-        this.field1.addSupervisor(s1);
+        this.field1 = Field.builder().name("Macaxeira").location("").city(city1
+).farmer(farmer1).build();
+        this.field1.addSupervisor(supervisor1);
         this.fieldRepository.save(field1);
-        this.field2 = Field.builder().name("Canela").location("").city(c3).farmer(f2).build();
-        this.field2.addSupervisor(s1);
-        this.field3 = Field.builder().name("Pinhao").location("").city(c3).farmer(f2).build();
-        this.field3.addSupervisor(s2);
+        this.field2 = Field.builder().name("Canela").location("").city(city3).farmer(farmer2).build();
+        this.field2.addSupervisor(supervisor1);
+        this.field3 = Field.builder().name("Pinhao").location("").city(city3).farmer(farmer2).build();
+        this.field3.addSupervisor(supervisor2);
     }
 
     @Test
     public void test01ReadAllCities() {
         assertThat(this.fieldService.readAllCities())
-                .contains(c1,c2,c3)
-                .doesNotContain(c4,c5)
+                .contains(city1
+        ,city2,city3)
+                .doesNotContain(city4
+        ,city5)
                 .doesNotContainNull();
     }
 
     @Test
     public void test02ReadAllFarmers() {
-        assertThat(this.fieldService.readAllFarmers()).contains(f1,f2)
-                .doesNotContain(f3)
+        assertThat(this.fieldService.readAllFarmers()).contains(farmer1,farmer2)
+                .doesNotContain(farmer3)
                 .doesNotContainNull();
     }
 
     @Test
     public void test03ReadCityById() {
-        assertThat(this.fieldService.readCityById(this.c1.getId()))
-                .isEqualTo(c1)
+        assertThat(this.fieldService.readCityById(this.city1
+.getId()))
+                .isEqualTo(city1
+        )
                 .isNotNull();
     }
 
     @Test //os dados do CLR entrão primeiro no banco - redorna o indice 0 da tabela
     public void test04ReadCityByIdNotFound() {
-        this.c4 = this.cityRepository.save(c4);
-        this.cityRepository.deleteById(c4.getId());
-        assertThat(this.fieldService.readCityById(c4.getId())).
+        this.city4
+ = this.cityRepository.save(city4
+);
+        this.cityRepository.deleteById(city4
+.getId());
+        assertThat(this.fieldService.readCityById(city4
+.getId())).
                 isEqualTo(this.cityRepository.findAll().get(0))
                 .isNotNull();
     }
 
     @Test
     public void test05ReadFarmerById() {
-        assertThat(this.fieldService.readFarmerById(this.f1.getId()))
-                .isEqualTo(f1)
+        assertThat(this.fieldService.readFarmerById(this.farmer1.getId()))
+                .isEqualTo(farmer1)
                 .isNotNull();
     }
 
     @Test //os dados do CLR entrão primeiro no banco - redorna o indice 0 da tabela
     public void test06ReadFarmerByIdNotFound() {
-        this.f3 = this.farmerRepository.save(this.f3);
-        this.farmerRepository.deleteById(this.f3.getId());
-        assertThat(this.fieldService.readFarmerById(this.f3.getId()))
+        this.farmer3 = this.farmerRepository.save(this.farmer3);
+        this.farmerRepository.deleteById(this.farmer3.getId());
+        assertThat(this.fieldService.readFarmerById(this.farmer3.getId()))
                 .isEqualTo(this.farmerRepository.findAll().get(0))
                 .isNotNull();
     }
@@ -150,8 +162,8 @@ public class FieldServiceTest {
 
     @Test
     public void test08ReadAllSupervisors(){
-        assertThat(this.fieldService.readAllSupervisors()).contains(s1,s2)
-                .doesNotContain(s3)
+        assertThat(this.fieldService.readAllSupervisors()).contains(supervisor1,supervisor2)
+                .doesNotContain(supervisor3)
                 .doesNotContainNull();
     }
 
@@ -173,7 +185,8 @@ public class FieldServiceTest {
     @Test //se id de cidade ou id de produtor for null, gera exception.
     public void test11CreateField() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
         //Teste
-        this.region1.addCity(this.c4);
+        this.region1.addCity(this.city4
+);
         this.regionRepository.save(this.region1);
         this.fieldRepository.delete(field2);
         this.fieldService.create(field2);
@@ -231,7 +244,7 @@ public class FieldServiceTest {
 
     @Test (expected = SupervisorNotAllowedInCity.class)
     public void test16UpdateFieldSupervisorNotAllowedInCity() throws AnyPersistenceException, SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException {
-        this.field1.setCity(c3);
+        this.field1.setCity(city3);
         this.fieldService.update(this.field1);
     }
 
@@ -242,9 +255,9 @@ public class FieldServiceTest {
 
     @Test
     public void test18UpdateField() throws AnyPersistenceException, SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException {
-        this.region1.addCity(this.c2);
-        this.field1.setCity(this.c2);
-        this.field1.addSupervisor(this.s2);
+        this.region1.addCity(this.city2);
+        this.field1.setCity(this.city2);
+        this.field1.addSupervisor(this.supervisor2);
         this.field1.setName("Modulo Teste");
         this.fieldService.update(this.field1);
         //Esta falando que cidades não foi inicializada; Aparentemente funcionou!!

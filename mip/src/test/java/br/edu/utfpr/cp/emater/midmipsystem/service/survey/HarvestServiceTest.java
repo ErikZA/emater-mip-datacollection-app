@@ -137,6 +137,7 @@ public class HarvestServiceTest {
         assertThat(this.harvestService.readById(harvest1.getId()))
                 .isNotNull()
                 .isEqualTo(harvest1);
+        System.out.println(cityRepository.findById((long)332).get().toString()+"\n\n\n<<<<<<\n\n\n");
     }
 
 
@@ -267,7 +268,7 @@ public class HarvestServiceTest {
         harvestTest.setName("Safra 2111/2112");
         harvestTest.setBegin(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-10-2111"));
         harvestTest.setEnd(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-03-2112"));
-        harvestService.update(harvestTest);
+        this.harvestService.update(harvestTest);
         Harvest harvestTestUpdate = this.harvestService.readById(harvestTest.getId());
         assertThat(harvestTestUpdate)
                 .isNotNull()

@@ -235,7 +235,7 @@ public class SurveyServiceTest {
     }
 
 
-    @Test
+    @Test //retorna um nulo, não dispara a exception
     public void test07ReadByHarvestIdEntityNotFoundException() throws EntityNotFoundException {
         assertThat(this.surveyService.readByHarvestId(this.harvest2.getId())).isEmpty();
     }

@@ -14,6 +14,7 @@ import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 
@@ -30,7 +31,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FieldServiceTest {
 
@@ -67,6 +68,7 @@ public class FieldServiceTest {
     private Region region1, region2;
     @Autowired
     private  MacroRegion macroRegion;
+
 
     @Before
     public void SetUp(){
@@ -137,13 +139,10 @@ public class FieldServiceTest {
         BDDMockito.when(supervisorRepository.findAll())
                 .thenReturn(listSupervisor);
 
-        BDDMockito.doNothing().when(fieldRepository).delete(this.field2);
-
     }
 
-
     @Test
-    public void test01ReadAllCities() {
+    public void test01ReadAllCities() throws Exception {
         assertThat(this.fieldService.readAllCities())
                 .containsExactlyInAnyOrder(this.city1,this.city2,this.city3)
                 .doesNotContain(this.city4,this.city5)
@@ -167,7 +166,7 @@ public class FieldServiceTest {
                 .isNotNull();
     }
 
-    @Test //os dados do CLR entrão primeiro no banco - redorna o indice 0 da tabela
+    @Test // redorna o indice 0 da tabela
     public void test04ReadCityByIdNotFound() {
         BDDMockito.when(cityRepository.findById((long)4))
                 .thenReturn(Optional.ofNullable(null));
@@ -185,7 +184,7 @@ public class FieldServiceTest {
                 .isNotNull();
     }
 
-    @Test //os dados do CLR entrão primeiro no banco - redorna o indice 0 da tabela
+    @Test // redorna o indice 0 da tabela
     public void test06ReadFarmerByIdNotFound() {
         BDDMockito.when(farmerRepository.findById((long)3))
                 .thenReturn(Optional.ofNullable(null));
@@ -227,82 +226,153 @@ public class FieldServiceTest {
     }
 
 
-    @Test //se id de cidade ou id de produtor for null, gera exception.
-    public void test11CreateField() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
-//        Teste
-//        this.region1.addCity(this.city4);
-//        this.regionRepository.save(this.region1);
-//        this.fieldRepository.delete(field2);
-//        this.fieldService.create(field2);
+    @Test (expected = EntityAlreadyExistsException.class)
+    public void test11CreateFieldEntityAlreadyExistsException() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
+        this.fieldService.create(field2);
     }
 
     @Test
     public void test12DeleteField() throws EntityNotFoundException, AnyPersistenceException, EntityInUseException {
+        BDDMockito.when(fieldRepository.findById((long)2))
+                .thenReturn(Optional.ofNullable(this.field2));
+        BDDMockito.doNothing().when(fieldRepository).delete(this.field2);
         this.fieldService.delete(field2.getId());
     }
 
     @Test (expected = EntityNotFoundException.class)
     public void test13DeleteFieldNotFoundException() throws EntityNotFoundException, AnyPersistenceException, EntityInUseException {
-        this.field3 = this.fieldRepository.save(this.field3);
-        this.fieldRepository.deleteById(field3.getId());
+        BDDMockito.when(fieldRepository.findById((long)3))
+                .thenReturn(Optional.ofNullable(null));
         this.fieldService.delete(field3.getId());
     }
 
     @Test(expected = EntityInUseException.class)
-    public void  test14DeleteFieldUseException() throws ParseException, EntityNotFoundException, AnyPersistenceException, EntityInUseException {
-        this.surveyRepository.save(
-                Survey.builder()
-                        .harvest(harvestRepository.save(
-                                Harvest.builder()
-                                        .name("Safra 2016/2017")
-                                        .begin(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-10-2016"))
-                                        .end(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-03-2017"))
-                                        .build()))
-                        .field(this.field1)
-                        .seedName("P95R51")
-                        .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-9-26"))
-                        .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-10"))
-                        .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-2-15"))
-                        .rustResistant(false)
-                        .bt(false)
-                        .totalArea(7.26)
-                        .totalPlantedArea(242)
-                        .plantPerMeter(15)
-                        .productivityField(187)
-                        .productivityFarmer(170)
-                        .separatedWeight(true)
-                        .longitude(7.5)
-                        .latitude(8.5)
-                        .build()
-        );
-        this.fieldService.delete(this.field1.getId());
+    public void  test14DeleteFieldUseEntityInUseException() throws EntityNotFoundException, AnyPersistenceException, EntityInUseException {
+        BDDMockito.when(fieldRepository.findById((long)2))
+                .thenReturn(Optional.ofNullable(this.field2));
+        BDDMockito.doThrow(DataIntegrityViolationException.class)
+                .when(fieldRepository).delete(this.field2);
+        this.fieldService.delete(this.field2.getId());
     }
 
     @Test (expected = EntityNotFoundException.class)
     public void test15UpdateFieldNotFoundException() throws AnyPersistenceException, SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException {
-        this.fieldRepository.deleteById(this.field1.getId());
-        this.fieldService.update(this.field1);
+        BDDMockito.when(fieldRepository.findById((long)3))
+                .thenReturn(Optional.ofNullable(null));
+        this.fieldService.update(this.field3);
     }
 
     @Test (expected = SupervisorNotAllowedInCity.class)
     public void test16UpdateFieldSupervisorNotAllowedInCity() throws AnyPersistenceException, SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException {
         this.field1.setCity(city3);
+        BDDMockito.when(fieldRepository.findById((long)1))
+                .thenReturn(Optional.ofNullable(this.field1));
         this.fieldService.update(this.field1);
     }
 
-    @Test (expected = EntityAlreadyExistsException.class)
-    public void test17UpdateFieldEntityAlreadyExistsException() throws AnyPersistenceException, SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException {
-        this.fieldService.create(this.field1);
+    @Test (expected = AnyPersistenceException.class)//tenta deletar uma compo inexistente
+    public void test17DeleteFieldAnyPersistenceException() throws AnyPersistenceException, EntityNotFoundException, EntityInUseException {
+        BDDMockito.when(fieldRepository.findById((long)2))
+                .thenReturn(Optional.ofNullable(this.field2));
+        BDDMockito.doThrow(IllegalArgumentException.class)
+                .when(fieldRepository).delete(this.field2);
+        this.fieldService.delete(this.field2.getId());
     }
 
     @Test
     public void test18UpdateField() throws AnyPersistenceException, SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException {
+        BDDMockito.when(fieldRepository.findById((long)1))
+                .thenReturn(Optional.ofNullable(this.field1));
+
+        BDDMockito.when(cityRepository.findById((long)2))
+                .thenReturn(Optional.ofNullable(this.city2));
+
+        BDDMockito.when(farmerRepository.findById((long)1))
+                .thenReturn(Optional.ofNullable(this.farmer1));
+
+        BDDMockito.when(fieldRepository.saveAndFlush(this.field1))
+                .thenReturn(this.field1);
+
+        BDDMockito.when(supervisorRepository.findById((long)1)).thenReturn(Optional.ofNullable(this.supervisor1));
+
+        BDDMockito.when(supervisorRepository.findById((long)2)).thenReturn(Optional.ofNullable(this.supervisor2));
+
         this.region1.addCity(this.city2);
         this.field1.setCity(this.city2);
         this.field1.addSupervisor(this.supervisor2);
-        this.field1.setName("Modulo Teste");
+        this.field1.setName("Teste Update");
+        this.field1.setLocation("22");
+        this.field1.setFarmer(this.farmer1);
         this.fieldService.update(this.field1);
-        //Esta falando que cidades não foi inicializada; Aparentemente funcionou!!
+
+        assertThat(this.field1.getName()).isEqualToIgnoringCase("Teste Update");
+        assertThat(this.field1.getCity()).isEqualTo(this.city2);
+        assertThat(this.field1.getSupervisors()).containsExactlyInAnyOrder(this.supervisor1,this.supervisor2);
+        assertThat(this.field1.getLocation()).isEqualToIgnoringCase("22");
+        assertThat(this.field1.getFarmer()).isEqualTo(this.farmer1);
+    }
+
+    @Test (expected = AnyPersistenceException.class)//Farmer não encontrado no banco
+    public void test19UpdateFieldAnyPersistenceException() throws AnyPersistenceException, SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException {
+        BDDMockito.when(fieldRepository.findById((long)1))
+                .thenReturn(Optional.ofNullable(this.field1));
+
+        BDDMockito.when(cityRepository.findById((long)1))
+                .thenReturn(Optional.ofNullable(this.city1));
+
+        BDDMockito.when(supervisorRepository.findById((long)1))
+                .thenReturn(Optional.ofNullable(this.supervisor1));
+
+        BDDMockito.when(farmerRepository.findById((long)3))
+                .thenReturn(Optional.ofNullable(null));
+
+        this.field1.setName("Teste Fail");
+        this.field1.setFarmer(this.farmer3);
+        this.fieldService.update(this.field1);
+    }
+
+    @Test (expected = SupervisorNotAllowedInCity.class)
+    public void test20CreateFieldSupervisorNotAllowedInCity() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
+        this.field3.setCity(city1);
+        BDDMockito.when(cityRepository.findById((long)1))
+                .thenReturn(Optional.ofNullable(this.city1));
+        BDDMockito.when(supervisorRepository.findById((long)2))
+                .thenReturn(Optional.ofNullable(this.supervisor2));
+        this.fieldService.create(field3);
+    }
+
+    @Test
+    public void test21CreateField() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
+        BDDMockito.when(cityRepository.findById((long)3))
+                .thenReturn(Optional.ofNullable(this.city3));
+
+        BDDMockito.when(farmerRepository.findById((long)2))
+                .thenReturn(Optional.ofNullable(this.farmer2));
+
+        BDDMockito.when(fieldRepository.save(this.field3))
+                .thenReturn(this.field3);
+
+        BDDMockito.when(supervisorRepository.findById((long)2))
+                .thenReturn(Optional.ofNullable(this.supervisor2));
+
+        this.fieldService.create(field3);
+    }
+
+    @Test (expected = AnyPersistenceException.class)//em algum momento o registro passa a ser nullo.
+    public void test22CreateFieldAnyPersistenceException() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
+        BDDMockito.when(cityRepository.findById((long)3))
+                .thenReturn(Optional.ofNullable(this.city3));
+
+        BDDMockito.when(farmerRepository.findById((long)2))
+                .thenReturn(Optional.ofNullable(this.farmer2));
+
+        BDDMockito.when(fieldRepository.save(field3))
+                .thenThrow(IllegalArgumentException.class);
+
+        BDDMockito.when(supervisorRepository.findById((long)2))
+                .thenReturn(Optional.ofNullable(this.supervisor2));
+
+        this.fieldService.create(field3);
     }
 
 }

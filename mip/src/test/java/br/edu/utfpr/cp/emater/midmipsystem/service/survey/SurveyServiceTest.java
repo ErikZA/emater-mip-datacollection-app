@@ -64,7 +64,7 @@ public class SurveyServiceTest {
     private City city1,city2,city3,city4,city5;
     private Farmer farmer1,farmer2, farmer3;
     private Supervisor supervisor1, supervisor2, supervisor3;
-    private Harvest harvest1, harvest2, harvest3, harvest4, harvest5;
+    private Harvest harvest1, harvest2, harvest3;
     private Survey survey2, survey1, survey3;
 
 
@@ -72,15 +72,13 @@ public class SurveyServiceTest {
     public void SetUp() throws Exception {
         var mr1 = this.macroRegionRepository.save(MacroRegion.builder().name("Macro Leste").build());
 
-        this.city1
- = this.cityRepository.save(City.builder().name("Ponta Grossa").state(State.PR).build());
+        this.city1 = this.cityRepository.save(City.builder().name("Ponta Grossa").state(State.PR).build());
         this.city2 = this.cityRepository.save(City.builder().name("Pinhais").state(State.PR).build());
         this.city3 = this.cityRepository.save(City.builder().name("Curitiba").state(State.PR).build());
         this.city4 = City.builder().name("Paranagua").state(State.PR).build();
         this.city5 = City.builder().name("Colombo").state(State.PR).build();
         var region1 = Region.builder().name("Curitiba").macroRegion(mr1).build();
-        region1.addCity(city1
-);
+        region1.addCity(city1);
         var r1 = this.regionRepository.save(region1);
         var region2 = Region.builder().name("Ponta Grossa").macroRegion(mr1).build();
         region2.addCity(city2);
@@ -94,8 +92,7 @@ public class SurveyServiceTest {
         this.supervisor2 = this.supervisorRepository.save(Supervisor.builder().name("David Luiz").email("DavidLuiz@emater.pr.gov.br").region(r2).build());
         this.supervisor3 = Supervisor.builder().name("Marcos Paulo Nunes").email("MarcosPauloNunes@emater.pr.gov.br").region(r2).build();
 
-        this.field1 = Field.builder().name("Macaxeira").location("").city(city1
-).farmer(farmer1).build();
+        this.field1 = Field.builder().name("Macaxeira").location("").city(city1).farmer(farmer1).build();
         this.field1.addSupervisor(supervisor1);
         this.fieldRepository.save(field1);
         this.field2 = Field.builder().name("Canela").location("").city(city3).farmer(farmer2).build();

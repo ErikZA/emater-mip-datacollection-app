@@ -15,7 +15,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class    FieldTest {
 
-
     private City city;
     @Autowired
     private  Farmer farmer;
@@ -78,21 +77,6 @@ public class    FieldTest {
         public void test06AddSupervisorIsNull(){
             assertThat(field.addSupervisor(null)).isFalse();
         }
-
-        //falta testar limite 50 e 5 caracteres.
-        // Deve estar entre os testes de Repositorio?
-//
-//        @Test (expected = ConstraintViolationException.class)
-//        public  void test07SetNameExceptionNameLessThan5Test() {
-//            this.field.setName("test");
-//            this.fieldRepository.save(this.field);
-//        }
-//
-//        @Test (expected = ConstraintViolationException.class)
-//        public  void test08SetNameExceptionNameBigThan50Test() {
-//            this.field.setName("123456789-123456789-123456789-123456789-123456789-1");
-//            this.fieldRepository.save(this.field);
-//        }
 
 
         @Test

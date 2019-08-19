@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.annotation.Repeat;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.SimpleDateFormat;
@@ -75,25 +74,22 @@ public class SurveyServiceTest {
     public void SetUp() throws Exception {
 
         var mr1 = MacroRegion.builder().name("Macro Leste").id((long) 1).build();
-
         this.city1 = City.builder().name("Ponta Grossa").state(State.PR).build();
         this.city1.setId((long)1);
         this.city2 = City.builder().name("Pinhais").state(State.PR).build();
         this.city2.setId((long)2);
         this.city3 = City.builder().name("Curitiba").state(State.PR).build();
         this.city3.setId((long)3);
-        var region1 = Region.builder().name("Curitiba").macroRegion(mr1).build();
 
+        var region1 = Region.builder().name("Curitiba").macroRegion(mr1).build();
         region1.addCity(city1);
         region1.setId((long)1);
-
         var r1 = region1;
 
         var region2 = Region.builder().name("Ponta Grossa").macroRegion(mr1).build();
         region2.addCity(city2);
         region2.addCity(city3);
         region2.setId((long)2);
-
         var r2 = region2;
 
         this.farmer1 = Farmer.builder().name("Marcos Paulo").build();
@@ -134,11 +130,11 @@ public class SurveyServiceTest {
                         .build();
 
         this.harvest3 = Harvest.builder()
-                .id((long)3)
-                .name("Safra 2008/2009")
-                .begin(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-10-2008"))
-                .end(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-03-2009"))
-                .build();
+                        .id((long)3)
+                        .name("Safra 2008/2009")
+                        .begin(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-10-2008"))
+                        .end(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-03-2009"))
+                        .build();
 
 
         this.survey1 = Survey.builder()
@@ -182,31 +178,31 @@ public class SurveyServiceTest {
                         .build();
 
         this.survey3 = Survey.builder()
-                .id((long)3)
-                .harvest(harvest2)
-                .field(field2)
-                .seedName("TMG 7262 RR")
-                .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-4"))
-                .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-9"))
-                .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-2-20"))
-                .rustResistant(true)
-                .bt(false)
-                .totalArea(5.74)
-                .totalPlantedArea(35.09)
-                .plantPerMeter(11)
-                .productivityField(137.5)
-                .productivityFarmer(120)
-                .separatedWeight(true)
-                .longitude(4.5)
-                .latitude(5.5)
-                .build();
+                        .id((long)3)
+                        .harvest(harvest2)
+                        .field(field2)
+                        .seedName("TMG 7262 RR")
+                        .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-4"))
+                        .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-9"))
+                        .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-2-20"))
+                        .rustResistant(true)
+                        .bt(false)
+                        .totalArea(5.74)
+                        .totalPlantedArea(35.09)
+                        .plantPerMeter(11)
+                        .productivityField(137.5)
+                        .productivityFarmer(120)
+                        .separatedWeight(true)
+                        .longitude(4.5)
+                        .latitude(5.5)
+                        .build();
 
         List<Survey> listSurvey = asList(this.survey1,this.survey2);
         BDDMockito.when(this.surveyRepository.findAll())
                 .thenReturn(listSurvey);
     }
 
-    @Repeat(2)
+    @Test
     public void test01ReadAllSurvey(){
         assertThat(this.surveyService.readAll())
                 .doesNotContainNull()

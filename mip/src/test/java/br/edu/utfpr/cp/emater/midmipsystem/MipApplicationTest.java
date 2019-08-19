@@ -33,8 +33,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import static org.junit.Assume.assumeTrue;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class MipApplicationTest {
 
+    @Test
+    public void run(){
+        assumeTrue(true);
+    }
 }

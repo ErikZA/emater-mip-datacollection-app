@@ -58,7 +58,8 @@ public class SurveyService implements ICRUDService<Survey> {
     public List<Field> readAllFields() {
         return fieldService.readAll();
     }
-
+    
+    //não foi implementado o lançameno da excessão: SupervisorNotAllowedInCity
     public void create(Survey aSurvey) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
 
         if (surveyRepository.findAll().stream().anyMatch(currentSurvey -> currentSurvey.equals(aSurvey))) {
@@ -79,6 +80,7 @@ public class SurveyService implements ICRUDService<Survey> {
         }
     }
 
+    //Não foi implementado o lançamento da excessão EntityAlreadyExistsException
     public void update(Survey aSurvey) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
 
         var existentSurvey = surveyRepository.findById(aSurvey.getId()).orElseThrow(EntityNotFoundException::new);

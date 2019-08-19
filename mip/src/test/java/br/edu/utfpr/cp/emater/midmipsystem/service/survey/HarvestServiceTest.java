@@ -11,6 +11,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.HarvestRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -30,6 +31,10 @@ import java.util.Locale;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -101,6 +106,7 @@ public class HarvestServiceTest {
                 .doesNotContainNull()
                 .containsExactlyInAnyOrder(harvest1,harvest2)
                 .doesNotContain(harvest3);
+        verify(this.harvestRepository, times(1)).findAll();
     }
 
     @Test
@@ -110,20 +116,33 @@ public class HarvestServiceTest {
         assertThat(this.harvestService.readById(harvest1.getId()))
                 .isNotNull()
                 .isEqualTo(harvest1);
+        verify(this.harvestRepository, times(1)).findById(harvest1.getId());
     }
 
 
-    @Test (expected = EntityNotFoundException.class)
-    public void test03ReadByIdHarvestEntityNotFoundException() throws EntityNotFoundException {
+    @Test
+    public void test03ReadByIdHarvestEntityNotFoundException() {
         BDDMockito.when(harvestRepository.findById((long) 3))
                 .thenReturn(java.util.Optional.ofNullable(null));
-        this.harvestService.readById(harvest3.getId());
+        try {
+            this.harvestService.readById(harvest3.getId());
+            fail("EntityNotFoundException it is not throws");
+        } catch (EntityNotFoundException e){
+            assertThat(e.getMessage()).isEqualToIgnoringCase(null);
+        }
+        verify(this.harvestRepository, times(1)).findById((long) 3);
     }
 
 
-    @Test (expected = EntityAlreadyExistsException.class)
-    public void test04CreateHarvestEntityNotFoundException() throws EntityAlreadyExistsException, AnyPersistenceException {
-        this.harvestService.create(this.harvest1);
+    @Test
+    public void test04CreateHarvestEntityNotFoundException() throws AnyPersistenceException {
+        try {
+            this.harvestService.create(this.harvest1);
+            fail("EntityAlreadyExistsException it is not throws");
+        } catch (EntityAlreadyExistsException e){
+            assertThat(e.getMessage()).isEqualToIgnoringCase(null);
+        }
+        verify(this.harvestRepository, times(1)).findAll();
     }
 
     @Test
@@ -131,14 +150,25 @@ public class HarvestServiceTest {
         BDDMockito.when(harvestRepository.save(this.harvest3))
                 .thenReturn(this.harvest3);
         this.harvestService.create(this.harvest3);
+
+        verify(this.harvestRepository, times(1)).findAll();
+        verify(this.harvestRepository, times(1)).save(this.harvest3);
+        //fazer uma verificação com mock e lista?
     }
 
 
-    @Test (expected = EntityNotFoundException.class)
-    public void test06DeleteHarvestEntityNotFoundException() throws EntityNotFoundException, AnyPersistenceException, EntityInUseException {
+    @Test
+    public void test06DeleteHarvestEntityNotFoundException() throws  AnyPersistenceException, EntityInUseException {
         BDDMockito.when(harvestRepository.findById((long) 3))
                 .thenReturn(java.util.Optional.ofNullable(null));
-        this.harvestService.delete(harvest3.getId());
+
+        try {
+            this.harvestService.delete(harvest3.getId());
+            fail("EntityNotFoundException it is not throws");
+        } catch (EntityNotFoundException e){
+            assertThat(e.getMessage()).isEqualToIgnoringCase(null);
+        }
+        verify(this.harvestRepository, times(1)).findById((long) 3);
     }
 
     @Test
@@ -147,35 +177,59 @@ public class HarvestServiceTest {
         BDDMockito.when(harvestRepository.findById((long) 1))
                 .thenReturn(java.util.Optional.ofNullable(this.harvest1));
         this.harvestService.delete(this.harvest1.getId());
+        verify(this.harvestRepository, times(1)).findById((long) 1);
+        verify(this.harvestRepository, times(1)).delete(this.harvest1);
     }
 
 
-    @Test (expected = EntityInUseException.class)
+    @Test
     public void test08DeleteHarvestEntityInUseException() throws Exception{
         BDDMockito.when(harvestRepository.findById((long) 1))
                 .thenReturn(java.util.Optional.ofNullable(this.harvest1));
         BDDMockito.doThrow(DataIntegrityViolationException.class)
                 .when(harvestRepository).delete(this.harvest1);
-        this.harvestService.delete(this.harvest1.getId());
+
+        try {
+            this.harvestService.delete(this.harvest1.getId());
+            fail("EntityInUseException it is not throws");
+        } catch (EntityInUseException e){
+            assertThat(e.getMessage()).isEqualToIgnoringCase(null);
+        }
+
+        verify(this.harvestRepository, times(1)).findById((long) 1);
+        verify(this.harvestRepository, times(1)).delete(this.harvest1);
     }
 
 
-    @Test (expected = EntityNotFoundException.class)
+    @Test
     public void test09UpdateHarvestEntityNotFoundException() throws Exception {
         BDDMockito.when(harvestRepository.findById((long) 3))
                 .thenReturn(java.util.Optional.ofNullable(null));
-        this.harvestService.update(this.harvest3);
+        try {
+            this.harvestService.update(this.harvest3);
+            fail("EntityNotFoundException it is not throws");
+        } catch (EntityNotFoundException e) {
+            assertThat(e.getMessage()).isEqualToIgnoringCase(null);
+        }
+        verify(this.harvestRepository, times(1)).findById((long) 3);
     }
 
-    @Test (expected = AnyPersistenceException.class)//adiciona datas nullas!!
+    @Test
     public void test10UpdateHarvestAnyPersistenceException() throws Exception {
         BDDMockito.when(harvestRepository.findById((long) 2))
                 .thenReturn(java.util.Optional.ofNullable(this.harvest2));
-        BDDMockito.when(harvestRepository.saveAndFlush(this.harvest2))
-                .thenThrow(IllegalArgumentException.class);//deveria lançar a exception
-        this.harvest2.setEnd(null);
-        this.harvest2.setBegin(null);
-        this.harvestService.update(this.harvest2);
+        BDDMockito.when(harvestRepository.saveAndFlush(any()))
+                .thenThrow(IllegalArgumentException.class);
+        try {
+            this.harvest2.setName("01-10-2777");
+            this.harvestService.update(this.harvest2);
+            fail("AnyPersistenceException it is not throws");
+        } catch (AnyPersistenceException e){
+            assertThat(e.getMessage()).isEqualToIgnoringCase(null);
+        }
+        verify(this.harvestRepository, times(1)).findById((long) 2);
+        verify(this.harvestRepository, times(1)).findAll();
+        verify(this.harvestRepository, times(1)).saveAndFlush(this.harvest2);
     }
 
     @Test
@@ -184,25 +238,74 @@ public class HarvestServiceTest {
                 .thenReturn(java.util.Optional.ofNullable(this.harvest2));
         BDDMockito.when(harvestRepository.saveAndFlush(this.harvest2))
                 .thenReturn(this.harvest2);
+
+//        assertThat(this.harvest2.getName()).isEqualToIgnoringCase("Safra 2007/2008");
+//        assertThat(this.harvest2.getEnd().toString()).isEqualTo("2008-03-01");
+//        assertThat(this.harvest2.getBegin().toString()).isEqualTo("2007-10-01");
+       //colocar em uma lista e atualizar a lista mock?
+
         this.harvest2.setName("Safra 2111/2112");
         this.harvest2.setEnd(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-10-2088"));
         this.harvest2.setBegin(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-10-2088"));
+
         this.harvestService.update(this.harvest2);
+
+        verify(this.harvestRepository, times(1)).findById(this.harvest2.getId());
+        verify(this.harvestRepository, times(1)).saveAndFlush(this.harvest2);
+        verify(this.harvestRepository, times(1)).findAll();
+
     }
 
-    @Test (expected = AnyPersistenceException.class)//tenta salvar um null
-    public void test12CreateHarvestAnyPersistenceException() throws EntityAlreadyExistsException, AnyPersistenceException {
-        BDDMockito.when(harvestRepository.save(this.harvest3))
+    @Test //tenta salvar um null
+    public void test12CreateHarvestAnyPersistenceException() throws EntityAlreadyExistsException {
+        BDDMockito.when(harvestRepository.save(null))
                 .thenThrow(IllegalArgumentException.class);
-        this.harvestService.create(this.harvest3);
+        try {
+            this.harvestService.create(null);
+            fail("AnyPersistenceException it is not throws");
+        } catch (AnyPersistenceException e){
+            assertThat(e.getMessage()).isEqualToIgnoringCase(null);
+        }
+
+        verify(this.harvestRepository, times(1)).findAll();
+        verify(this.harvestRepository, times(1)).save(null);
     }
 
-    @Test (expected = AnyPersistenceException.class)//tenta salvar um null
-    public void test13DeleteHarvestAnyPersistenceException() throws  AnyPersistenceException, EntityInUseException, EntityNotFoundException {
+    @Test //tenta deletar um null
+    public void test13DeleteHarvestAnyPersistenceException() throws  EntityInUseException, EntityNotFoundException {
         BDDMockito.when(harvestRepository.findById((long) 1))
                 .thenReturn(java.util.Optional.ofNullable(this.harvest1));
         BDDMockito.doThrow(IllegalArgumentException.class)
-                .when(harvestRepository).delete(this.harvest1);
-        this.harvestService.delete(this.harvest1.getId());
+                .when(harvestRepository).delete(any());
+        try {
+            this.harvestService.delete(this.harvest1.getId());
+            fail("AnyPersistenceException it is not throws");
+        } catch (AnyPersistenceException e){
+            assertThat(e.getMessage()).isEqualToIgnoringCase(null);
+        }
+        verify(this.harvestRepository, times(1)).findById(this.harvest1.getId());
+        verify(this.harvestRepository, times(1)).delete(any());
     }
+
+    @Test
+    public void test14UpdateHarvestEntityAlreadyExistsException() throws Exception {
+        Harvest harvestCopy = this.harvest1;
+        List<Harvest> listHarvest = asList(this.harvest1,this.harvest2,harvestCopy);
+        BDDMockito.when(this.harvestRepository.findAll())
+                .thenReturn(listHarvest);
+
+        BDDMockito.when(harvestRepository.findById((long) 1))
+                .thenReturn(java.util.Optional.ofNullable(this.harvest1));
+
+        try {
+            this.harvest1.setName("Safra 2999/2999");
+            this.harvestService.update(this.harvest1);
+            fail("EntityAlreadyExistsException it is not throws");
+        } catch (EntityAlreadyExistsException e) {
+            assertThat(e.getMessage()).isEqualToIgnoringCase(null);
+        }
+        verify(this.harvestRepository, times(1)).findById((long) 1);
+        verify(this.harvestRepository, times(1)).findAll();
+    }
+
 }

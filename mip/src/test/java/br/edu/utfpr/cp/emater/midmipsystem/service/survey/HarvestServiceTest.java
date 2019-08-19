@@ -11,7 +11,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.HarvestRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldService;
 import br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -64,14 +63,12 @@ public class HarvestServiceTest {
 
     @Autowired
     private HarvestService harvestService;
-
     @Autowired
     private Harvest harvest1, harvest2, harvest3;
 
 
     @Before
     public void SetUp() throws ParseException {
-
         this.harvest1 = Harvest.builder()
                         .name("Safra 2006/2007")
                         .begin(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-10-2006"))

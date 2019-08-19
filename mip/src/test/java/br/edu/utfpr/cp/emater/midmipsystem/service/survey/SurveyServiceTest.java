@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.annotation.Repeat;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.SimpleDateFormat;
@@ -205,12 +206,12 @@ public class SurveyServiceTest {
                 .thenReturn(listSurvey);
     }
 
-    @Test
+    @Repeat(2)
     public void test01ReadAllSurvey(){
         assertThat(this.surveyService.readAll())
                 .doesNotContainNull()
-                .containsExactlyInAnyOrder(survey2,survey1)
-                .doesNotContain(survey3);
+                .containsExactlyInAnyOrder(this.survey2,this.survey1)
+                .doesNotContain(this.survey3);
         verify(this.surveyRepository, times(1)).findAll();
         verifyNoMoreInteractions(this.surveyRepository);
     }
@@ -233,7 +234,6 @@ public class SurveyServiceTest {
         when(this.surveyRepository.findById((long)3))
                 .thenReturn(java.util.Optional.ofNullable(null));
 
-        this.surveyRepository.deleteById(this.survey3.getId());
         try {
             this.surveyService.readById(survey3.getId());
             fail("EntityNotFoundException it is not throws");
@@ -254,6 +254,7 @@ public class SurveyServiceTest {
             .isNotNull();
 
         verify(this.fieldRepository, times(1)).findById((long)1);
+        verifyNoMoreInteractions(this.fieldRepository);
     }
 
     @Test
@@ -268,6 +269,7 @@ public class SurveyServiceTest {
             assertThat(e.getMessage()).isEqualToIgnoringCase(null);
         }
         verify(this.fieldRepository, times(1)).findById((long)3);
+        verifyNoMoreInteractions(this.fieldRepository);
     }
 
 
@@ -281,6 +283,7 @@ public class SurveyServiceTest {
                 .isNotNull();
 
         verify(this.harvestRepository, times(1)).findById((long)1);
+        verifyNoMoreInteractions(this.harvestRepository);
     }
 
 
@@ -296,6 +299,7 @@ public class SurveyServiceTest {
             assertThat(e.getMessage()).isEqualToIgnoringCase(null);
         }
         verify(this.harvestRepository, times(1)).findById((long)3);
+        verifyNoMoreInteractions(this.harvestRepository);
     }
 
     @Test
@@ -310,6 +314,7 @@ public class SurveyServiceTest {
                 .doesNotContain(this.field3);
 
         verify(this.fieldRepository, times(1)).findAll();
+        verifyNoMoreInteractions(this.fieldRepository);
     }
 
     @Test
@@ -324,6 +329,8 @@ public class SurveyServiceTest {
                 .doesNotContain(this.harvest3);
 
         verify(this.harvestRepository, times(1)).findAll();
+        verifyNoMoreInteractions(this.harvestRepository);
+
     }
 
     @Test
@@ -339,6 +346,8 @@ public class SurveyServiceTest {
 
         verify(this.surveyRepository, times(1)).findAll();
         verify(this.fieldRepository, times(1)).findAll();
+        verifyNoMoreInteractions(this.surveyRepository);
+        verifyNoMoreInteractions(this.fieldRepository);
     }
 
     @Test
@@ -349,6 +358,7 @@ public class SurveyServiceTest {
                 .containsExactlyInAnyOrder(this.survey1,this.survey2);
 
         verify(this.surveyRepository, times(1)).findAll();
+        verifyNoMoreInteractions(this.surveyRepository);
     }
 
     @Test
@@ -360,6 +370,7 @@ public class SurveyServiceTest {
             assertThat(e.getMessage()).isEqualToIgnoringCase(null);
         }
         verify(this.surveyRepository, times(1)).findAll();
+        verifyNoMoreInteractions(this.surveyRepository);
     }
 
     @Test
@@ -373,6 +384,7 @@ public class SurveyServiceTest {
             assertThat(e.getMessage()).isEqualToIgnoringCase(null);
         }
         verify(this.surveyRepository, times(1)).findById((long)4);
+        verifyNoMoreInteractions(this.surveyRepository);
     }
 
     @Test
@@ -390,6 +402,7 @@ public class SurveyServiceTest {
 
         verify(this.surveyRepository, times(1)).findById((long)1);
         verify(this.surveyRepository, times(1)).delete(any());
+        verifyNoMoreInteractions(this.surveyRepository);
     }
 
     @Test
@@ -407,6 +420,7 @@ public class SurveyServiceTest {
 
         verify(this.surveyRepository, times(1)).findById((long)1);
         verify(this.surveyRepository, times(1)).delete(any());
+        verifyNoMoreInteractions(this.surveyRepository);
     }
 
     @Test
@@ -420,6 +434,7 @@ public class SurveyServiceTest {
 
         verify(this.surveyRepository, times(1)).findById((long)2);
         verify(this.surveyRepository, times(1)).delete(this.survey2);
+        verifyNoMoreInteractions(this.surveyRepository);
     }
 
     @Test
@@ -439,7 +454,10 @@ public class SurveyServiceTest {
 
         verify(this.fieldRepository, times(1)).findById((long)3);
         verify(this.surveyRepository, times(1)).findAll();
+        verifyNoMoreInteractions(this.surveyRepository);
+        verifyNoMoreInteractions(this.fieldRepository);
     }
+
     @Test
     public void test18CreateSurveyEntityAlreadyExistsException() throws SupervisorNotAllowedInCity, EntityNotFoundException, AnyPersistenceException {
         try {
@@ -449,6 +467,7 @@ public class SurveyServiceTest {
             assertThat(e.getMessage()).isEqualToIgnoringCase(null);
         }
         verify(this.surveyRepository, times(1)).findAll();
+        verifyNoMoreInteractions(this.surveyRepository);
     }
 
     @Test
@@ -471,8 +490,8 @@ public class SurveyServiceTest {
         verify(this.fieldRepository, times(1)).findById((long)2);
         verify(this.harvestRepository, times(1)).findById((long)3);
         verify(this.surveyRepository, times(1)).findAll();
-        verifyNoMoreInteractions(this.surveyRepository);
-        verifyNoMoreInteractions(this.surveyRepository);
+        verifyNoMoreInteractions(this.fieldRepository);
+        verifyNoMoreInteractions(this.harvestRepository);
         verifyNoMoreInteractions(this.surveyRepository);
     }
 
@@ -492,6 +511,8 @@ public class SurveyServiceTest {
         verify(this.surveyRepository, times(1)).findAll();
         verify(this.surveyRepository, times(1)).save(this.survey3);
         verifyNoMoreInteractions(this.surveyRepository);
+        verifyNoMoreInteractions(this.fieldRepository);
+        verifyNoMoreInteractions(this.harvestRepository);
     }
 
     @Test

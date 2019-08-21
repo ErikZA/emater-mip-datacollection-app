@@ -2,6 +2,7 @@ package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
 import org.junit.*;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -11,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class  FieldTest {
 
     private City city;
@@ -41,54 +43,54 @@ public class  FieldTest {
         }
 
         @Test //testa novo supervisor
-        public void addSupervisor(){
+        public void fieldTestAddSupervisor(){
             assertThat(this.field.addSupervisor(this.supervisor1)).isTrue();
             assertThat(this.field.addSupervisor(this.supervisor2)).isTrue();
         }
 
 
         @Test
-        public  void getCityNameTestCase(){
+        public  void fieldTestGetCityNameTestCase(){
             assertThat(this.field.getCityName()).isEqualTo("Nova Fatima");
         }
 
         @Test
-        public  void getCityIdTest(){
+        public  void fieldTestGetCityIdTest(){
             assertThat(this.field.getCityId())
                     .isNotNull()
                     .isEqualTo((long)1);
         }
 
         @Test
-        public  void setNameTestCase(){
+        public  void fieldTestSetNameTestCase(){
             assertThat(field.getName()).isEqualTo("Test Case");
         }
 
         @Test//caso um nulo seja inserido, este metodo gera um nullPointerException
-        public  void getSupervisorNamesTestCase(){
+        public  void fieldTestGetSupervisorNamesTestCase(){
             assertThat(this.field.addSupervisor(this.supervisor1)).isTrue();
             assertThat(this.field.addSupervisor(this.supervisor2)).isTrue();
             assertThat(this.field.getSupervisorNames()).containsExactlyInAnyOrder("Franciscano Souza","Joao Bezerra");
         }
 
         @Test// adiciona um supervisor nulo, cidade nula e outros??
-        public void addSupervisorIsNull(){
+        public void fieldTestAddSupervisorIsNull(){
             assertThat(field.addSupervisor(null)).isFalse();
         }
 
 
         @Test
-        public  void setStateNameTestCase(){
+        public  void fieldTestSetStateNameTestCase(){
             assertThat(this.field.getStateName()).isEqualTo("Paraná");
         }
 
         @Test
-        public  void getFarmerNameTestCase(){
+        public  void fieldTestGetFarmerNameTestCase(){
             assertThat(this.field.getFarmerName()).isEqualTo("Paulo Mariano");
         }
 
         @Test
-        public  void getFarmerIdTest(){
+        public  void fieldTestGetFarmerIdTest(){
             assertThat(this.field.getFarmerId())
                     .isEqualTo((long)1)
                     .isNotNull();
@@ -96,7 +98,7 @@ public class  FieldTest {
 
 
         @Test
-        public void removeSupervisor(){
+        public void fieldTestRemoveSupervisor(){
             assertThat(this.field.addSupervisor(this.supervisor1)).isTrue();
             assertThat(this.field.addSupervisor(this.supervisor2)).isTrue();
             assertThat(this.field.removeSupervisor(this.supervisor1)).isTrue();
@@ -104,32 +106,32 @@ public class  FieldTest {
         }
 
         @Test
-        public void removeSupervisorNotExistContainer(){
+        public void fieldTestRemoveSupervisorNotExistContainer(){
             Field fieldTest = Field.builder().name("TestCaseContainer").location("1").city(this.city).farmer(this.farmer).build();
             assertThat(fieldTest.removeSupervisor(this.supervisor1)).isFalse();
         }
 
         @Test
-        public void removeSupervisorNotExist(){
+        public void fieldTestRemoveSupervisorNotExist(){
             assertThat(this.field.addSupervisor(this.supervisor1)).isTrue();
             assertThat(this.field.removeSupervisor(this.supervisor1)).isTrue();
             assertThat(this.field.removeSupervisor(this.supervisor1)).isFalse();
         }
 
         @Test
-        public void fieldEqualsFalse() {
+        public void fieldTestFieldEqualsFalse() {
             Field fieldTest = Field.builder().name("TestCaseContainer").location("1").city(this.city).farmer(this.farmer).build();
             assertThat(this.field.equals(fieldTest)).isFalse();
         }
 
         @Test
-        public void fieldEqualsTrue() {
+        public void fieldTestFieldEqualsTrue() {
                 Field fielTest = this.field;
                 assertThat(this.field.equals(fielTest)).isTrue();
         }
 
         @Test
-        public void fieldHashCodeTrue() {
+        public void fieldTestFieldHashCodeTrue() {
             Field fielTest = this.field;
             assertThat(this.field.hashCode()).isEqualTo(fielTest.hashCode());
         }

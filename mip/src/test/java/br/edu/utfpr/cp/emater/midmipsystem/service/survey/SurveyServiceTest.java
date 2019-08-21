@@ -203,7 +203,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test01ReadAllSurvey(){
+    public void surveyServiceTestReadAllSurvey(){
         assertThat(this.surveyService.readAll())
                 .doesNotContainNull()
                 .containsExactlyInAnyOrder(this.survey2,this.survey1)
@@ -213,7 +213,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test02ReadByIdSurvey() throws EntityNotFoundException {
+    public void surveyServiceTestReadByIdSurvey() throws EntityNotFoundException {
         when(this.surveyRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.survey1));
 
@@ -226,7 +226,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test03ReadByIdSurveyEntityNotFoundException() {
+    public void surveyServiceTestReadByIdSurveyEntityNotFoundException() {
         when(this.surveyRepository.findById((long)3))
                 .thenReturn(java.util.Optional.ofNullable(null));
 
@@ -241,7 +241,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test04ReadFieldbyId() throws EntityNotFoundException {
+    public void surveyServiceTestReadFieldbyId() throws EntityNotFoundException {
         when(this.fieldRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.field1));
 
@@ -254,7 +254,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test05ReadFieldbyIdEntityNotFoundException() {
+    public void surveyServiceTestReadFieldbyIdEntityNotFoundException() {
         when(this.fieldRepository.findById((long)3))
                 .thenReturn(java.util.Optional.ofNullable(null));
 
@@ -270,7 +270,7 @@ public class SurveyServiceTest {
 
 
     @Test
-    public void test06RreadHarvestById() throws EntityNotFoundException {
+    public void surveyServiceTestRreadHarvestById() throws EntityNotFoundException {
         when(this.harvestRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.harvest1));
 
@@ -284,7 +284,7 @@ public class SurveyServiceTest {
 
 
     @Test
-    public void test07ReadHarvestByIdEntityNotFoundException() {
+    public void surveyServiceTestReadHarvestByIdEntityNotFoundException() {
         when(this.harvestRepository.findById((long)3))
                 .thenReturn(java.util.Optional.ofNullable(null));
 
@@ -299,7 +299,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test08ReadAllFields(){
+    public void surveyServiceTestReadAllFields(){
         List<Field> listField = asList(this.field1,this.field2);
         BDDMockito.when(this.fieldRepository.findAll())
                 .thenReturn(listField);
@@ -314,7 +314,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test09ReadAllHarvests(){
+    public void surveyServiceTestReadAllHarvests(){
         List<Harvest> listHarvest = asList(this.harvest1,this.harvest2);
         BDDMockito.when(harvestRepository.findAll())
                 .thenReturn(listHarvest);
@@ -330,7 +330,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test10ReadAllFieldsOutOfCurrentHarvest(){
+    public void surveyServiceTestReadAllFieldsOutOfCurrentHarvest(){
         List<Field> listField = asList(this.field1,this.field2,this.field3);
         BDDMockito.when(this.fieldRepository.findAll())
                 .thenReturn(listField);
@@ -347,7 +347,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test11ReadByHarvestId() throws EntityNotFoundException {
+    public void surveyServiceTestReadByHarvestId() throws EntityNotFoundException {
         assertThat(this.surveyService.readByHarvestId(this.harvest1.getId()))
                 .isNotNull()
                 .doesNotContain(this.survey3)
@@ -358,7 +358,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test12ReadByHarvestIdEntityNotFoundException() {
+    public void surveyServiceTestReadByHarvestIdEntityNotFoundException() {
         try {
             this.surveyService.readByHarvestId(this.harvest3.getId());
             fail("EntityNotFoundException it is not throws");
@@ -370,7 +370,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test13DeleteSurveyEntityNotFoundException() throws AnyPersistenceException, EntityInUseException {
+    public void surveyServiceTestDeleteSurveyEntityNotFoundException() throws AnyPersistenceException, EntityInUseException {
         when(this.surveyRepository.findById((long)4))
                 .thenReturn(java.util.Optional.ofNullable(null));
         try {
@@ -384,7 +384,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test14DeleteSurveyEntityInUseException() throws EntityNotFoundException, AnyPersistenceException {
+    public void surveyServiceTestDeleteSurveyEntityInUseException() throws EntityNotFoundException, AnyPersistenceException {
         when(this.surveyRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.survey1));
         doThrow(DataIntegrityViolationException.class).when(this.surveyRepository).delete(any());
@@ -402,7 +402,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test15DeleteSurveyAnyPersistenceException() throws EntityNotFoundException, EntityInUseException {
+    public void surveyServiceTestDeleteSurveyAnyPersistenceException() throws EntityNotFoundException, EntityInUseException {
         when(this.surveyRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.survey1));
         doThrow(IllegalArgumentException.class).when(this.surveyRepository).delete(any());
@@ -420,7 +420,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test16DeleteSurvey() throws EntityNotFoundException, AnyPersistenceException, EntityInUseException {
+    public void surveyServiceTestDeleteSurvey() throws EntityNotFoundException, AnyPersistenceException, EntityInUseException {
         when(this.surveyRepository.findById((long)2))
                 .thenReturn(java.util.Optional.ofNullable(this.survey2));
         doNothing().when(this.surveyRepository).delete(this.survey2);
@@ -434,7 +434,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test17CreateSurveyEntityNotFoundExceptionField() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException {
+    public void surveyServiceTestCreateSurveyEntityNotFoundExceptionField() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException {
 
         this.survey3.setField(this.field3);
 
@@ -455,7 +455,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test18CreateSurveyEntityAlreadyExistsException() throws SupervisorNotAllowedInCity, EntityNotFoundException, AnyPersistenceException {
+    public void surveyServiceTestCreateSurveyEntityAlreadyExistsException() throws SupervisorNotAllowedInCity, EntityNotFoundException, AnyPersistenceException {
         try {
             this.surveyService.create(this.survey1);
             fail("EntityInUseException it is not throws");
@@ -467,7 +467,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test18CreateSurveyEntityNotFoundExceptionHarvers() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException {
+    public void surveyServiceTestCreateSurveyEntityNotFoundExceptionHarvers() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException {
 
         this.survey3.setHarvest(this.harvest3);
 
@@ -492,7 +492,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test20CreateSurvey() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
+    public void surveyServiceTestCreateSurvey() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
 
         when(this.fieldRepository.findById((long)2))
                 .thenReturn(java.util.Optional.ofNullable(this.field2));
@@ -512,7 +512,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test19CreateSurveyAnyPersistenceException() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException {
+    public void surveyServiceTestCreateSurveyAnyPersistenceException() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException {
 
         when(this.fieldRepository.findById((long)2))
                 .thenReturn(java.util.Optional.ofNullable(this.field2));
@@ -537,7 +537,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test21UpdateSurveyEntityNotFoundException() throws AnyPersistenceException, EntityAlreadyExistsException {
+    public void surveyServiceTestUpdateSurveyEntityNotFoundException() throws AnyPersistenceException, EntityAlreadyExistsException {
 
         when(this.surveyRepository.findById((long)3))
                 .thenReturn(java.util.Optional.ofNullable(null));
@@ -554,7 +554,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test22UpdateSurveyAnyPersistenceException() throws EntityNotFoundException, EntityAlreadyExistsException {
+    public void surveyServiceTestUpdateSurveyAnyPersistenceException() throws EntityNotFoundException, EntityAlreadyExistsException {
 
         when(this.surveyRepository.findById((long)2))
                 .thenReturn(java.util.Optional.ofNullable(this.survey2));
@@ -574,7 +574,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void test23UpdateSurvey() throws EntityNotFoundException, EntityAlreadyExistsException, AnyPersistenceException {
+    public void surveyServiceTestUpdateSurvey() throws EntityNotFoundException, EntityAlreadyExistsException, AnyPersistenceException {
         when(this.surveyRepository.findById((long)2))
                 .thenReturn(java.util.Optional.ofNullable(this.survey2));
         when(this.surveyRepository.saveAndFlush(this.survey2))

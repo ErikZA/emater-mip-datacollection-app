@@ -10,8 +10,10 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,6 +30,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PestServiceTest {
 
     @MockBean
@@ -48,17 +51,17 @@ public class PestServiceTest {
     }
 
     @Test
-    public void readAllPestService(){
-            assertThat(this.pestService.readAll())
-                    .containsExactlyInAnyOrder(this.pest1,this.pest2)
-                    .doesNotContain(this.pest3)
-                    .isNotEmpty().doesNotContainNull();
-            verify(this.pestRepository, times(1)).findAll();
-            verifyNoMoreInteractions(this.pestRepository);
+    public void pestServiceTestReadAllPestService(){
+        assertThat(this.pestService.readAll())
+                .containsExactlyInAnyOrder(this.pest1,this.pest2)
+                .doesNotContain(this.pest3)
+                .isNotEmpty().doesNotContainNull();
+        verify(this.pestRepository, times(1)).findAll();
+        verifyNoMoreInteractions(this.pestRepository);
     }
 
     @Test
-    public void readByIdPestService() throws EntityNotFoundException {
+    public void pestServiceTestReadByIdPestService() throws EntityNotFoundException {
         when(this.pestRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.pest1));
         assertThat(this.pestService.readById((long)1))
@@ -68,7 +71,7 @@ public class PestServiceTest {
     }
 
     @Test
-    public void readByIdPestServiceEntityNotFoundException() {
+    public void pestServiceTestReadByIdPestServiceEntityNotFoundException() {
         when(this.pestRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(null));
 
@@ -83,7 +86,7 @@ public class PestServiceTest {
     }
 
     @Test
-    public void deletePestServiceEntityNotFoundException() throws  AnyPersistenceException, EntityInUseException {
+    public void pestServiceTestDeletePestServiceEntityNotFoundException() throws  AnyPersistenceException, EntityInUseException {
         when(this.pestRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(null));
         try {
@@ -97,7 +100,7 @@ public class PestServiceTest {
     }
 
     @Test
-    public void deletePestServiceEntityInUseException() throws  AnyPersistenceException, EntityNotFoundException {
+    public void pestServiceTestDeletePestServiceEntityInUseException() throws  AnyPersistenceException, EntityNotFoundException {
         when(this.pestRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.pest1));
         doThrow(DataIntegrityViolationException.class).when(this.pestRepository).delete(this.pest1);
@@ -113,7 +116,7 @@ public class PestServiceTest {
     }
 
     @Test
-    public void deletePestServiceAnyPersistenceException() throws  EntityInUseException, EntityNotFoundException {
+    public void pestServiceTestDeletePestServiceAnyPersistenceException() throws  EntityInUseException, EntityNotFoundException {
         when(this.pestRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.pest1));
         doThrow(IllegalArgumentException.class).when(this.pestRepository).delete(this.pest1);
@@ -131,7 +134,7 @@ public class PestServiceTest {
     }
 
     @Test
-    public void deletePestSucess() {
+    public void pestServiceTestDeletePestSucess() {
         when(this.pestRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.pest1));
         doNothing().when(this.pestRepository).delete(this.pest1);
@@ -161,7 +164,7 @@ public class PestServiceTest {
     }
 
     @Test
-    public void createPestAnyPersistenceException() throws EntityAlreadyExistsException {
+    public void pestServiceTestCreatePestAnyPersistenceException() throws EntityAlreadyExistsException {
         doThrow(IllegalArgumentException.class)
                 .when(this.pestRepository).save(any());
 
@@ -178,7 +181,7 @@ public class PestServiceTest {
     }
 
     @Test
-    public void createPestSucess() {
+    public void pestServiceTestCreatePestSucess() {
         when(this.pestRepository.save(this.pest3))
                 .thenReturn(this.pest3);
         try {
@@ -192,7 +195,7 @@ public class PestServiceTest {
     }
 
     @Test
-    public void updatePestEntityNotFoundException() throws EntityAlreadyExistsException, AnyPersistenceException {
+    public void pestServiceTestUpdatePestEntityNotFoundException() throws EntityAlreadyExistsException, AnyPersistenceException {
         when(this.pestRepository.findById((long)3))
                 .thenReturn(java.util.Optional.ofNullable(null));
         try {
@@ -206,7 +209,7 @@ public class PestServiceTest {
     }
 
     @Test
-    public void updatePestEntityAlreadyExistsException() throws EntityNotFoundException, AnyPersistenceException {
+    public void pestServiceTestUpdatePestEntityAlreadyExistsException() throws EntityNotFoundException, AnyPersistenceException {
         Pest copyPest = this.pest1;
         List<Pest> listPest = asList(this.pest1,this.pest2,copyPest);
         BDDMockito.when(pestRepository.findAll()).thenReturn(listPest);
@@ -226,7 +229,7 @@ public class PestServiceTest {
     }
 
     @Test
-    public void updatePestAnyPersistenceException() throws EntityNotFoundException,EntityAlreadyExistsException {
+    public void pestServiceTestUpdatePestAnyPersistenceException() throws EntityNotFoundException,EntityAlreadyExistsException {
         when(this.pestRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.pest1));
         doThrow(IllegalArgumentException.class).when(this.pestRepository).saveAndFlush(any());
@@ -245,7 +248,7 @@ public class PestServiceTest {
     }
 
     @Test
-    public void updatePestSucess() {
+    public void pestServiceTestUpdatePestSucess() {
         when(this.pestRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.pest1));
 

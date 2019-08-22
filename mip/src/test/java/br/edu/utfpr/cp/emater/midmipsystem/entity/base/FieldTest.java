@@ -1,13 +1,19 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
+import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FieldRepository;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.validation.ConstraintViolationException;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 
 @RunWith(SpringRunner.class)
@@ -27,6 +33,8 @@ public class  FieldTest {
     @Autowired
     private MacroRegion macroRegion;
 
+    @Mock
+    private FieldRepository fieldRepository=null;
 
         @Before
         public void setUp(){
@@ -40,6 +48,7 @@ public class  FieldTest {
             this.supervisor1 = Supervisor.builder().name("Franciscano Souza").email("FranciscanoSouza@EMATER.COM").region(this.region).build();
             this.supervisor2 = Supervisor.builder().name("JOAO BEZERRA").email("JOAOBEZERRA@EMATER.COM").region(this.region).build();
             this.field = Field.builder().name("TEST casE").location("1").city(city).farmer(this.farmer).build();
+            MockitoAnnotations.initMocks(this);
         }
 
         @Test //testa novo supervisor
@@ -134,5 +143,26 @@ public class  FieldTest {
         public void fieldTestFieldHashCodeTrue() {
             Field fielTest = this.field;
             assertThat(this.field.hashCode()).isEqualTo(fielTest.hashCode());
+        }
+
+        @Test (expected = ConstraintViolationException.class)
+        public  void setNameExceptionNameLessThan5Test() {
+            when(this.fieldRepository.save(this.field)).thenThrow(ConstraintViolationException.class);
+            this.field.setName("test");
+            this.fieldRepository.save(this.field);
+        }
+
+
+        @Test (expected = ConstraintViolationException.class)
+        public  void setNameExceptionNameBigThan50Test() {
+            when(this.fieldRepository.save(this.field)).thenThrow(ConstraintViolationException.class);
+            this.field.setName("123456789-123456789-123456789-123456789-123456789-1");
+            this.fieldRepository.save(this.field);
+        }
+
+        @Test
+        public  void getAndSetLocationTest() {
+            this.field.setLocation("TestLocation");
+            assertThat(this.field.getLocation()).isEqualToIgnoringCase("TestLocation");
         }
 }

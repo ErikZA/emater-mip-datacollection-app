@@ -7,7 +7,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestNaturalPredatorRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -57,8 +56,6 @@ public class PestNaturalPredatorServiceTest {
                 .containsExactlyInAnyOrder(this.pestNaturalPredator1,this.pestNaturalPredator2)
                 .doesNotContain(this.pestNaturalPredator3)
                 .isNotEmpty().doesNotContainNull();
-        verify(this.pestNaturalPredatorRepository, times(1)).findAll();
-        verifyNoMoreInteractions(this.pestNaturalPredatorRepository);
     }
 
     @Test
@@ -67,71 +64,44 @@ public class PestNaturalPredatorServiceTest {
                 .thenReturn(java.util.Optional.ofNullable(this.pestNaturalPredator1));
         assertThat(this.pestNaturalPredatorService.readById((long)1))
                 .isEqualTo(this.pestNaturalPredator1);
-        verify(this.pestNaturalPredatorRepository, times(1)).findById((long)1);
-        verifyNoMoreInteractions(this.pestNaturalPredatorRepository);
     }
 
-    @Test
-    public void pestNaturalPredatorServiceTestReadByIdPestNaturalPredatorServiceEntityNotFoundException() {
+    @Test (expected = EntityNotFoundException.class)
+    public void pestNaturalPredatorServiceTestReadByIdPestNaturalPredatorServiceEntityNotFoundException() throws EntityNotFoundException {
         when(this.pestNaturalPredatorRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(null));
 
-        try {
             this.pestNaturalPredatorService.readById((long)1);
             fail("EntityNotFoundException it is not throws");
-        }  catch (EntityNotFoundException  e){
-            Assertions.assertThat(e.getMessage()).isEqualToIgnoringCase(null);
-        }
-        verify(this.pestNaturalPredatorRepository, times(1)).findById((long)1);
-        verifyNoMoreInteractions(this.pestNaturalPredatorRepository);
     }
 
-    @Test
-    public void pestNaturalPredatorServiceTestDeleteEntityNotFoundException() throws AnyPersistenceException, EntityInUseException {
+    @Test (expected = EntityNotFoundException.class)
+    public void pestNaturalPredatorServiceTestDeleteEntityNotFoundException() throws AnyPersistenceException, EntityInUseException, EntityNotFoundException {
         when(this.pestNaturalPredatorRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(null));
-        try {
+
             this.pestNaturalPredatorService.delete(this.pestNaturalPredator1.getId());
             fail("EntityNotFoundException it is not throws");
-        }  catch (EntityNotFoundException  e){
-            Assertions.assertThat(e.getMessage()).isEqualToIgnoringCase(null);
-        }
-        verify(this.pestNaturalPredatorRepository, times(1)).findById((long)1);
-        verifyNoMoreInteractions(this.pestNaturalPredatorRepository);
     }
 
-    @Test
-    public void pestNaturalPredatorServiceTestDeleteEntityInUseException() throws  AnyPersistenceException, EntityNotFoundException {
+    @Test (expected = EntityInUseException.class)
+    public void pestNaturalPredatorServiceTestDeleteEntityInUseException() throws AnyPersistenceException, EntityNotFoundException, EntityInUseException {
         when(this.pestNaturalPredatorRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.pestNaturalPredator1));
         doThrow(DataIntegrityViolationException.class).when(this.pestNaturalPredatorRepository).delete(this.pestNaturalPredator1);
-        try {
+
             this.pestNaturalPredatorService.delete(this.pestNaturalPredator1.getId());
             fail("EntityInUseException it is not throws");
-        }  catch (EntityInUseException  e){
-            Assertions.assertThat(e.getMessage()).isEqualToIgnoringCase(null);
-        }
-        verify(this.pestNaturalPredatorRepository, times(1)).findById((long)1);
-        verify(this.pestNaturalPredatorRepository, times(1)).delete(this.pestNaturalPredator1);
-        verifyNoMoreInteractions(this.pestNaturalPredatorRepository);
     }
 
-    @Test
-    public void pestNaturalPredatorServiceTestDeleteAnyPersistenceException() throws  EntityInUseException, EntityNotFoundException {
+    @Test (expected = AnyPersistenceException.class)
+    public void pestNaturalPredatorServiceTestDeleteAnyPersistenceException() throws EntityInUseException, EntityNotFoundException, AnyPersistenceException {
         when(this.pestNaturalPredatorRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.pestNaturalPredator1));
         doThrow(IllegalArgumentException.class).when(this.pestNaturalPredatorRepository).delete(this.pestNaturalPredator1);
 
-        try {
             this.pestNaturalPredatorService.delete(this.pestNaturalPredator1.getId());
             fail("AnyPersistenceException it is not throws");
-        }  catch (AnyPersistenceException  e){
-            Assertions.assertThat(e.getMessage()).isEqualToIgnoringCase(null);
-        }
-
-        verify(this.pestNaturalPredatorRepository, times(1)).findById((long)1);
-        verify(this.pestNaturalPredatorRepository, times(1)).delete(this.pestNaturalPredator1);
-        verifyNoMoreInteractions(this.pestNaturalPredatorRepository);
     }
 
     @Test
@@ -145,40 +115,21 @@ public class PestNaturalPredatorServiceTest {
         }  catch (Exception  e){
             fail("An exception throws, delete fails.");
         }
-
-        verify(this.pestNaturalPredatorRepository, times(1)).findById((long)1);
-        verify(this.pestNaturalPredatorRepository, times(1)).delete(this.pestNaturalPredator1);
-        verifyNoMoreInteractions(this.pestNaturalPredatorRepository);
     }
 
-    @Test
-    public void pestNaturalPredatorServiceTestCreateEntityAlreadyExistsException() throws AnyPersistenceException {
-        try {
+    @Test (expected = EntityAlreadyExistsException.class)
+    public void pestNaturalPredatorServiceTestCreateEntityAlreadyExistsException() throws AnyPersistenceException, EntityAlreadyExistsException {
             this.pestNaturalPredatorService.create(this.pestNaturalPredator1);
             fail("EntityAlreadyExistsException it is not throws");
-        }  catch (EntityAlreadyExistsException e){
-            Assertions.assertThat(e.getMessage()).isEqualToIgnoringCase(null);
-        }
-
-        verify(this.pestNaturalPredatorRepository, times(1)).findAll();
-        verifyNoMoreInteractions(this.pestNaturalPredatorRepository);
     }
 
-    @Test
-    public void pestNaturalPredatorServiceTestCreateAnyPersistenceException() throws EntityAlreadyExistsException {
+    @Test (expected = AnyPersistenceException.class)
+    public void pestNaturalPredatorServiceTestCreateAnyPersistenceException() throws EntityAlreadyExistsException, AnyPersistenceException {
         doThrow(IllegalArgumentException.class)
                 .when(this.pestNaturalPredatorRepository).save(any());
 
-        try {
             this.pestNaturalPredatorService.create(this.pestNaturalPredator3);
             fail("AnyPersistenceException it is not throws");
-        }  catch (AnyPersistenceException  e){
-            Assertions.assertThat(e.getMessage()).isEqualToIgnoringCase(null);
-        }
-
-        verify(this.pestNaturalPredatorRepository, times(1)).findAll();
-        verify(this.pestNaturalPredatorRepository, times(3)).save(any());
-        verifyNoMoreInteractions(this.pestNaturalPredatorRepository);
     }
 
     @Test
@@ -190,27 +141,19 @@ public class PestNaturalPredatorServiceTest {
         }  catch (Exception  e){
             fail("An exception throws, delete fails.s");
         }
-        verify(this.pestNaturalPredatorRepository, times(1)).findAll();
-        verify(this.pestNaturalPredatorRepository, times(1)).save(this.pestNaturalPredator3);
-        verifyNoMoreInteractions(this.pestNaturalPredatorRepository);
     }
 
-    @Test
-    public void pestNaturalPredatorServiceTestUpdateEntityNotFoundException() throws EntityAlreadyExistsException, AnyPersistenceException {
+    @Test (expected = EntityNotFoundException.class)
+    public void pestNaturalPredatorServiceTestUpdateEntityNotFoundException() throws EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
         when(this.pestNaturalPredatorRepository.findById((long)3))
                 .thenReturn(java.util.Optional.ofNullable(null));
-        try {
+
             this.pestNaturalPredatorService.update(this.pestNaturalPredator3);
             fail("EntityNotFoundException it is not throws");
-        }  catch (EntityNotFoundException  e){
-            Assertions.assertThat(e.getMessage()).isEqualToIgnoringCase(null);
-        }
-        verify(this.pestNaturalPredatorRepository, times(1)).findById((long)3);
-        verifyNoMoreInteractions(this.pestNaturalPredatorRepository);
     }
 
-    @Test
-    public void pestNaturalPredatorServiceTestUpdateEntityAlreadyExistsException() throws EntityNotFoundException, AnyPersistenceException {
+    @Test (expected = EntityAlreadyExistsException.class)
+    public void pestNaturalPredatorServiceTestUpdateEntityAlreadyExistsException() throws EntityNotFoundException, AnyPersistenceException, EntityAlreadyExistsException {
         PestNaturalPredator copyPest = this.pestNaturalPredator1;
         List<PestNaturalPredator> listPest = asList(this.pestNaturalPredator1,this.pestNaturalPredator2,copyPest);
         BDDMockito.when(pestNaturalPredatorRepository.findAll()).thenReturn(listPest);
@@ -218,34 +161,19 @@ public class PestNaturalPredatorServiceTest {
         when(this.pestNaturalPredatorRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.pestNaturalPredator1));
 
-        try {
             this.pestNaturalPredatorService.update(this.pestNaturalPredator1);
             fail("EntityAlreadyExistsException it is not throws");
-        }  catch (EntityAlreadyExistsException  e){
-            Assertions.assertThat(e.getMessage()).isEqualToIgnoringCase(null);
-        }
-        verify(this.pestNaturalPredatorRepository, times(1)).findById((long)1);
-        verify(this.pestNaturalPredatorRepository,times(1)).findAll();
-        verifyNoMoreInteractions(this.pestNaturalPredatorRepository);
     }
 
-    @Test
-    public void pestNaturalPredatorServiceTestUpdateAnyPersistenceException() throws EntityNotFoundException,EntityAlreadyExistsException {
+    @Test (expected = AnyPersistenceException.class)
+    public void pestNaturalPredatorServiceTestUpdateAnyPersistenceException() throws EntityNotFoundException, EntityAlreadyExistsException, AnyPersistenceException {
         when(this.pestNaturalPredatorRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.pestNaturalPredator1));
         doThrow(IllegalArgumentException.class).when(this.pestNaturalPredatorRepository).saveAndFlush(any());
 
-        try {
             this.pestNaturalPredator1.setUsualName("Test Fail");
             this.pestNaturalPredatorService.update(this.pestNaturalPredator1);
             fail("AnyPersistenceException it is not throws");
-        }  catch (AnyPersistenceException  e){
-            Assertions.assertThat(e.getMessage()).isEqualToIgnoringCase(null);
-        }
-        verify(this.pestNaturalPredatorRepository, times(1)).findById((long)1);
-        verify(this.pestNaturalPredatorRepository, times(1)).saveAndFlush(this.pestNaturalPredator1);
-        verify(this.pestNaturalPredatorRepository,times(1)).findAll();
-        verifyNoMoreInteractions(this.pestNaturalPredatorRepository);
     }
 
     @Test
@@ -263,10 +191,6 @@ public class PestNaturalPredatorServiceTest {
         }  catch (Exception  e){
             fail("An exception throws, delete fails.");
         }
-        verify(this.pestNaturalPredatorRepository, times(1)).findById((long)1);
-        verify(this.pestNaturalPredatorRepository, times(1)).saveAndFlush(this.pestNaturalPredator1);
-        verify(this.pestNaturalPredatorRepository,times(1)).findAll();
-        verifyNoMoreInteractions(this.pestNaturalPredatorRepository);
     }
 
 

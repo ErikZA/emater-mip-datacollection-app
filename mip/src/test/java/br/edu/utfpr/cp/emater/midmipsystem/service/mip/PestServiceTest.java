@@ -8,7 +8,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -56,8 +55,6 @@ public class PestServiceTest {
                 .containsExactlyInAnyOrder(this.pest1,this.pest2)
                 .doesNotContain(this.pest3)
                 .isNotEmpty().doesNotContainNull();
-        verify(this.pestRepository, times(1)).findAll();
-        verifyNoMoreInteractions(this.pestRepository);
     }
 
     @Test
@@ -66,71 +63,43 @@ public class PestServiceTest {
                 .thenReturn(java.util.Optional.ofNullable(this.pest1));
         assertThat(this.pestService.readById((long)1))
                 .isEqualTo(this.pest1);
-        verify(this.pestRepository, times(1)).findById((long)1);
-        verifyNoMoreInteractions(this.pestRepository);
     }
 
-    @Test
-    public void pestServiceTestReadByIdPestServiceEntityNotFoundException() {
+    @Test (expected = EntityNotFoundException.class)
+    public void pestServiceTestReadByIdPestServiceEntityNotFoundException() throws EntityNotFoundException {
         when(this.pestRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(null));
 
-        try {
             this.pestService.readById((long)1);
             fail("EntityNotFoundException it is not throws");
-        }  catch (EntityNotFoundException  e){
-            Assertions.assertThat(e.getMessage()).isEqualToIgnoringCase(null);
-        }
-        verify(this.pestRepository, times(1)).findById((long)1);
-        verifyNoMoreInteractions(this.pestRepository);
     }
 
-    @Test
-    public void pestServiceTestDeletePestServiceEntityNotFoundException() throws  AnyPersistenceException, EntityInUseException {
+    @Test (expected = EntityNotFoundException.class)
+    public void pestServiceTestDeletePestServiceEntityNotFoundException() throws AnyPersistenceException, EntityInUseException, EntityNotFoundException {
         when(this.pestRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(null));
-        try {
             this.pestService.delete(this.pest1.getId());
             fail("EntityNotFoundException it is not throws");
-        }  catch (EntityNotFoundException  e){
-            Assertions.assertThat(e.getMessage()).isEqualToIgnoringCase(null);
-        }
-        verify(this.pestRepository, times(1)).findById((long)1);
-        verifyNoMoreInteractions(this.pestRepository);
     }
 
-    @Test
-    public void pestServiceTestDeletePestServiceEntityInUseException() throws  AnyPersistenceException, EntityNotFoundException {
+    @Test (expected = EntityInUseException.class)
+    public void pestServiceTestDeletePestServiceEntityInUseException() throws AnyPersistenceException, EntityNotFoundException, EntityInUseException {
         when(this.pestRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.pest1));
         doThrow(DataIntegrityViolationException.class).when(this.pestRepository).delete(this.pest1);
-        try {
+
             this.pestService.delete(this.pest1.getId());
             fail("EntityInUseException it is not throws");
-        }  catch (EntityInUseException  e){
-            Assertions.assertThat(e.getMessage()).isEqualToIgnoringCase(null);
-        }
-        verify(this.pestRepository, times(1)).findById((long)1);
-        verify(this.pestRepository, times(1)).delete(this.pest1);
-        verifyNoMoreInteractions(this.pestRepository);
     }
 
-    @Test
-    public void pestServiceTestDeletePestServiceAnyPersistenceException() throws  EntityInUseException, EntityNotFoundException {
+    @Test (expected = AnyPersistenceException.class)
+    public void pestServiceTestDeletePestServiceAnyPersistenceException() throws EntityInUseException, EntityNotFoundException, AnyPersistenceException {
         when(this.pestRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.pest1));
         doThrow(IllegalArgumentException.class).when(this.pestRepository).delete(this.pest1);
 
-        try {
             this.pestService.delete(this.pest1.getId());
             fail("AnyPersistenceException it is not throws");
-        }  catch (AnyPersistenceException  e){
-            Assertions.assertThat(e.getMessage()).isEqualToIgnoringCase(null);
-        }
-
-        verify(this.pestRepository, times(1)).findById((long)1);
-        verify(this.pestRepository, times(1)).delete(this.pest1);
-        verifyNoMoreInteractions(this.pestRepository);
     }
 
     @Test
@@ -144,40 +113,21 @@ public class PestServiceTest {
         }  catch (Exception  e){
             fail("An exception throws, delete fails.");
         }
-
-        verify(this.pestRepository, times(1)).findById((long)1);
-        verify(this.pestRepository, times(1)).delete(this.pest1);
-        verifyNoMoreInteractions(this.pestRepository);
     }
 
-    @Test
-    public void createPestEntityAlreadyExistsException() throws AnyPersistenceException {
-        try {
+    @Test (expected = EntityAlreadyExistsException.class)
+    public void createPestEntityAlreadyExistsException() throws AnyPersistenceException, EntityAlreadyExistsException {
             this.pestService.create(this.pest1);
             fail("EntityAlreadyExistsException it is not throws");
-        }  catch (EntityAlreadyExistsException  e){
-            Assertions.assertThat(e.getMessage()).isEqualToIgnoringCase(null);
-        }
-
-        verify(this.pestRepository, times(1)).findAll();
-        verifyNoMoreInteractions(this.pestRepository);
     }
 
-    @Test
-    public void pestServiceTestCreatePestAnyPersistenceException() throws EntityAlreadyExistsException {
+    @Test (expected = AnyPersistenceException.class)
+    public void pestServiceTestCreatePestAnyPersistenceException() throws EntityAlreadyExistsException, AnyPersistenceException {
         doThrow(IllegalArgumentException.class)
                 .when(this.pestRepository).save(any());
 
-        try {
             this.pestService.create(this.pest3);
             fail("AnyPersistenceException it is not throws");
-        }  catch (AnyPersistenceException  e){
-            Assertions.assertThat(e.getMessage()).isEqualToIgnoringCase(null);
-        }
-
-        verify(this.pestRepository, times(1)).findAll();
-        verify(this.pestRepository, times(1)).save(any());
-        verifyNoMoreInteractions(this.pestRepository);
     }
 
     @Test
@@ -189,27 +139,19 @@ public class PestServiceTest {
         }  catch (Exception  e){
             fail("An exception throws, delete fails.s");
         }
-        verify(this.pestRepository, times(1)).findAll();
-        verify(this.pestRepository, times(1)).save(this.pest3);
-        verifyNoMoreInteractions(this.pestRepository);
     }
 
-    @Test
-    public void pestServiceTestUpdatePestEntityNotFoundException() throws EntityAlreadyExistsException, AnyPersistenceException {
+    @Test (expected = EntityNotFoundException.class)
+    public void pestServiceTestUpdatePestEntityNotFoundException() throws EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
         when(this.pestRepository.findById((long)3))
                 .thenReturn(java.util.Optional.ofNullable(null));
-        try {
+
             this.pestService.update(this.pest3);
             fail("EntityNotFoundException it is not throws");
-        }  catch (EntityNotFoundException  e){
-            Assertions.assertThat(e.getMessage()).isEqualToIgnoringCase(null);
-        }
-        verify(this.pestRepository, times(1)).findById((long)3);
-        verifyNoMoreInteractions(this.pestRepository);
     }
 
-    @Test
-    public void pestServiceTestUpdatePestEntityAlreadyExistsException() throws EntityNotFoundException, AnyPersistenceException {
+    @Test (expected = EntityAlreadyExistsException.class)
+    public void pestServiceTestUpdatePestEntityAlreadyExistsException() throws EntityNotFoundException, AnyPersistenceException, EntityAlreadyExistsException {
         Pest copyPest = this.pest1;
         List<Pest> listPest = asList(this.pest1,this.pest2,copyPest);
         BDDMockito.when(pestRepository.findAll()).thenReturn(listPest);
@@ -217,34 +159,19 @@ public class PestServiceTest {
         when(this.pestRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.pest1));
 
-        try {
             this.pestService.update(this.pest1);
             fail("EntityAlreadyExistsException it is not throws");
-        }  catch (EntityAlreadyExistsException  e){
-            Assertions.assertThat(e.getMessage()).isEqualToIgnoringCase(null);
-        }
-        verify(this.pestRepository, times(1)).findById((long)1);
-        verify(this.pestRepository,times(1)).findAll();
-        verifyNoMoreInteractions(this.pestRepository);
     }
 
-    @Test
-    public void pestServiceTestUpdatePestAnyPersistenceException() throws EntityNotFoundException,EntityAlreadyExistsException {
+    @Test (expected = AnyPersistenceException.class)
+    public void pestServiceTestUpdatePestAnyPersistenceException() throws EntityNotFoundException, EntityAlreadyExistsException, AnyPersistenceException {
         when(this.pestRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.pest1));
         doThrow(IllegalArgumentException.class).when(this.pestRepository).saveAndFlush(any());
 
-        try {
             this.pest1.setUsualName("Test Fail");
             this.pestService.update(this.pest1);
             fail("AnyPersistenceException it is not throws");
-        }  catch (AnyPersistenceException  e){
-            Assertions.assertThat(e.getMessage()).isEqualToIgnoringCase(null);
-        }
-        verify(this.pestRepository, times(1)).findById((long)1);
-        verify(this.pestRepository, times(1)).saveAndFlush(this.pest1);
-        verify(this.pestRepository,times(1)).findAll();
-        verifyNoMoreInteractions(this.pestRepository);
     }
 
     @Test
@@ -264,10 +191,6 @@ public class PestServiceTest {
         }  catch (Exception  e){
             fail("An exception throws, delete fails.");
         }
-        verify(this.pestRepository, times(1)).findById((long)1);
-        verify(this.pestRepository, times(1)).saveAndFlush(this.pest1);
-        verify(this.pestRepository,times(1)).findAll();
-        verifyNoMoreInteractions(this.pestRepository);
     }
 
 }

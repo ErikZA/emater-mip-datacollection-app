@@ -210,7 +210,7 @@ public class ChartView implements Serializable {
  
     private void createLineModels() {
         lineModel1 = initLinearModel();
-        lineModel1.setTitle("Linear Chart");
+        lineModel1.setTitle("Flutuação das Pragas");
         lineModel1.setLegendPosition("e");
         Axis yAxis = lineModel1.getAxis(AxisType.Y);
         yAxis.setMin(0);
@@ -503,7 +503,7 @@ public class ChartView implements Serializable {
         LineChartModel model = new LineChartModel();
  
         LineChartSeries series1 = new LineChartSeries();
-        series1.setLabel("Series 1");
+        series1.setLabel("Anticarsia sp. (> 1,5 cm)");
  
         series1.set(1, 2);
         series1.set(2, 1);
@@ -512,16 +512,37 @@ public class ChartView implements Serializable {
         series1.set(5, 8);
  
         LineChartSeries series2 = new LineChartSeries();
-        series2.setLabel("Series 2");
+        series2.setLabel("Chrysodeixis ssp. (> 1,5 cm)");
  
         series2.set(1, 6);
         series2.set(2, 3);
         series2.set(3, 2);
         series2.set(4, 7);
         series2.set(5, 9);
+
+        LineChartSeries series3 = new LineChartSeries();
+        series3.setLabel("Spodoptera ssp. (< & > 1,5 cm)");
  
+        series3.set(1, 3);
+        series3.set(2, 6);
+        series3.set(3, 7);
+        series3.set(4, 9);
+        series3.set(5, 2);
+
+        LineChartSeries series4 = new LineChartSeries();
+        series4.setLabel("Heliothinae (< & > 1,5 cm)");
+ 
+        series4.set(1, 9);
+        series4.set(2, 7);
+        series4.set(3, 1);
+        series4.set(4, 3);
+        series4.set(5, 6);
+        
+        
         model.addSeries(series1);
         model.addSeries(series2);
+        model.addSeries(series3);
+        model.addSeries(series4);
  
         return model;
     }

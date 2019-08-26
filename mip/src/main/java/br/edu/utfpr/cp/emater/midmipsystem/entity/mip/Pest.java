@@ -42,7 +42,8 @@ public class Pest extends AuditingPersistenceEntity implements Serializable {
     }
 
     public void setScientificName(String scientificName) {
-        this.scientificName = WordUtils.capitalize(scientificName.toLowerCase());
+        this.scientificName = scientificName;
+//        this.scientificName = WordUtils.capitalize(scientificName.toLowerCase());
     }
 
     @Builder

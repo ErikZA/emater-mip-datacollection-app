@@ -1,53 +1,67 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">      
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/templates/template.xhtml">
 
-    <h:body>
-        <ui:composition template="main.xhtml">     
-            <ui:define name="main-component">     
-                <p:panel style="margin-top: 15px">
+    <ui:define name="title">
+        Alterar Alvo Principal/Função
+    </ui:define>
 
-                    <f:facet name="header">
-                        <h4>Alterar Alvo Principal/Função</h4>
-                    </f:facet>     
+    <ui:define name="description">
+        <!--Alterar dados da macrorregião existente--> 
+    </ui:define>
 
-                    <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
-                        <p:outputLabel for="@next" value="Descrição"></p:outputLabel>
-                        <p:inputText value="#{targetController.description}" ></p:inputText>
-                        <p:message for="@previous" ></p:message>
+    <ui:define name="body">
+        <h:form id="form" prependId="false">
+            <p:focus context="@form"/>
+            <p:panel styleClass="box-primary card">
+                <div id="main-buttons" class="hidden-sm hidden-xs">
+                    <p:commandButton ajax="false" value="Alterar" action="#{targetController.update()}" 
+                                     icon="fa fa-check" styleClass="btn-warning"/>
 
-                        <p:outputLabel for="@next" value="Categoria" />
-                        <p:selectOneMenu required="true" requiredMessage="Deve ser selecionada uma cateogoria" value="#{targetController.category}" filter="true" filterMatchMode="contains">
-                            <f:selectItem itemLabel="Escolha uma Categoria" itemValue="" />
-                            <f:selectItems value="#{targetController.readAllTargetCategories()}" var="aCategory" itemLabel="#{aCategory.description}" itemValue="#{aCategory}"/>
-                        </p:selectOneMenu>
-                        <p:message for="@previous" ></p:message>
+                    <p:spacer width="5" />
 
-                    </p:panelGrid>
+                    <p:commandButton ajax="false" value="Cancelar" immediate="true"
+                                     action="index?faces-redirect=true"
+                                     process="@this"
+                                     icon="fa fa-reply"/>
+                </div>
+                <p:splitButton ajax="false" value="Alterar" action="#{targetController.update()}" 
+                               icon="fa fa-check"
+                               styleClass="hidden-md hidden-lg btn-warning">
 
-                    <h:inputHidden value="#{targetController.id}" ></h:inputHidden>
+                    <p:separator/>
 
-                    <f:facet name="footer">
-                        <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-                            <p:panelGrid columns="1" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"></p:panelGrid>
-                            <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+                    <p:menuitem ajax="false" value="Voltar" action="index?faces-redirect=true"
+                                process="@this" immediate="true"
+                                icon="fa fa-reply"/>
+                </p:splitButton>
 
-                                <p:button icon="fa fa-fw fa-ban" value="Cancelar" outcome="index.xhtml" ></p:button>
-                                <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" ajax="false" value="Alterar" action="#{targetController.update()}" ></p:commandButton>                                                    
+                <hr/>
 
-                            </p:panelGrid>
-                        </p:panelGrid>
-                    </f:facet>
+                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                    <p:outputLabel for="@next" value="Descrição"></p:outputLabel>
+                    <p:inputText value="#{targetController.description}" ></p:inputText>
+                    <p:message for="@previous" ></p:message>
 
-                </p:panel>
+                    <p:outputLabel for="@next" value="Categoria" />
+                    <p:selectOneMenu required="true" requiredMessage="Deve ser selecionada uma cateogoria" value="#{targetController.category}" filter="true" filterMatchMode="contains">
+                        <f:selectItem itemLabel="Escolha uma Categoria" itemValue="" />
+                        <f:selectItems value="#{targetController.readAllTargetCategories()}" var="aCategory" itemLabel="#{aCategory.description}" itemValue="#{aCategory}"/>
+                    </p:selectOneMenu>
+                    <p:message for="@previous" ></p:message>
 
-            </ui:define>
-        </ui:composition>
+                </p:panelGrid>
 
-    </h:body>
-</html>
+                <h:inputHidden value="#{targetController.id}" ></h:inputHidden>
+
+            </p:panel>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+
 

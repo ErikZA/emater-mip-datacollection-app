@@ -20,7 +20,7 @@
             <p:focus context="@form"/>
             <p:panel styleClass="box-primary card">
                 <div id="main-buttons" class="hidden-sm hidden-xs">
-                    <p:commandButton ajax="false" value="Criar" action="#{midRustSampleController.create()}" 
+                    <p:commandButton ajax="false" value="Salvar" action="#{midRustSampleController.create()}" 
                                      icon="fa fa-check" styleClass="btn-primary"/>
 
                     <p:spacer width="5" />
@@ -30,7 +30,7 @@
                                      process="@this"
                                      icon="fa fa-reply"/>
                 </div>
-                <p:splitButton ajax="false" value="Criar" action="#{midRustSampleController.create()}" 
+                <p:splitButton ajax="false" value="Salvar" action="#{midRustSampleController.create()}" 
                                icon="fa fa-check"
                                styleClass="hidden-md hidden-lg btn-primary">
 
@@ -52,7 +52,7 @@
 
                                 <p:panelGrid columns="1" >
                                     <p:outputLabel for="@next" value="Data da Coleta"></p:outputLabel>
-                                    <p:calendar mode="inline" value="#{midRustSampleController.sampleDate}" ></p:calendar>
+                                    <p:datePicker inline="true" value="#{midRustSampleController.sampleDate}" ></p:datePicker>
                                     <p:message for="@previous" ></p:message>
                                 </p:panelGrid>
 
@@ -69,7 +69,7 @@
                                     <f:facet name="header">
                                         Selecione Responsável pela Leitura da Lâmina
                                     </f:facet>
-                                    <p:column selectionMode="single" style="width:16px;text-align:center" />
+                                    <p:column selectionMode="single" style="width:32px;text-align:center" />
 
                                     <p:column headerText="Nome" filterBy="#{aPerson.name}" filterMatchMode="contains">
                                         <h:outputText value="#{aPerson.name}" />
@@ -85,17 +85,21 @@
 
                                 </p:dataTable>  
 
-                                <p:panelGrid columns="1" >
-                                    <p:outputLabel for="@next" value="Resultado da Leitura da Lâmina para Uredosporos da Ferrugem Asiática" />
-                                    <p:selectOneListbox required="true" requiredMessage="Deve ser selecionado um valor na lista" value="#{midRustSampleController.bladeReadingRustResultCollector}" filter="true" filterMatchMode="contains">
-                                        <f:selectItems value="#{midRustSampleController.readAllAsiaticRustTypesSporeCollector()}" var="aAsiaticRustSporeType" itemLabel="#{aAsiaticRustSporeType.description}" itemValue="#{aAsiaticRustSporeType}"/>
-                                    </p:selectOneListbox>
-                                    <p:message for="@previous" ></p:message>
-                                </p:panelGrid>                                    
+                                <p:panelGrid columns="2" >
+                                    <p:panelGrid columns="1" >
+                                        <p:outputLabel for="@next" value="Resultado da Leitura da Lâmina para Uredosporos da Ferrugem Asiática" />
+                                        <p:selectOneListbox required="true" requiredMessage="Deve ser selecionado um valor na lista" value="#{midRustSampleController.bladeReadingRustResultCollector}" filter="true" filterMatchMode="contains">
+                                            <f:selectItems value="#{midRustSampleController.readAllAsiaticRustTypesSporeCollector()}" var="aAsiaticRustSporeType" itemLabel="#{aAsiaticRustSporeType.description}" itemValue="#{aAsiaticRustSporeType}"/>
+                                        </p:selectOneListbox>
+                                        <p:message for="@previous" ></p:message>
+                                    </p:panelGrid>
 
-                                <p:outputLabel for="@next" value="Data de Leitura da Lâmina"></p:outputLabel>
-                                <p:calendar mode="inline" value="#{midRustSampleController.bladeReadingDate}" ></p:calendar>
-                                <p:message for="@previous" ></p:message>
+                                    <p:panelGrid columns="1" >
+                                        <p:outputLabel for="@next" value="Data de Leitura da Lâmina"></p:outputLabel>
+                                        <p:datePicker inline="true" value="#{midRustSampleController.bladeReadingDate}" ></p:datePicker>
+                                        <p:message for="@previous" ></p:message>
+                                    </p:panelGrid>
+                                </p:panelGrid>                                    
 
                                 <p:selectBooleanCheckbox value="#{midRustSampleController.bladeInstalledPreCold}" itemLabel="Lâmina Colocada na Véspera da Frente Fria?"/>
 
@@ -135,7 +139,7 @@
                                 <p:selectBooleanCheckbox value="#{midRustSampleController.otherDiseasesApplication}" itemLabel="Aplicou para Outras Doenças?"/>
 
                                 <p:outputLabel for="@next" value="Data de Aplicação do Fungicida"></p:outputLabel>
-                                <p:calendar mode="inline" value="#{midRustSampleController.fungicideApplicationDate}" ></p:calendar>
+                                <p:datePicker inline="true" value="#{midRustSampleController.fungicideApplicationDate}" ></p:datePicker>
                                 <p:message for="@previous" ></p:message>
 
 

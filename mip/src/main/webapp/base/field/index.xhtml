@@ -3,7 +3,9 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
-                template="/WEB-INF/templates/template.xhtml">
+                template="/WEB-INF/templates/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
 
     <ui:define name="metadata">
         <ui:param name="title" value="Gerenciamento de Unidades de Referência"/> 
@@ -34,7 +36,7 @@
 
                     <p:separator/>
 
-                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{fieldController.readAll()}" var="aField" >
+                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" value="#{fieldController.readAll()}" var="aField" >
 
                         <p:column headerText="Identificação" filterBy="#{aField.name}" filterMatchMode="contains">
                             <h:outputText value="#{aField.name}" />
@@ -69,7 +71,11 @@
                                 <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes btn-danger" icon="fa fa-fw fa-trash" />
                                 <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no btn-primary" icon="fa fa-fw fa-ban" />
                             </p:confirmDialog>                          
-                        </p:column>                    
+                        </p:column>   
+
+                        <f:facet name="footer">
+                            #{fn:length(fieldController.readAll())} Unidades de referência foram encontradas.
+                        </f:facet>
                     </p:dataTable>
                 </div>
             </div>

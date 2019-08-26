@@ -1,60 +1,69 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">      
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/templates/template.xhtml">
 
-    <h:body>
-        <ui:composition template="main.xhtml">     
-            <ui:define name="main-component">       
+    <ui:define name="title">
+        Criar Nova Safra
+    </ui:define>
 
-                <p:panel style="margin-top: 15px">
+    <ui:define name="description">
+        <!--Cadastrar nova macrorregião no sistema--> 
+    </ui:define>
 
-                    <f:facet name="header">
-                        <h4>Criar Nova Safra</h4>
-                    </f:facet>     
+    <ui:define name="body">
+        <h:form id="form" prependId="false">
+            <p:focus context="@form"/>
+            <p:panel styleClass="box-primary card">
+                <div id="main-buttons" class="hidden-sm hidden-xs">
+                    <p:commandButton ajax="false" value="Salvar" action="#{harvestController.create()}" 
+                                     icon="fa fa-check" styleClass="btn-primary"/>
 
-                    <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
-                        <p:outputLabel for="@next" value="Nome"></p:outputLabel>
-                        <p:inputText value="#{harvestController.name}" ></p:inputText>
-                        <p:message for="@previous" ></p:message>
+                    <p:spacer width="5" />
 
-                        <p:panelGrid columns="2" layout="grid" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
-                            <p:panelGrid columns="1">
-                                <p:outputLabel for="@next" value="Data de Início"></p:outputLabel>
-                                <p:calendar required="true" requiredMessage="Deve ser informada a data de início da safra" value="#{harvestController.begin}" ></p:calendar>
-                                <p:message for="@previous" ></p:message>
-                            </p:panelGrid>
+                    <p:commandButton ajax="false" value="Cancelar" immediate="true"
+                                     action="index?faces-redirect=true"
+                                     process="@this"
+                                     icon="fa fa-reply"/>
+                </div>
+                <p:splitButton ajax="false" value="Salvar" action="#{harvestController.create()}" 
+                               icon="fa fa-check"
+                               styleClass="hidden-md hidden-lg btn-primary">
 
-                            <p:panelGrid columns="1">
-                                <p:outputLabel for="@next" value="Data de Término"></p:outputLabel>
-                                <p:calendar required="true" requiredMessage="Deve ser informada a data de término da safra" value="#{harvestController.end}" ></p:calendar>
-                                <p:message for="@previous" ></p:message>
+                    <p:separator/>
 
-                            </p:panelGrid>
+                    <p:menuitem ajax="false" value="Voltar" action="index?faces-redirect=true"
+                                process="@this" immediate="true"
+                                icon="fa fa-reply"/>
+                </p:splitButton>
+
+                <hr/>
+
+                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                    <p:outputLabel for="@next" value="Nome"></p:outputLabel>
+                    <p:inputText value="#{harvestController.name}" ></p:inputText>
+                    <p:message for="@previous" ></p:message>
+
+                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" styleClass="ui-panelgrid-blank ui-fluid">
+                        <p:panelGrid columns="1">
+                            <p:outputLabel for="@next" value="Data de Início"></p:outputLabel>
+                            <p:datePicker inline="true" required="true" requiredMessage="Deve ser informada a data de início da safra" value="#{harvestController.begin}" ></p:datePicker>
+                            <p:message for="@previous" ></p:message>
+                        </p:panelGrid>
+
+                        <p:panelGrid columns="1">
+                            <p:outputLabel for="@next" value="Data de Término"></p:outputLabel>
+                            <p:datePicker inline="true" required="true" requiredMessage="Deve ser informada a data de término da safra" value="#{harvestController.end}" ></p:datePicker>
+                            <p:message for="@previous" ></p:message>
                         </p:panelGrid>
 
                     </p:panelGrid>
+                </p:panelGrid>
+            </p:panel>
 
-                    <f:facet name="footer">
-                        <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-                            <p:panelGrid columns="1" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"></p:panelGrid>
-                            <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-
-                                <p:button icon="fa fa-fw fa-ban" value="Cancelar" outcome="index.xhtml" ></p:button>
-                                <p:commandButton ajax="false" icon="fa fa-fw fa-save" value="Criar" action="#{harvestController.create()}" ></p:commandButton>                                                    
-
-                            </p:panelGrid>
-                        </p:panelGrid>
-                    </f:facet>
-
-                </p:panel>
-
-            </ui:define>
-        </ui:composition>
-
-    </h:body>
-</html>
-
+        </h:form>
+    </ui:define>
+</ui:composition>

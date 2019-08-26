@@ -1,42 +1,75 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">      
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
 
-    <h:body>
-        <ui:composition template="main.xhtml">     
-            <ui:define name="main-component">
+    <ui:define name="metadata">
+        <ui:param name="title" value="Gerenciamento de Insetos Pragas"/> 
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+        </style>
+    </ui:define>
 
-                <p:dataTable id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" var="aPest" value="#{pestController.readAll()}">
-                    <p:column headerText="Nome" >
-                        <h:outputText value="#{aPest.usualName}" />
-                    </p:column>
-                    <p:column headerText="Nome Científico" >
-                        <h:outputText value="#{aPest.scientificName}" />
-                    </p:column>
-                    <p:column headerText="Tamanho" >
-                        <h:outputText value="#{aPest.pestSizeName}" />
-                    </p:column>                    
-                    <p:column headerText="Ações" width="100">
-                        <p:commandButton style="background-color: orange; border-color: orange" icon="fa fa-fw fa-pencil" action="#{pestController.prepareUpdate(aPest.id)}" ></p:commandButton>
-                        <p:tooltip for="@previous" value="Alterar" position="top" />
+    <ui:define name="description">
+        <!--Criar, alterar, listar e excluir regiões-->
+    </ui:define>
 
-                        <p:commandButton update="mainTable :growl" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" action="#{pestController.delete(aPest.id)}" >
-                            <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir o inseto praga '#{aPest.usualName}'? Essa ação NÃO pode ser desfeita." />
-                        </p:commandButton>
-                        <p:tooltip for="@previous" value="Excluir" position="top" />
+    <ui:define name="body">
+        <h:form>
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div id="main-buttons" class="hidden-sm hidden-xs">
+                        <p:commandButton action="create?faces-redirect=true" icon="fa fa-plus"
+                                         value="Novo Inseto Praga" styleClass="btn-primary"/>
+                        <p:spacer width="5"/>
+                    </div>
 
-                        <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
-                            <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes" style="background-color: red; border-color: red" icon="fa fa-fw fa-trash" />
-                            <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-ban" />
-                        </p:confirmDialog>                           
-                    </p:column>                    
-                </p:dataTable>
+                    <p:splitButton value="Novo Inseto Praga" action="create?faces-redirect=true"
+                                   icon="fa fa-plus"
+                                   styleClass="hidden-md hidden-lg btn-primary">
+                    </p:splitButton>
 
-            </ui:define>
-        </ui:composition>
-    </h:body>
-</html>
+                    <p:separator/>
+
+                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" var="aPest" value="#{pestController.readAll()}" >
+                        <p:column headerText="Nome" filterBy="#{aPest.usualName}" filterMatchMode="contains" >
+                            <h:outputText value="#{aPest.usualName}" />
+                        </p:column>
+                        <p:column headerText="Nome Científico" filterBy="#{aPest.scientificName}" filterMatchMode="contains" >
+                            <h:outputText value="#{aPest.scientificName}" />
+                        </p:column>
+                        <p:column headerText="Tamanho" filterBy="#{aPest.pestSizeName}" filterMatchMode="contains" >
+                            <h:outputText value="#{aPest.pestSizeName}" />
+                        </p:column>                    
+
+                        <p:column headerText="Ações" width="100">
+                            <p:commandButton ajax="false" styleClass="btn-warning" icon="fa fa-fw fa-pencil" action="#{pestController.prepareUpdate(aPest.id)}" ></p:commandButton>
+                            <p:tooltip for="@previous" value="Alterar" position="top" />
+
+                            <p:commandButton update="mainTable" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{pestController.delete(aPest.id)}" >
+                                <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir o inseto praga '#{aPest.usualName}'? Essa ação NÃO pode ser desfeita." />
+                            </p:commandButton>
+                            <p:tooltip for="@previous" value="Excluir" position="top" />
+
+                            <p:confirmDialog global="true" responsive="true" showEffect="fade" hideEffect="fade" closable="false" >
+                                <p:commandButton value="Excluir" styleClass="ui-confirmdialog-yes btn-danger" icon="fa fa-fw fa-trash" />
+                                <p:commandButton value="Cancelar" styleClass="ui-confirmdialog-no btn-primary" icon="fa fa-fw fa-ban" />
+                            </p:confirmDialog>                         
+                        </p:column>   
+
+                        <f:facet name="footer">
+                            #{fn:length(pestController.readAll())} Pragas foram encontradas.
+                        </f:facet>
+                    </p:dataTable>   
+
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,52 +1,63 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">      
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/templates/template.xhtml">
 
-    <h:body>
-        <ui:composition template="main.xhtml">     
-            <ui:define name="main-component">      
+    <ui:define name="title">
+        Criar Nova Entidade para Leitura de Lâminas
+    </ui:define>
 
-                <p:panel style="margin-top: 15px">
+    <ui:define name="description">
+        <!--Cadastrar nova macrorregião no sistema--> 
+    </ui:define>
 
-                    <f:facet name="header">
-                        <h4>Criar Entidade para Leitura de Lâminas</h4>
-                    </f:facet>     
+    <ui:define name="body">
+        <h:form id="form" prependId="false">
+            <p:focus context="@form"/>
+            <p:panel styleClass="box-primary card">
+                <div id="main-buttons" class="hidden-sm hidden-xs">
+                    <p:commandButton ajax="false" value="Salvar" action="#{bladeReadingResponsibleEntityController.create()}" 
+                                     icon="fa fa-check" styleClass="btn-primary"/>
 
-                    <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
-                        <p:outputLabel for="@next" value="Nome"></p:outputLabel>
-                        <p:inputText value="#{bladeReadingResponsibleEntityController.name}" ></p:inputText>
-                        <p:message for="@previous" ></p:message>
+                    <p:spacer width="5" />
 
-                        <p:outputLabel for="@next" value="Município" />                        
-                        <p:selectOneMenu required="true" requiredMessage="Deve ser selecionado um município" value="#{bladeReadingResponsibleEntityController.selectedCityId}" filter="true" filterMatchMode="contains">
-                            <f:selectItem itemLabel="Selecione um município" itemValue="" />
-                            <f:selectItems value="#{bladeReadingResponsibleEntityController.readAllCities()}" var="aCity" itemLabel="#{aCity.name}" itemValue="#{aCity.id}"/>
-                        </p:selectOneMenu>
-                        <p:message for="@previous" ></p:message>
+                    <p:commandButton ajax="false" value="Cancelar" immediate="true"
+                                     action="index?faces-redirect=true"
+                                     process="@this"
+                                     icon="fa fa-reply"/>
+                </div>
+                <p:splitButton ajax="false" value="Salvar" action="#{bladeReadingResponsibleEntityController.create()}" 
+                               icon="fa fa-check"
+                               styleClass="hidden-md hidden-lg btn-primary">
 
-                    </p:panelGrid>
+                    <p:separator/>
 
-                    <f:facet name="footer">
-                        <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-                            <p:panelGrid columns="1" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"></p:panelGrid>
-                            <p:panelGrid columns="2" columnClasses="ui-lg-6 ui-g-6 ui-md-6 ui-sm-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+                    <p:menuitem ajax="false" value="Voltar" action="index?faces-redirect=true"
+                                process="@this" immediate="true"
+                                icon="fa fa-reply"/>
+                </p:splitButton>
 
-                                <p:button icon="fa fa-fw fa-ban" value="Cancelar" outcome="index.xhtml" ></p:button>
-                                <p:commandButton ajax="false" icon="fa fa-fw fa-save" value="Criar" action="#{bladeReadingResponsibleEntityController.create()}" ></p:commandButton>                                                    
+                <hr/>
 
-                            </p:panelGrid>
-                        </p:panelGrid>
-                    </f:facet>
+                <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
+                    <p:outputLabel for="@next" value="Nome"></p:outputLabel>
+                    <p:inputText value="#{bladeReadingResponsibleEntityController.name}" ></p:inputText>
+                    <p:message for="@previous" ></p:message>
 
-                </p:panel>
+                    <p:outputLabel for="@next" value="Município" />                        
+                    <p:selectOneMenu required="true" requiredMessage="Deve ser selecionado um município" value="#{bladeReadingResponsibleEntityController.selectedCityId}" filter="true" filterMatchMode="contains">
+                        <f:selectItem itemLabel="Selecione um município" itemValue="" />
+                        <f:selectItems value="#{bladeReadingResponsibleEntityController.readAllCities()}" var="aCity" itemLabel="#{aCity.name}" itemValue="#{aCity.id}"/>
+                    </p:selectOneMenu>
+                    <p:message for="@previous" ></p:message>
 
-            </ui:define>
-        </ui:composition>
+                </p:panelGrid>
 
-    </h:body>
-</html>
+            </p:panel>
 
+        </h:form>
+    </ui:define>
+</ui:composition>

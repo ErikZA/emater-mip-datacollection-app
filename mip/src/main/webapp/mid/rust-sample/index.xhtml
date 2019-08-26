@@ -4,7 +4,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                template="/WEB-INF/templates/template.xhtml">
+                template="/WEB-INF/templates/template.xhtml"
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
 
     <ui:define name="metadata">
         <ui:param name="title" value="Monitoramento da Ferrugem"/> 
@@ -25,7 +26,7 @@
 
                     <p:separator/>
 
-                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="10" paginator="true" value="#{midRustSampleController.readAllSurveysUniqueEntries()}" var="aSurvey" >                    
+                    <p:dataTable paginatorPosition="bottom" id="mainTable" rowsPerPageTemplate="5,10,15" reflow="true" rows="5" paginator="true" value="#{midRustSampleController.readAllSurveysUniqueEntries()}" var="aSurvey" >                    
 
                         <p:column headerText="Safra" filterBy="#{aSurvey.harvestName}" filterMatchMode="contains" >
                             <h:outputText value="#{aSurvey.harvestName}" />
@@ -57,8 +58,11 @@
 
                             <p:commandButton ajax="false" styleClass="btn-success" icon="fa fa-fw fa-leaf" action="#{midRustSampleController.selectTargetSurvey(aSurvey.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Adicionar monitoramento da ferrugem para esta UR" position="top" />                        
-
                         </p:column> 
+
+                        <f:facet name="footer">
+                            #{fn:length(midRustSampleController.readAllSurveysUniqueEntries())} URs possuem monitoramento de ferrugem para alguma safra.
+                        </f:facet>
                     </p:dataTable>  
 
                 </div>

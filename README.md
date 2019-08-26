@@ -26,10 +26,20 @@ Atualmente, as principais tecnologias usadas são:
 - Edivan José Possamai (Coordenador Estadual do Projeto Grãos)
 - Dr. Nelson Harger 
 
-## Alunos participantes do projeto
-- Lucas Barbosa da Costa (Engenharia de Computação (Concluído 2018/2), UTFPR - CP)
-- Gabriel Grazionale (Engenharia de Software (Concluído 2018/2), UTFPR - CP)
-- Thales Martins Ferreira (Engenharia de Computação (TCC 2 em andamento), UTFPR - CP)
-- Flavio Vinicius Martins Dos Santos (Engenharia de Computação (TCC 2 em andamento), UTFPR - CP)
-- Erik Henrique De Oliveira Zambeli (Engenharia De Software (TCC 1 em andamento), UTFPR - CP)
+## Demais parceiros do projeto
+- Embrapa Soja
+- SENAR
 
+## Alunos que já participaram do projeto 
+- Lucas Barbosa da Costa, Engenharia de Computação, TCC concluído 2018/2, UTFPR - CP
+- Gabriel Grazionale, Engenharia de Software, TCC concluído 2018/2, UTFPR - CP
+- Thales Martins Ferreira, Engenharia de Computação, TCC concluído 2019/1, UTFPR - CP
+
+## Alunos atualmente participando do projeto
+- Flavio Vinicius Martins Dos Santos, Engenharia de Computação, TCC 2 em andamento, UTFPR - CP
+- Erik Henrique De Oliveira Zambeli, Engenharia De Software, TCC 2 em andamento, UTFPR - CP
+- Allan Silveira Mariano de Souza, Projeto de iniciação tecnológica, UTFPR - CP
+- Bruna Quispe Oruchi, Projeto de iniciação tecnológica, UTFPR - CP
+- Bruno Oliveira Galvão de Arruda, Projeto de iniciação tecnológica, UTFPR - CP
+- Hamad Musa Ali Neto, Projeto de iniciação tecnológica, UTFPR - CP
+- Lucas Carvalho Silva, Projeto de iniciação tecnológica, UTFPR - CP

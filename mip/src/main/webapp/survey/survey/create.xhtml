@@ -20,7 +20,7 @@
             <p:focus context="@form"/>
             <p:panel styleClass="box-primary card">
                 <div id="main-buttons" class="hidden-sm hidden-xs">
-                    <p:commandButton ajax="false" value="Adicionar à Pesquisa" action="#{surveyController.create()}" 
+                    <p:commandButton disabled="true" id="saveButton" ajax="false" value="Adicionar à Pesquisa" action="#{surveyController.create()}" 
                                      icon="fa fa-check" styleClass="btn-primary"/>
 
                     <p:spacer width="5" />
@@ -43,7 +43,7 @@
 
                 <hr/>
 
-                <p:wizard nextLabel="Próximo" backLabel="Anterior" >     
+                <p:wizard widgetVar="wizard" nextLabel="Próximo" backLabel="Anterior" onback="if (PF('wizard').currentStep != PF('wizard').cfg.steps[PF('wizard').cfg.steps.length - 2]) document.getElementById('saveButton').classList.add('ui-state-disabled')" onnext="if (PF('wizard').currentStep == PF('wizard').cfg.steps[PF('wizard').cfg.steps.length - 2]) document.getElementById('saveButton').classList.remove('ui-state-disabled')" >     
 
                         <p:tab title="Safra">
                             <p:panel header="Passo 1/5: Selecionar Safra">
@@ -109,23 +109,23 @@
                                 <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
 
                                     <p:outputLabel for="@next" value="Área da Unidade (UO/UR)"></p:outputLabel>
-                                    <p:inputNumber decimalSeparator="," value="#{surveyController.totalArea}" ></p:inputNumber>
+                                    <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.totalArea}" ></p:inputNumber>
                                     <p:message for="@previous" ></p:message>
 
                                     <p:outputLabel for="@next" value="Área Total Cultivada"></p:outputLabel>
-                                    <p:inputNumber decimalSeparator="," value="#{surveyController.totalPlantedArea}" ></p:inputNumber>
+                                    <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.totalPlantedArea}" ></p:inputNumber>
                                     <p:message for="@previous" ></p:message>
 
                                     <p:outputLabel for="@next" value="No. Plantas/Metro"></p:outputLabel>
-                                    <p:inputNumber decimalSeparator="," value="#{surveyController.plantPerMeter}" ></p:inputNumber>
+                                    <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.plantPerMeter}" ></p:inputNumber>
                                     <p:message for="@previous" ></p:message>
 
                                     <p:outputLabel for="@next" value="Latitude"></p:outputLabel>
-                                    <p:inputNumber decimalSeparator="," value="#{surveyController.latitude}" ></p:inputNumber>
+                                    <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.latitude}" ></p:inputNumber>
                                     <p:message for="@previous" ></p:message>
 
                                     <p:outputLabel for="@next" value="Longitude"></p:outputLabel>
-                                    <p:inputNumber value="#{surveyController.longitude}" ></p:inputNumber>
+                                    <p:inputNumber decimalSeparator="," thousandSeparator="." value="#{surveyController.longitude}" ></p:inputNumber>
                                     <p:message for="@previous" ></p:message>
 
                                 </p:panelGrid>                                                                                
@@ -157,19 +157,19 @@
 
                                     <p:panelGrid columns="1">
                                         <p:outputLabel for="@next" value="Data da Semeadura"></p:outputLabel>
-                                        <p:calendar value="#{surveyController.sowedDate}" mode="inline"></p:calendar>
+                                        <p:datePicker inline="true" value="#{surveyController.sowedDate}" ></p:datePicker>
                                         <p:message for="@previous" ></p:message>
                                     </p:panelGrid>
 
                                     <p:panelGrid columns="1">
                                         <p:outputLabel for="@next" value="Data da Emergência"></p:outputLabel>
-                                        <p:calendar value="#{surveyController.emergenceDate}" mode="inline"></p:calendar>
+                                        <p:datePicker inline="true"  value="#{surveyController.emergenceDate}" ></p:datePicker>
                                         <p:message for="@previous" ></p:message>
                                     </p:panelGrid>
 
                                     <p:panelGrid columns="1">
                                         <p:outputLabel for="@next" value="Data da Colheita"></p:outputLabel>
-                                        <p:calendar value="#{surveyController.harvestDate}" mode="inline" ></p:calendar>
+                                        <p:datePicker inline="true" value="#{surveyController.harvestDate}" ></p:datePicker>
                                         <p:message for="@previous" ></p:message>
                                     </p:panelGrid>
 

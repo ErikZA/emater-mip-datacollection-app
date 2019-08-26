@@ -44,11 +44,6 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.HarvestRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import org.eclipse.jdt.core.compiler.CharOperation;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -62,10 +57,12 @@ import br.edu.utfpr.cp.emater.midmipsystem.repository.mid.MIDRustSampleRepositor
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.ProductRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.PulverisationOperationRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.pulverisation.TargetRepository;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @SpringBootApplication
 @EnableJpaAuditing
-public class MipApplication {
+@EnableWebSecurity
+public class MipApplication  {
 
     public static void main(String[] args) {
         SpringApplication.run(MipApplication.class, args);
@@ -446,8 +443,10 @@ class CLR implements CommandLineRunner {
         mipSampleRepository.save(mipSurvey4Sample2);
 
         var bladeEntity1 = bladeEntityRepository.save(BladeReadingResponsibleEntity.builder().name("EMATER - PB").city(c3).build());
+        var bladeEntity2 = bladeEntityRepository.save(BladeReadingResponsibleEntity.builder().name("EMATER - CP").city(c3).build());
 
         var bladePerson1 = bladePersonRepository.save(BladeReadingResponsiblePerson.builder().name("Gustavo M. de Oliveira").entity(bladeEntity1).build());
+        var bladePerson2 = bladePersonRepository.save(BladeReadingResponsiblePerson.builder().name("Otávio Augusto").entity(bladeEntity2).build());
 
         var rustSurvey3Sample1 = MIDRustSample.builder().survey(survey3).sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-11-01")).build();
         var sporeCollectorOccurrenceRustSurvey3Sample1 = MIDSampleSporeCollectorOccurrence.builder()
@@ -629,9 +628,9 @@ class CLR implements CommandLineRunner {
                 .growthPhase(GrowthPhase.V6)
                 .caldaVolume(100.0)
                 .build();
-        
+
         pulverisationOp2Survey2.addOperationOccurrence(product1, 13.0, target5);
-        
+
         pulverisationRepository.save(pulverisationOp2Survey2);
     }
 

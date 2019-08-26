@@ -5,7 +5,7 @@
                 template="/admin.xhtml"> 
 
     <ui:define name="head">
-        <title>Admin Starter</title>
+        <title>Sistema MIP/MID</title>
     </ui:define>
 
     <ui:define name="logo-lg">
@@ -71,37 +71,142 @@
                 </ul>
             </li>
 
-            <li>
-                <p:link outcome="/survey/survey/index.xhtml">
+            <li class="treeview">
+                <a href="#">
                     <i class="fa fw fa-book"></i>
                     <span>URs Participantes da Pesquisa</span>
-                </p:link>
-            </li>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <p:link outcome="/survey/survey/index.xhtml">
+                            <i class="fa fw fa-book"></i>
+                            <span>Gerenciamento das URs na Pesquisa</span>
+                        </p:link>
+                    </li>
+                    <li>
+                        <p:link outcome="/survey/harvest/index.xhtml" title="Gerenciamento das Safras">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Safra</span>
+                        </p:link>
+                    </li>
+                </ul>
+            </li>            
 
-            <li>
-                <p:link outcome="/mip/mip-sample/index.xhtml">
+            <li class="treeview">
+                <a href="#">
                     <i class="fa fw fa-bug"></i>
-                    <span>Anotações de Campo</span>
-                </p:link>
+                    <span>MIP</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <p:link outcome="/mip/mip-sample/index.xhtml" title="Flutuação de Pragas">
+                            <i class="fa fw fa-bug"></i>
+                            <span>Anotações de Campo</span>
+                        </p:link>
+                    </li>  
+                    <li>
+                        <p:link outcome="/mip/pest/index.xhtml" title="Gerenciamento de Pragas">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Pragas</span>
+                        </p:link>
+                    </li>
+                    <li>
+                        <p:link outcome="/mip/pest-disease/index.xhtml" title="Gerenciamento de Doenças das Pragas">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Doenças das Pragas</span>
+                        </p:link>
+                    </li>
+                    <li>
+                        <p:link outcome="/mip/pest-natural-predator/index.xhtml" title="Gerenciamento de Inimigos Naturais de Pragas">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Inimigos Naturais</span>
+                        </p:link>
+                    </li>
+
+                </ul>
             </li>            
 
-            <li>
-                <p:link outcome="/mid/rust-sample/index.xhtml">
+            <li class="treeview">
+                <a href="#">
                     <i class="fa fw fa-leaf"></i>
-                    <span>Monitoramento da Ferrugem</span>
-                </p:link>
+                    <span>MID</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <p:link outcome="/mid/rust-sample/index.xhtml" title="Monitoramento da Ferrugem">
+                            <i class="fa fw fa-leaf"></i>
+                            <span>Monitoramento da Ferrugem</span>
+                        </p:link>
+                    </li>  
+
+                    <li>
+                        <p:link outcome="/mid/blade-reading-entity/index.xhtml" title="Gerenciamento de Entidades">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Entidades</span>
+                        </p:link>
+                    </li>  
+
+
+                    <li>
+                        <p:link outcome="/mid/blade-reading-person/index.xhtml" title="Gerenciamento de Profissionais para Leitura">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Profissionais</span>
+                        </p:link>
+                    </li>  
+
+                </ul>
             </li>            
 
-            <li>
-                <p:link outcome="/pulverisation/pulverisation-operation/index.xhtml">
+
+            <li class="treeview">
+                <a href="#">
                     <i class="fa fw fa-yelp"></i>
                     <span>Pulverizações</span>
-                </p:link>
-            </li>            
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <p:link outcome="/pulverisation/pulverisation-operation/index.xhtml" title="Gerenciamento de Pulverizações">
+                            <i class="fa fw fa-yelp"></i>
+                            <span>Pulverizações</span>
+                        </p:link>
+                    </li>  
+                    <li>
+                        <p:link outcome="/pulverisation/target/index.xhtml" title="Gerenciamento de Alvo Principal ou Função">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Alvos/Funções</span>
+                        </p:link>
+                    </li>
+                    <li>
+                        <p:link outcome="/pulverisation/product/index.xhtml" title="Gerenciamento de Produtos">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Produtos</span>
+                        </p:link>
+                    </li>
+
+                </ul>
+            </li>      
+
+
 
         </ul>
     </ui:define>
 
+    <ui:define name="top-menu">
+        <ui:include src="./top-bar.xhtml"/>
+    </ui:define>
+    
     <ui:define name="description">
         A page description
     </ui:define>

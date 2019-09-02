@@ -46,18 +46,12 @@ public class FieldServiceTest {
     @Autowired
     private FieldService fieldService;
 
-
-    private City city1,city2,city3,city4,city5;
-    @Autowired
-    private Field field1, field2, field3;
-    @Autowired
-    private Farmer farmer1,farmer2, farmer3;
-    @Autowired
-    private Supervisor supervisor1, supervisor2, supervisor3;
-    @Autowired
-    private Region region1, region2;
-    @Autowired
     private  MacroRegion macroRegion;
+    private City city1,city2,city3,city4,city5;
+    private Field field1, field2, field3;
+    private Farmer farmer1,farmer2, farmer3;
+    private Supervisor supervisor1, supervisor2, supervisor3;
+    private Region region1, region2;
 
     @Before
     public void SetUp(){

@@ -43,11 +43,9 @@ public class HarvestServiceTest {
     @MockBean
     private SurveyRepository surveyRepository;
 
-
-
     @Autowired
     private HarvestService harvestService;
-    @Autowired
+
     private Harvest harvest1, harvest2, harvest3;
 
 

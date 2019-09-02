@@ -102,86 +102,86 @@ public class SurveyServiceTest {
 
 
         this.harvest1 = Harvest.builder()
-                        .id((long)1)
-                        .name("Safra 2006/2007")
-                        .begin(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-10-2006"))
-                        .end(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-03-2007"))
-                        .build();
+                .id((long)1)
+                .name("Safra 2006/2007")
+                .begin(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-10-2006"))
+                .end(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-03-2007"))
+                .build();
 
         this.harvest2 = Harvest.builder()
-                        .id((long)2)
-                        .name("Safra 2007/2008")
-                        .begin(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-10-2007"))
-                        .end(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-03-2008"))
-                        .build();
+                .id((long)2)
+                .name("Safra 2007/2008")
+                .begin(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-10-2007"))
+                .end(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-03-2008"))
+                .build();
 
         this.harvest3 = Harvest.builder()
-                        .id((long)3)
-                        .name("Safra 2008/2009")
-                        .begin(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-10-2008"))
-                        .end(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-03-2009"))
-                        .build();
+                .id((long)3)
+                .name("Safra 2008/2009")
+                .begin(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-10-2008"))
+                .end(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-03-2009"))
+                .build();
 
 
         this.survey1 = Survey.builder()
-                        .id((long)1)
-                        .harvest(harvest1)
-                        .field(field1)
-                        .seedName("Test 222 BR1")
-                        .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2007-10-1"))
-                        .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2007-10-8"))
-                        .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2008-02-26"))
-                        .rustResistant(true)
-                        .bt(false)
-                        .totalArea(1.4)
-                        .totalPlantedArea(8)
-                        .plantPerMeter(3)
-                        .productivityField(141.7)
-                        .productivityFarmer(159.5)
-                        .separatedWeight(true)
-                        .longitude(1.5)
-                        .latitude(2.5)
-                        .build();
+                .id((long)1)
+                .harvest(harvest1)
+                .field(field1)
+                .seedName("Test 222 BR1")
+                .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2007-10-1"))
+                .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2007-10-8"))
+                .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2008-02-26"))
+                .rustResistant(true)
+                .bt(false)
+                .totalArea(1.4)
+                .totalPlantedArea(8)
+                .plantPerMeter(3)
+                .productivityField(141.7)
+                .productivityFarmer(159.5)
+                .separatedWeight(true)
+                .longitude(1.5)
+                .latitude(2.5)
+                .build();
 
         this.survey2 = Survey.builder()
-                        .id((long)2)
-                        .harvest(harvest1)
-                        .field(field2)
-                        .seedName("Test 111 BR2")
-                        .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2006-10-4"))
-                        .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2006-10-11"))
-                        .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2006-2-12"))
-                        .rustResistant(false)
-                        .bt(true)
-                        .totalArea(45)
-                        .totalPlantedArea(72)
-                        .plantPerMeter(19)
-                        .productivityField(157)
-                        .productivityFarmer(122)
-                        .separatedWeight(false)
-                        .longitude(3)
-                        .latitude(4.9)
-                        .build();
+                .id((long)2)
+                .harvest(harvest1)
+                .field(field2)
+                .seedName("Test 111 BR2")
+                .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2006-10-4"))
+                .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2006-10-11"))
+                .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2006-2-12"))
+                .rustResistant(false)
+                .bt(true)
+                .totalArea(45)
+                .totalPlantedArea(72)
+                .plantPerMeter(19)
+                .productivityField(157)
+                .productivityFarmer(122)
+                .separatedWeight(false)
+                .longitude(3)
+                .latitude(4.9)
+                .build();
 
         this.survey3 = Survey.builder()
-                        .id((long)3)
-                        .harvest(harvest2)
-                        .field(field2)
-                        .seedName("TMG 7262 RR")
-                        .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-4"))
-                        .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-9"))
-                        .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-2-20"))
-                        .rustResistant(true)
-                        .bt(false)
-                        .totalArea(5.74)
-                        .totalPlantedArea(35.09)
-                        .plantPerMeter(11)
-                        .productivityField(137.5)
-                        .productivityFarmer(120)
-                        .separatedWeight(true)
-                        .longitude(4.5)
-                        .latitude(5.5)
-                        .build();
+                .id((long)3)
+                .harvest(harvest2)
+                .field(field2)
+                .seedName("TMG 7262 RR")
+                .sowedDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-4"))
+                .emergenceDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2017-10-9"))
+                .harvestDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2018-2-20"))
+                .rustResistant(true)
+                .bt(false)
+                .totalArea(5.74)
+                .totalPlantedArea(35.09)
+                .plantPerMeter(11)
+                .productivityField(137.5)
+                .productivityFarmer(120)
+                .separatedWeight(true)
+                .longitude(4.5)
+                .latitude(5.5)
+                .build();
 
         List<Survey> listSurvey = asList(this.survey1,this.survey2);
         BDDMockito.when(this.surveyRepository.findAll())
@@ -193,7 +193,8 @@ public class SurveyServiceTest {
         assertThat(this.surveyService.readAll())
                 .doesNotContainNull()
                 .containsExactlyInAnyOrder(this.survey2,this.survey1)
-                .doesNotContain(this.survey3);
+                .doesNotContain(this.survey3)
+                .isNotEmpty();
     }
 
     @Test
@@ -211,8 +212,8 @@ public class SurveyServiceTest {
         when(this.surveyRepository.findById((long)3))
                 .thenReturn(java.util.Optional.ofNullable(null));
 
-            this.surveyService.readById(survey3.getId());
-            fail("EntityNotFoundException it is not throws");
+        this.surveyService.readById(survey3.getId());
+        fail("EntityNotFoundException it is not throws");
     }
 
     @Test
@@ -221,8 +222,8 @@ public class SurveyServiceTest {
                 .thenReturn(java.util.Optional.ofNullable(this.field1));
 
         assertThat(this.surveyService.readFieldbyId(this.field1.getId()))
-            .isEqualTo(this.field1)
-            .isNotNull();
+                .isEqualTo(this.field1)
+                .isNotNull();
     }
 
     @Test (expected = EntityNotFoundException.class)
@@ -230,8 +231,8 @@ public class SurveyServiceTest {
         when(this.fieldRepository.findById((long)3))
                 .thenReturn(java.util.Optional.ofNullable(null));
 
-            this.surveyService.readFieldbyId(this.field3.getId());
-            fail("EntityNotFoundException it is not throws");
+        this.surveyService.readFieldbyId(this.field3.getId());
+        fail("EntityNotFoundException it is not throws");
     }
 
 
@@ -251,8 +252,8 @@ public class SurveyServiceTest {
         when(this.harvestRepository.findById((long)3))
                 .thenReturn(java.util.Optional.ofNullable(null));
 
-            this.surveyService.readHarvestById(this.harvest3.getId());
-            fail("EntityNotFoundException it is not throws");
+        this.surveyService.readHarvestById(this.harvest3.getId());
+        fail("EntityNotFoundException it is not throws");
     }
 
     @Test
@@ -264,7 +265,8 @@ public class SurveyServiceTest {
         assertThat(this.surveyService.readAllFields())
                 .doesNotContainNull()
                 .contains(this.field1, this.field2)
-                .doesNotContain(this.field3);
+                .doesNotContain(this.field3)
+                .isNotEmpty();
     }
 
     @Test
@@ -276,7 +278,8 @@ public class SurveyServiceTest {
         assertThat(this.surveyService.readAllHarvests())
                 .doesNotContainNull()
                 .contains(this.harvest1,this.harvest2)
-                .doesNotContain(this.harvest3);
+                .doesNotContain(this.harvest3)
+                .isNotEmpty();
     }
 
     @Test
@@ -303,16 +306,16 @@ public class SurveyServiceTest {
     @Ignore
     @Test (expected = EntityNotFoundException.class)
     public void surveyServiceTestReadByHarvestIdEntityNotFoundException() throws EntityNotFoundException {
-           this.surveyService.readByHarvestId(this.harvest3.getId());
-            fail("EntityNotFoundException it is not throws");
+        this.surveyService.readByHarvestId(this.harvest3.getId());
+        fail("EntityNotFoundException it is not throws");
     }
 
     @Test (expected = EntityNotFoundException.class)
     public void surveyServiceTestDeleteSurveyEntityNotFoundException() throws AnyPersistenceException, EntityInUseException, EntityNotFoundException {
         when(this.surveyRepository.findById((long)4))
                 .thenReturn(java.util.Optional.ofNullable(null));
-            this.surveyService.delete((long)4);
-            fail("EntityNotFoundException it is not throws");
+        this.surveyService.delete((long)4);
+        fail("EntityNotFoundException it is not throws");
     }
 
     @Test (expected = EntityInUseException.class)
@@ -321,8 +324,8 @@ public class SurveyServiceTest {
                 .thenReturn(java.util.Optional.ofNullable(this.survey1));
         doThrow(DataIntegrityViolationException.class).when(this.surveyRepository).delete(any());
 
-            this.surveyService.delete((long)1);
-            fail("EntityInUseException it is not throws");
+        this.surveyService.delete((long)1);
+        fail("EntityInUseException it is not throws");
     }
 
     @Test (expected = AnyPersistenceException.class)
@@ -331,8 +334,8 @@ public class SurveyServiceTest {
                 .thenReturn(java.util.Optional.ofNullable(this.survey1));
         doThrow(IllegalArgumentException.class).when(this.surveyRepository).delete(any());
 
-            this.surveyService.delete((long)1);
-            fail("AnyPersistenceException it is not throws");
+        this.surveyService.delete((long)1);
+        fail("AnyPersistenceException it is not throws");
     }
 
     @Test
@@ -352,14 +355,14 @@ public class SurveyServiceTest {
         when(this.fieldRepository.findById((long)3))
                 .thenReturn(java.util.Optional.ofNullable(null));
 
-            this.surveyService.create(this.survey3);
-            fail("EntityInUseException it is not throws");
+        this.surveyService.create(this.survey3);
+        fail("EntityInUseException it is not throws");
     }
 
     @Test (expected = EntityAlreadyExistsException.class)
     public void surveyServiceTestCreateSurveyEntityAlreadyExistsException() throws SupervisorNotAllowedInCity, EntityNotFoundException, AnyPersistenceException, EntityAlreadyExistsException {
-            this.surveyService.create(this.survey1);
-            fail("EntityInUseException it is not throws");
+        this.surveyService.create(this.survey1);
+        fail("EntityInUseException it is not throws");
     }
 
     @Test (expected = EntityNotFoundException.class)
@@ -372,8 +375,8 @@ public class SurveyServiceTest {
         when(this.harvestRepository.findById((long)3))
                 .thenReturn(java.util.Optional.ofNullable(null));
 
-            this.surveyService.create(this.survey3);
-            fail("EntityInUseException it is not throws");
+        this.surveyService.create(this.survey3);
+        fail("EntityInUseException it is not throws");
     }
 
     @Test
@@ -385,7 +388,7 @@ public class SurveyServiceTest {
                 .thenReturn(java.util.Optional.ofNullable(this.harvest2));
         when(this.surveyRepository.save(this.survey3)).thenReturn(this.survey3);
 
-            this.surveyService.create(this.survey3);
+        this.surveyService.create(this.survey3);
     }
 
     @Test (expected = AnyPersistenceException.class)
@@ -397,8 +400,8 @@ public class SurveyServiceTest {
                 .thenReturn(java.util.Optional.ofNullable(this.harvest2));
         doThrow(IllegalArgumentException.class).when(this.surveyRepository).save(any());
 
-            this.surveyService.create(this.survey3);
-            fail("AnyPersistenceException it is not throws");
+        this.surveyService.create(this.survey3);
+        fail("AnyPersistenceException it is not throws");
     }
 
     @Test (expected = EntityNotFoundException.class)
@@ -407,8 +410,8 @@ public class SurveyServiceTest {
         when(this.surveyRepository.findById((long)3))
                 .thenReturn(java.util.Optional.ofNullable(null));
 
-            this.surveyService.update(this.survey3);
-            fail("EntityNotFoundException it is not throws");
+        this.surveyService.update(this.survey3);
+        fail("EntityNotFoundException it is not throws");
     }
 
     @Test (expected = AnyPersistenceException.class)
@@ -418,9 +421,9 @@ public class SurveyServiceTest {
                 .thenReturn(java.util.Optional.ofNullable(this.survey2));
         doThrow(IllegalArgumentException.class).when(this.surveyRepository).saveAndFlush(any());
 
-            this.survey2.setSeedName("TesteUpdate");
-            this.surveyService.update(this.survey2);
-            fail("AnyPersistenceException it is not throws");
+        this.survey2.setSeedName("TesteUpdate");
+        this.surveyService.update(this.survey2);
+        fail("AnyPersistenceException it is not throws");
     }
 
     @Test
@@ -432,7 +435,7 @@ public class SurveyServiceTest {
 
         assertThat(this.survey2.getSeedName()).isEqualToIgnoringCase("Test 111 BR2");
 
-            this.survey2.setSeedName("TesteUpdate");
-            this.surveyService.update(this.survey2);
+        this.survey2.setSeedName("TesteUpdate");
+        this.surveyService.update(this.survey2);
     }
 }

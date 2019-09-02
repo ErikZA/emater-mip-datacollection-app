@@ -39,6 +39,7 @@ public class PestServiceTest {
     private PestService pestService;
 
     private Pest pest1, pest2, pest3;
+
     @Before
     public void SetUp(){
         this.pest1 = Pest.builder().id((long)1).usualName("Lagarta Amarela da soja").scientificName("Anticarsia gemmatalis").pestSize(PestSize.GREATER_15CM).build();

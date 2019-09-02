@@ -22,17 +22,12 @@ import static org.mockito.Mockito.when;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class  FieldTest {
 
-    private City city;
-    @Autowired
-    private  Farmer farmer;
-    @Autowired
-    private Supervisor supervisor1, supervisor2;
-    @Autowired
-    private Field field;
-    @Autowired
-    private Region region;
-    @Autowired
     private MacroRegion macroRegion;
+    private Region region;
+    private City city;
+    private Supervisor supervisor1, supervisor2;
+    private Field field;
+    private  Farmer farmer;
 
     @Mock
     private FieldRepository fieldRepository=null;

@@ -50,7 +50,7 @@ public class MIPSampleService {
     public List<Survey> readAllSurveysUniqueEntries() {
         return List.copyOf(mipSampleRepository.findAll().stream().map(MIPSample::getSurvey).distinct().collect(Collectors.toList()));
     }
-
+    //SupervisorNotAllowedInCity nuca é lançada.
     public void create(MIPSample aSample) throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
 
         if (mipSampleRepository.findAll().stream().anyMatch(currentSample -> currentSample.equals(aSample))) {

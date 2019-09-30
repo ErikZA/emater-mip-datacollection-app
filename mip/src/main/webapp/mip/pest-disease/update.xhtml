@@ -29,7 +29,7 @@
                                      process="@this"
                                      icon="fa fa-reply"/>
                 </div>
-                <p:splitButton ajax="false" value="Alterar" action="#{pestDiseaseController.update()}" 
+                <p:splitButton ajax="false" value="Alterar" action="#{pestDiseaseTest.update()}"
                                icon="fa fa-check"
                                styleClass="hidden-md hidden-lg btn-warning">
 
@@ -44,11 +44,11 @@
 
                 <p:panelGrid columns="1" layout="grid" columnClasses="ui-lg-12 ui-g-12 ui-md-12" styleClass="ui-panelgrid-blank ui-fluid">
                     <p:outputLabel for="@next" value="Nome"></p:outputLabel>
-                    <p:inputText value="#{pestDiseaseController.usualName}" ></p:inputText>
+                    <p:inputText value="#{pestDiseaseTest.usualName}" ></p:inputText>
                     <p:message for="@previous" ></p:message>
                 </p:panelGrid>
 
-                <h:inputHidden value="#{pestDiseaseController.id}" ></h:inputHidden>
+                <h:inputHidden value="#{pestDiseaseTest.id}" ></h:inputHidden>
 
             </p:panel>
 

@@ -16,12 +16,12 @@ import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
-public class PestDiseaseController extends PestDisease implements ICRUDController<PestDisease> {
+public class PestDiseaseTest extends PestDisease implements ICRUDController<PestDisease> {
 
     private final PestDiseaseService pestDiseaseService;
     
     @Autowired
-    public PestDiseaseController(PestDiseaseService aPestDiseaseService) {
+    public PestDiseaseTest(PestDiseaseService aPestDiseaseService) {
         this.pestDiseaseService = aPestDiseaseService;
     }
 

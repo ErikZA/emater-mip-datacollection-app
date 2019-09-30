@@ -1,6 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.base;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.*;
+import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.State;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.*;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.*;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.HarvestRepository;

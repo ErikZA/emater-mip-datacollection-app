@@ -43,10 +43,10 @@
                         </p:column>                  
 
                         <p:column headerText="Ações" width="100">
-                            <p:commandButton ajax="false" styleClass="btn-warning" icon="fa fa-fw fa-pencil" action="#{pestDiseaseController.prepareUpdate(aPestDisease.id)}" ></p:commandButton>
+                            <p:commandButton ajax="false" styleClass="btn-warning" icon="fa fa-fw fa-pencil" action="#{pestDiseaseTest.prepareUpdate(aPestDisease.id)}" ></p:commandButton>
                             <p:tooltip for="@previous" value="Alterar" position="top" />
 
-                            <p:commandButton update="mainTable" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{pestDiseaseController.delete(aPestDisease.id)}" >
+                            <p:commandButton update="mainTable" styleClass="btn-danger" icon="fa fa-fw fa-trash" action="#{pestDiseaseTest.delete(aPestDisease.id)}" >
                                 <p:confirm header="Confirma Exclusão?" message="Tem certeza que deseja excluir a doença da praga '#{aPestDisease.usualName}'? Essa ação NÃO pode ser desfeita." />
                             </p:commandButton>
                             <p:tooltip for="@previous" value="Excluir" position="top" />
@@ -58,7 +58,7 @@
                         </p:column>       
 
                         <f:facet name="footer">
-                            #{fn:length(pestDiseaseController.readAll())} Doenças foram encontradas.
+                            #{fn:length(pestDiseaseTest.readAll())} Doenças foram encontradas.
                         </f:facet>
                     </p:dataTable>   
 

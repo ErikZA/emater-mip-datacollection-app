@@ -27,8 +27,10 @@ public class PestDisease extends AuditingPersistenceEntity implements Serializab
 
     @EqualsAndHashCode.Include
     @Size(min = 5, max = 50, message = "O nome deve ter entre 5 e 50 caracteres")
-    protected String usualName;    
-    
+    protected String usualName;
+
+    //Não normaliza o nome.
+
     @Builder
     public static PestDisease create (Long id, String usualName) {
         PestDisease instance = new PestDisease();

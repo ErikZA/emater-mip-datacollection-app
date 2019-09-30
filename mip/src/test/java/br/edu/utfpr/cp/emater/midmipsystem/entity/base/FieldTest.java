@@ -1,6 +1,5 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.State;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FieldRepository;
 import org.junit.*;
 import org.junit.runner.RunWith;

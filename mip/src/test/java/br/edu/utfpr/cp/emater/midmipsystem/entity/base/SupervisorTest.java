@@ -1,7 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
 
-import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.State;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;

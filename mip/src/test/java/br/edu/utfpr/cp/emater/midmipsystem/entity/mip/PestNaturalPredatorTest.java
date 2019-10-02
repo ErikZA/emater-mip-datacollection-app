@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PestNaturalPredatorTest {
 
     private PestNaturalPredator pestNaturalPredator;
+
     @Test
     public void getAndSetIdPestNaturalPredatorTest(){
         PestNaturalPredator pestNaturalPredatorTest = new PestNaturalPredator();
@@ -70,7 +71,5 @@ public class PestNaturalPredatorTest {
         value++;
         assertThat(pestNaturalPredator.hashCode()==value).isFalse();
     }
-
-
 
 }

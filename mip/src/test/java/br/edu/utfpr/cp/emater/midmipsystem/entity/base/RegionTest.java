@@ -149,7 +149,7 @@ public class RegionTest {
 
 
     @Test
-    public void removeCityFailTestRegion(){
+    public void removeCityFalseTestRegion(){
         City citytest1 = City.builder().name("NOvA FAtimA").state(State.PR).build();
         City citytest2 = City.builder().name("Apucarana").state(State.PR).build();
         City citytest3 = City.builder().name("Toledo").state(State.PR).build();
@@ -157,6 +157,12 @@ public class RegionTest {
         cities.add(citytest1);
         cities.add(citytest2);
         this.region.setCities(cities);
+        assertThat(this.region.removeCity(citytest3)).isFalse();
+    }
+
+    @Test
+    public void removeCityContainerFalseTestRegion(){
+        City citytest3 = City.builder().name("Toledo").state(State.PR).build();
         assertThat(this.region.removeCity(citytest3)).isFalse();
     }
 

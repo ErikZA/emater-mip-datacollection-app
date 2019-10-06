@@ -2,20 +2,14 @@ package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.FieldRepository;
 import org.junit.*;
-import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import javax.validation.ConstraintViolationException;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class  FieldTest {
@@ -51,6 +45,17 @@ public class  FieldTest {
             assertThat(this.field.addSupervisor(this.supervisor2)).isTrue();
         }
 
+        @Test
+        public void auditingPersistenceEntityTest(){
+            long var1 = 11;
+            long var2 = 12;
+            Field field = Field.builder().build();
+            field.setLastModified(var1);
+            field.setCreatedAt(var2);
+            assertThat(field.getCreatedAt()).isEqualTo(var1);
+            assertThat(field.getLastModified()).isEqualTo(var2);
+
+        }
 
         @Test
         public  void fieldTestGetCityNameTestCase(){

@@ -24,7 +24,10 @@ import org.junit.runners.Suite;
         br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestNaturalPredatorServiceTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestServiceTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.service.survey.HarvestServiceTest.class,
-        br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyServiceTest.class})
+        br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyServiceTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSampleNaturalPredatorOccurrenceTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestDiseaseOccurrenceTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestOccurrenceTest.class})
 public class MipApplicationTest {
 
 }

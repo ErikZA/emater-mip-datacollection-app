@@ -94,6 +94,4 @@ public class MIPSamplePestOccurrenceTest {
         value++;
         assertThat(mipSamplePestOccurrence.hashCode()==value).isFalse();
     }
-
-
 }

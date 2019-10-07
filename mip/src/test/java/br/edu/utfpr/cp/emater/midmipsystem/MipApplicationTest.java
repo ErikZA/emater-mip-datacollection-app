@@ -18,16 +18,24 @@ import org.junit.runners.Suite;
         br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestNaturalPredatorTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestSizeTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.entity.mip.PestTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSampleNaturalPredatorOccurrenceTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestDiseaseOccurrenceTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestOccurrenceTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSampleTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.entity.survey.SurveyTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.entity.survey.HarvestTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.entity.survey.DateDataTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.entity.survey.LocationDataTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.entity.survey.ProductivityDataTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.entity.survey.QuestionDataTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.entity.survey.SizeDataTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldServiceTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleServiceTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestDiseaseServiceTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestNaturalPredatorServiceTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestServiceTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.service.survey.HarvestServiceTest.class,
-        br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyServiceTest.class,
-        br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSampleNaturalPredatorOccurrenceTest.class,
-        br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestDiseaseOccurrenceTest.class,
-        br.edu.utfpr.cp.emater.midmipsystem.entity.mip.MIPSamplePestOccurrenceTest.class})
+        br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyServiceTest.class})
 public class MipApplicationTest {
 
 }

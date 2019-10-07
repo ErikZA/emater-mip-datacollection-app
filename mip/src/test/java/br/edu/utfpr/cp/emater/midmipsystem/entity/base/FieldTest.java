@@ -49,11 +49,11 @@ public class  FieldTest {
         public void auditingPersistenceEntityTest(){
             long var1 = 11;
             long var2 = 12;
-            Field field = Field.builder().build();
+            Field field = Field.builder().id((long)1).name("Test Super").location("2").build();
             field.setLastModified(var1);
             field.setCreatedAt(var2);
-            assertThat(field.getCreatedAt()).isEqualTo(var1);
-            assertThat(field.getLastModified()).isEqualTo(var2);
+            assertThat(field.getCreatedAt()).isEqualTo(var2);
+            assertThat(field.getLastModified()).isEqualTo(var1);
 
         }
 

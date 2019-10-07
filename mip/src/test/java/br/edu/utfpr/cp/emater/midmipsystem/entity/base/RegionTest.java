@@ -1,26 +1,18 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
 
-import br.edu.utfpr.cp.emater.midmipsystem.repository.base.RegionRepository;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Repeat;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.validation.ConstraintViolationException;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RegionTest {
@@ -28,8 +20,9 @@ public class RegionTest {
     private MacroRegion macroRegion;
     private Region region;
 
-    @Mock
-    private RegionRepository regionRepository = null;
+//Avaliar mover esse tipo de teste para repository
+//    @Mock
+//    private RegionRepository regionRepository = null;
 
     @Before
     public void setUp() {
@@ -53,21 +46,21 @@ public class RegionTest {
         regionTest.setName("PROCOPENSE");
         assertThat(regionTest.getName()).isEqualTo("Procopense");
     }
-
-    @Test (expected = ConstraintViolationException.class)
-    public  void setNameExceptionNameLessThan5RegionTest() {
-        when(this.regionRepository.save(this.region)).thenThrow(ConstraintViolationException.class);
-        this.region.setName("test");
-        this.regionRepository.save(this.region);
-    }
-
-
-    @Test (expected = ConstraintViolationException.class)
-    public  void setNameExceptionNameBigThan50RegionTest() {
-        when(this.regionRepository.save(this.region)).thenThrow(ConstraintViolationException.class);
-        this.region.setName("123456789-123456789-123456789-123456789-123456789-1");
-        this.regionRepository.save(this.region);
-    }
+//
+//    @Test (expected = ConstraintViolationException.class)
+//    public  void setNameExceptionNameLessThan5RegionTest() {
+//        when(this.regionRepository.save(this.region)).thenThrow(ConstraintViolationException.class);
+//        this.region.setName("test");
+//        this.regionRepository.save(this.region);
+//    }
+//
+//
+//    @Test (expected = ConstraintViolationException.class)
+//    public  void setNameExceptionNameBigThan50RegionTest() {
+//        when(this.regionRepository.save(this.region)).thenThrow(ConstraintViolationException.class);
+//        this.region.setName("123456789-123456789-123456789-123456789-123456789-1");
+//        this.regionRepository.save(this.region);
+//    }
 
     @Test
     public void getAndSetMacroRegionTest(){

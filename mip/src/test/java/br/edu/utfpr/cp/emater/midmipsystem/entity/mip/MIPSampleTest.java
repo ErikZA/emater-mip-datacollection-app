@@ -182,6 +182,7 @@ public class MIPSampleTest {
         var.add(this.mipSampleNaturalPredatorOccurrence);
         var.add(mipSampleNaturalPredatorOccurrence);
         this.mipSample.setMipSampleNaturalPredatorOccurrence(var);
+        assertThat(this.mipSample.getMipSampleNaturalPredatorOccurrence()).containsExactlyInAnyOrder(this.mipSampleNaturalPredatorOccurrence,mipSampleNaturalPredatorOccurrence);
     }
 
     @Test

@@ -9,6 +9,7 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.*;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.base.*;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.HarvestRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
+import org.assertj.core.api.Java6Assertions;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
@@ -189,7 +190,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void surveyServiceTestReadAllSurvey(){
+    public void readAllSurveyTest(){
         assertThat(this.surveyService.readAll())
                 .doesNotContainNull()
                 .containsExactlyInAnyOrder(this.survey2,this.survey1)
@@ -198,66 +199,66 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void surveyServiceTestReadByIdSurvey() throws EntityNotFoundException {
+    public void readByIdSurveyTest() throws EntityNotFoundException {
         when(this.surveyRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.survey1));
 
-        assertThat(this.surveyService.readById(this.survey1.getId()))
+        assertThat(this.surveyService.readById((long) 1))
                 .isNotNull()
                 .isEqualTo(this.survey1);
     }
 
     @Test (expected = EntityNotFoundException.class)
-    public void surveyServiceTestReadByIdSurveyEntityNotFoundException() throws EntityNotFoundException {
+    public void readByIdSurveyEntityNotFoundExceptionTest() throws EntityNotFoundException {
         when(this.surveyRepository.findById((long)3))
                 .thenReturn(java.util.Optional.ofNullable(null));
 
-        this.surveyService.readById(survey3.getId());
+        this.surveyService.readById((long) 3);
         fail("EntityNotFoundException it is not throws");
     }
 
     @Test
-    public void surveyServiceTestReadFieldbyId() throws EntityNotFoundException {
+    public void readFieldbyIdTest() throws EntityNotFoundException {
         when(this.fieldRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.field1));
 
-        assertThat(this.surveyService.readFieldbyId(this.field1.getId()))
+        assertThat(this.surveyService.readFieldbyId((long) 1))
                 .isEqualTo(this.field1)
                 .isNotNull();
     }
 
     @Test (expected = EntityNotFoundException.class)
-    public void surveyServiceTestReadFieldbyIdEntityNotFoundException() throws EntityNotFoundException {
+    public void readFieldbyIdEntityNotFoundExceptionTest() throws EntityNotFoundException {
         when(this.fieldRepository.findById((long)3))
                 .thenReturn(java.util.Optional.ofNullable(null));
 
-        this.surveyService.readFieldbyId(this.field3.getId());
+        this.surveyService.readFieldbyId((long) 3);
         fail("EntityNotFoundException it is not throws");
     }
 
 
     @Test
-    public void surveyServiceTestRreadHarvestById() throws EntityNotFoundException {
+    public void readHarvestByIdTest() throws EntityNotFoundException {
         when(this.harvestRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.harvest1));
 
-        assertThat(this.surveyService.readHarvestById(this.harvest1.getId()))
+        assertThat(this.surveyService.readHarvestById((long) 1))
                 .isEqualTo(this.harvest1)
                 .isNotNull();
     }
 
 
     @Test (expected = EntityNotFoundException.class)
-    public void surveyServiceTestReadHarvestByIdEntityNotFoundException() throws EntityNotFoundException {
+    public void readHarvestByIdEntityNotFoundExceptionTest() throws EntityNotFoundException {
         when(this.harvestRepository.findById((long)3))
                 .thenReturn(java.util.Optional.ofNullable(null));
 
-        this.surveyService.readHarvestById(this.harvest3.getId());
+        this.surveyService.readHarvestById((long) 3);
         fail("EntityNotFoundException it is not throws");
     }
 
     @Test
-    public void surveyServiceTestReadAllFields(){
+    public void readAllFieldsTest(){
         List<Field> listField = asList(this.field1,this.field2);
         BDDMockito.when(this.fieldRepository.findAll())
                 .thenReturn(listField);
@@ -270,7 +271,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void surveyServiceTestReadAllHarvests(){
+    public void readAllHarvestsTest(){
         List<Harvest> listHarvest = asList(this.harvest1,this.harvest2);
         BDDMockito.when(harvestRepository.findAll())
                 .thenReturn(listHarvest);
@@ -283,7 +284,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void surveyServiceTestReadAllFieldsOutOfCurrentHarvest(){
+    public void readAllFieldsOutOfCurrentHarvestTest(){
         List<Field> listField = asList(this.field1,this.field2,this.field3);
         BDDMockito.when(this.fieldRepository.findAll())
                 .thenReturn(listField);
@@ -295,7 +296,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void surveyServiceTestReadByHarvestId() throws EntityNotFoundException {
+    public void readByHarvestIdTest() throws EntityNotFoundException {
         assertThat(this.surveyService.readByHarvestId(this.harvest1.getId()))
                 .isNotNull()
                 .doesNotContain(this.survey3)
@@ -305,13 +306,13 @@ public class SurveyServiceTest {
     //Este metodo nuca lança está exception
     @Ignore
     @Test (expected = EntityNotFoundException.class)
-    public void surveyServiceTestReadByHarvestIdEntityNotFoundException() throws EntityNotFoundException {
+    public void readByHarvestIdEntityNotFoundExceptionTest() throws EntityNotFoundException {
         this.surveyService.readByHarvestId(this.harvest3.getId());
         fail("EntityNotFoundException it is not throws");
     }
 
     @Test (expected = EntityNotFoundException.class)
-    public void surveyServiceTestDeleteSurveyEntityNotFoundException() throws AnyPersistenceException, EntityInUseException, EntityNotFoundException {
+    public void deleteSurveyEntityNotFoundExceptionTest() throws AnyPersistenceException, EntityInUseException, EntityNotFoundException {
         when(this.surveyRepository.findById((long)4))
                 .thenReturn(java.util.Optional.ofNullable(null));
         this.surveyService.delete((long)4);
@@ -319,7 +320,7 @@ public class SurveyServiceTest {
     }
 
     @Test (expected = EntityInUseException.class)
-    public void surveyServiceTestDeleteSurveyEntityInUseException() throws EntityNotFoundException, AnyPersistenceException, EntityInUseException {
+    public void deleteSurveyEntityInUseExceptionTest() throws EntityNotFoundException, AnyPersistenceException, EntityInUseException {
         when(this.surveyRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.survey1));
         doThrow(DataIntegrityViolationException.class).when(this.surveyRepository).delete(any());
@@ -329,7 +330,7 @@ public class SurveyServiceTest {
     }
 
     @Test (expected = AnyPersistenceException.class)
-    public void surveyServiceTestDeleteSurveyAnyPersistenceException() throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
+    public void deleteSurveyAnyPersistenceExceptionTest() throws EntityNotFoundException, EntityInUseException, AnyPersistenceException {
         when(this.surveyRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.survey1));
         doThrow(IllegalArgumentException.class).when(this.surveyRepository).delete(any());
@@ -339,16 +340,26 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void surveyServiceTestDeleteSurvey() throws EntityNotFoundException, AnyPersistenceException, EntityInUseException {
+    public void deleteSurveyTest() throws EntityNotFoundException, AnyPersistenceException, EntityInUseException {
         when(this.surveyRepository.findById((long)2))
                 .thenReturn(java.util.Optional.ofNullable(this.survey2));
         doNothing().when(this.surveyRepository).delete(this.survey2);
 
         this.surveyService.delete((long)2);
+
+        when(this.surveyRepository.findById((long)2))
+                .thenReturn(java.util.Optional.ofNullable(null));
+        try {
+            this.surveyService.readById((long) 2);
+        } catch (EntityNotFoundException e){
+            assertThat(e.getClass()).isEqualTo(EntityNotFoundException.class);
+        }
+
+
     }
 
     @Test (expected = EntityNotFoundException.class)
-    public void surveyServiceTestCreateSurveyEntityNotFoundExceptionField() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
+    public void createSurveyEntityNotFoundExceptionFieldTest() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
 
         this.survey3.setField(this.field3);
 
@@ -360,13 +371,13 @@ public class SurveyServiceTest {
     }
 
     @Test (expected = EntityAlreadyExistsException.class)
-    public void surveyServiceTestCreateSurveyEntityAlreadyExistsException() throws SupervisorNotAllowedInCity, EntityNotFoundException, AnyPersistenceException, EntityAlreadyExistsException {
+    public void createSurveyEntityAlreadyExistsExceptionTest() throws SupervisorNotAllowedInCity, EntityNotFoundException, AnyPersistenceException, EntityAlreadyExistsException {
         this.surveyService.create(this.survey1);
         fail("EntityInUseException it is not throws");
     }
 
     @Test (expected = EntityNotFoundException.class)
-    public void surveyServiceTestCreateSurveyEntityNotFoundExceptionHarvers() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
+    public void createSurveyEntityNotFoundExceptionHarversTest() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
 
         this.survey3.setHarvest(this.harvest3);
 
@@ -380,7 +391,7 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void surveyServiceTestCreateSurvey() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
+    public void createSurveyTest() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, AnyPersistenceException, EntityNotFoundException {
 
         when(this.fieldRepository.findById((long)2))
                 .thenReturn(java.util.Optional.ofNullable(this.field2));
@@ -389,10 +400,19 @@ public class SurveyServiceTest {
         when(this.surveyRepository.save(this.survey3)).thenReturn(this.survey3);
 
         this.surveyService.create(this.survey3);
+
+        when(this.surveyRepository.findById((long)3))
+                .thenReturn(java.util.Optional.ofNullable(this.survey3));
+
+         Survey surveyTemp = this.surveyService.readById((long) 3);
+         assertThat(surveyTemp.isSeparatedWeight()).isTrue();
+         assertThat(surveyTemp.getLongitude()).isEqualTo(4.5);
+         assertThat(surveyTemp.getLatitude()).isEqualTo(5.5);
+         assertThat(surveyTemp.getSeedName()).isEqualTo("Tmg 7262 Rr");
     }
 
     @Test (expected = AnyPersistenceException.class)
-    public void surveyServiceTestCreateSurveyAnyPersistenceException() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
+    public void createSurveyAnyPersistenceExceptionTest() throws SupervisorNotAllowedInCity, EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
 
         when(this.fieldRepository.findById((long)2))
                 .thenReturn(java.util.Optional.ofNullable(this.field2));
@@ -405,37 +425,60 @@ public class SurveyServiceTest {
     }
 
     @Test (expected = EntityNotFoundException.class)
-    public void surveyServiceTestUpdateSurveyEntityNotFoundException() throws AnyPersistenceException, EntityAlreadyExistsException, EntityNotFoundException {
+    public void updateSurveyEntityNotFoundExceptionTest() throws AnyPersistenceException, EntityAlreadyExistsException, EntityNotFoundException {
 
         when(this.surveyRepository.findById((long)3))
                 .thenReturn(java.util.Optional.ofNullable(null));
-
         this.surveyService.update(this.survey3);
         fail("EntityNotFoundException it is not throws");
     }
 
     @Test (expected = AnyPersistenceException.class)
-    public void surveyServiceTestUpdateSurveyAnyPersistenceException() throws EntityNotFoundException, EntityAlreadyExistsException, AnyPersistenceException {
-
+    public void updateSurveyAnyPersistenceExceptionTest() throws EntityNotFoundException, EntityAlreadyExistsException, AnyPersistenceException {
         when(this.surveyRepository.findById((long)2))
                 .thenReturn(java.util.Optional.ofNullable(this.survey2));
         doThrow(IllegalArgumentException.class).when(this.surveyRepository).saveAndFlush(any());
-
+        this.survey2 = this.surveyService.readById((long) 2);
         this.survey2.setSeedName("TesteUpdate");
         this.surveyService.update(this.survey2);
         fail("AnyPersistenceException it is not throws");
     }
 
     @Test
-    public void surveyServiceTestUpdateSurvey() throws EntityNotFoundException, EntityAlreadyExistsException, AnyPersistenceException {
+    public void updateSurveyTest() throws EntityNotFoundException, EntityAlreadyExistsException, AnyPersistenceException {
         when(this.surveyRepository.findById((long)2))
                 .thenReturn(java.util.Optional.ofNullable(this.survey2));
         when(this.surveyRepository.saveAndFlush(this.survey2))
                 .thenReturn(this.survey2);
 
-        assertThat(this.survey2.getSeedName()).isEqualToIgnoringCase("Test 111 BR2");
+        Survey surveyTemp = this.surveyService.readById((long) 2);
 
-        this.survey2.setSeedName("TesteUpdate");
+        assertThat(surveyTemp.getSeedName()).isEqualToIgnoringCase("Test 111 BR2");
+        assertThat(surveyTemp.isRustResistant()).isFalse();
+        assertThat(surveyTemp.getTotalArea()).isEqualTo(45);
+        assertThat(surveyTemp.isSeparatedWeight()).isFalse();
+        assertThat(surveyTemp.getProductivityField()).isEqualTo(157);
+        assertThat(surveyTemp.getProductivityFarmer()).isEqualTo(122);
+        assertThat(surveyTemp.getPlantPerMeter()).isEqualTo(19);
+        assertThat(surveyTemp.getTotalPlantedArea()).isEqualTo(72);
+        assertThat(surveyTemp.getField()).isEqualTo(this.field2);
+
+        surveyTemp.setSeedName("TesteUpdate");
+        surveyTemp.setField(this.field1);
         this.surveyService.update(this.survey2);
+        when(this.surveyRepository.findById((long)2))
+                .thenReturn(java.util.Optional.ofNullable(surveyTemp));
+
+        this.survey2 = this.surveyService.readById((long) 2);
+
+        assertThat(this.survey2.getSeedName()).isEqualToIgnoringCase("TesteUpdate");
+        assertThat(this.survey2.isRustResistant()).isFalse();
+        assertThat(this.survey2.getTotalArea()).isEqualTo(45);
+        assertThat(this.survey2.isSeparatedWeight()).isFalse();
+        assertThat(this.survey2.getProductivityField()).isEqualTo(157);
+        assertThat(this.survey2.getProductivityFarmer()).isEqualTo(122);
+        assertThat(this.survey2.getPlantPerMeter()).isEqualTo(19);
+        assertThat(this.survey2.getTotalPlantedArea()).isEqualTo(72);
+        assertThat(this.survey2.getField()).isEqualTo(this.field1);
     }
 }

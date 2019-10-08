@@ -1,18 +1,17 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
 
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Ignore;
-import org.junit.Test;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.base.SupervisorRepository;
+import org.junit.*;
 import org.junit.runners.MethodSorters;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import javax.validation.ConstraintViolationException;
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -20,6 +19,7 @@ public class SupervisorTest {
 
     private MacroRegion macroRegion;
     private Region region;
+    private SupervisorRepository supervisorRepository= mock(SupervisorRepository.class);
 
     @Before
     public void setUp() {
@@ -101,11 +101,29 @@ public class SupervisorTest {
         assertThat(supervisorTest.getEmail()).isEqualTo("marcos@email.com");
     }
 
-    @Ignore  //Falta testar as anotação de integração com o banco;
     @Test (expected = ConstraintViolationException.class)
     public  void getAndSetEmailNullSupervisorTest() {
-        Supervisor supervisorTest = new Supervisor();
+        Supervisor supervisorTest = Supervisor.builder().id((long)10).name("João").build();
+        when(this.supervisorRepository.save(supervisorTest)).thenThrow(ConstraintViolationException.class);
         supervisorTest.setEmail(null);;
+        this.supervisorRepository.save(supervisorTest);
+    }
+
+    @Test (expected = ConstraintViolationException.class)
+    public  void setNameExceptionNameLessThan5SupervisorTest() {
+        Supervisor supervisorTest = Supervisor.builder().id((long)10).name("João").build();
+        when(this.supervisorRepository.save(supervisorTest)).thenThrow(ConstraintViolationException.class);
+        supervisorTest.setName("test");
+        this.supervisorRepository.save(supervisorTest);
+    }
+
+
+    @Test (expected = ConstraintViolationException.class)
+    public  void setNameExceptionNameBigThan50SupervisorTest() {
+        Supervisor supervisorTest = Supervisor.builder().id((long)10).name("João").build();
+        when(this.supervisorRepository.save(supervisorTest)).thenThrow(ConstraintViolationException.class);
+        supervisorTest.setName("123456789-123456789-123456789-123456789-123456789-1");
+        this.supervisorRepository.save(supervisorTest);
     }
 
 

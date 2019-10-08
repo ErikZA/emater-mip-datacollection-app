@@ -6,7 +6,8 @@ import org.junit.runners.Suite;
 
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({br.edu.utfpr.cp.emater.midmipsystem.entity.base.FieldTest.class,
+@Suite.SuiteClasses({
+        br.edu.utfpr.cp.emater.midmipsystem.entity.base.FieldTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.entity.base.RegionTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.entity.base.FarmerTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.entity.base.StateTest.class,

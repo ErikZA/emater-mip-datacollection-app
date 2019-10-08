@@ -1,16 +1,21 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.survey;
 
+import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Supervisor;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.HarvestRepository;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.validation.ConstraintViolationException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 @SpringBootTest
@@ -18,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class HarvestTest {
 
     private Harvest harvest;
+    private HarvestRepository harvestRepository = mock(HarvestRepository.class);
 
     @Test
     public void builder() throws ParseException {
@@ -87,6 +93,24 @@ public class HarvestTest {
         int value = harvest.hashCode();
         value++;
         assertThat(harvest.hashCode()==value).isFalse();
+    }
+
+    @Test (expected = ConstraintViolationException.class)
+    public  void setNameExceptionNameLessThan5HarvestTest() {
+        this.harvest = Harvest.builder().id((long) 22).name("Test Case").build();
+        when(this.harvestRepository.save(this.harvest)).thenThrow(ConstraintViolationException.class);
+        this.harvest.setName("test");
+        this.harvestRepository.save(harvest);
+    }
+
+
+    @Test (expected = ConstraintViolationException.class)
+    public  void setNameExceptionNameBigThan50HarvestTest() {
+        this.harvest = Harvest.builder().id((long) 22).name("Test Case").build();
+        when(this.harvestRepository.save(this.harvest))
+                .thenThrow(ConstraintViolationException.class);
+        this.harvest.setName("123456789-123456789-123456789-123456789-123456789-1");
+        this.harvestRepository.save(this.harvest);
     }
 
 }

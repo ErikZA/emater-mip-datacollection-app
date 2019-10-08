@@ -40,6 +40,7 @@ public class CityTest {
     public  void toStringCityTest() {
         City cityTest = City.builder().name("Nova Fatima").state(State.PR).build();
         assertThat(cityTest.toString()).isEqualTo("Nova Fatima (PR)");
+        assertThat(cityTest.getName()).isEqualTo("Nova Fatima");
     }
 
     @Test
@@ -47,6 +48,8 @@ public class CityTest {
         City cityTest = City.builder().name("Nova Fatima").state(State.PR).build();
         cityTest.setId((long)10);
         assertThat(cityTest.getIdAsString()).isEqualTo("10");
+        assertThat(cityTest.getName()).isEqualTo("Nova Fatima");
+        assertThat(cityTest.getId()).isEqualTo((long)10);
     }
 
 

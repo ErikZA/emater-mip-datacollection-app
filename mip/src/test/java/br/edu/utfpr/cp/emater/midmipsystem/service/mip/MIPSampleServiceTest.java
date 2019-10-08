@@ -5,17 +5,16 @@ import br.edu.utfpr.cp.emater.midmipsystem.entity.base.Field;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.mip.*;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Harvest;
 import br.edu.utfpr.cp.emater.midmipsystem.entity.survey.Survey;
-import br.edu.utfpr.cp.emater.midmipsystem.exception.AnyPersistenceException;
-import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsException;
-import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
-import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
+import br.edu.utfpr.cp.emater.midmipsystem.exception.*;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.MIPSampleRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestDiseaseRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestNaturalPredatorRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.mip.PestRepository;
 import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -170,7 +169,7 @@ public class MIPSampleServiceTest {
 
     //Deveria retornar somente uma survey??
     @Test
-    public void mipSampleServiceTestReadAllSurveysUniqueEntries(){
+    public void readAllSurveysUniqueEntriesTest(){
 
         assertThat(this.mipSampleService.readAllSurveysUniqueEntries())
                 .containsExactly(this.survey1)
@@ -179,10 +178,9 @@ public class MIPSampleServiceTest {
     }
 
     @Test
-    public void mipSampleServiceTestReadSurveyById() throws EntityNotFoundException {
+    public void readSurveyByIdTest() throws EntityNotFoundException {
         when(surveyRepository.findById((long)1))
                 .thenReturn(java.util.Optional.ofNullable(this.survey1));
-
         assertThat(this.mipSampleService.readSurveyById((long)1))
                 .isEqualTo(this.survey1)
                 .isNotNull();
@@ -190,7 +188,7 @@ public class MIPSampleServiceTest {
 
 
     @Test (expected = EntityNotFoundException.class)
-    public void mipSampleServiceTestReadSurveyByIdEntityNotFoundException() throws EntityNotFoundException {
+    public void readSurveyByIdEntityNotFoundExceptionTest() throws EntityNotFoundException {
         when(surveyRepository.findById((long)5))
                 .thenReturn(java.util.Optional.ofNullable(null));
 
@@ -199,8 +197,7 @@ public class MIPSampleServiceTest {
     }
 
     @Test
-    public void setMipSampleServiceTestReadAllPests() {
-
+    public void readAllPestsTest() {
         assertThat(this.mipSampleService.readAllPests())
                 .isNotEmpty()
                 .isNotNull()
@@ -208,7 +205,7 @@ public class MIPSampleServiceTest {
     }
 
     @Test
-    public void mipSampleServiceTestReadAllPestDiseases() {
+    public void readAllPestDiseasesTest() {
         assertThat(this.mipSampleService.readAllPestDiseases())
                 .isNotEmpty()
                 .isNotNull()
@@ -216,7 +213,7 @@ public class MIPSampleServiceTest {
     }
 
     @Test
-    public void mipSampleServiceTestReadAllPestNaturalPredators() {
+    public void readAllPestNaturalPredatorsTest() {
         assertThat(this.mipSampleService.readAllPestNaturalPredators())
                 .isNotEmpty()
                 .isNotNull()
@@ -224,7 +221,7 @@ public class MIPSampleServiceTest {
     }
 
     @Test
-    public void setMipSampleServiceTestReadAllMIPSampleBySurveyId() {
+    public void readAllMIPSampleBySurveyIdTest() {
         assertThat(this.mipSampleService.readAllMIPSampleBySurveyId((long)1))
                 .isNotNull()
                 .containsExactly(this.mipSample1);
@@ -234,13 +231,13 @@ public class MIPSampleServiceTest {
     }
 
     @Test
-    public void setMipSampleServiceTestReadAllMIPSampleBySurveyIdNotFound() {
+    public void readAllMIPSampleBySurveyIdNotFoundTest() {
         assertThat(this.mipSampleService.readAllMIPSampleBySurveyId((long)111))
                 .isEmpty();
     }
 
     @Test
-    public void mipSampleServiceTestReadByIdMIPSample() throws EntityNotFoundException {
+    public void readByIdMIPSampleTest() throws EntityNotFoundException {
         when(this.mipSampleRepository.findById((long)1))
                 .thenReturn(Optional.ofNullable(this.mipSample1));
         assertThat(this.mipSampleService.readById((long)1))
@@ -249,7 +246,7 @@ public class MIPSampleServiceTest {
     }
 
     @Test (expected =  EntityNotFoundException.class)
-    public void mipSampleServiceTestReadByIdMIPSampleEntityNotFoundException() throws EntityNotFoundException {
+    public void readByIdMIPSampleEntityNotFoundExceptionTest() throws EntityNotFoundException {
         when(this.mipSampleRepository.findById((long)6))
                 .thenReturn(Optional.ofNullable(null));
         this.mipSampleService.readById((long)6);
@@ -257,13 +254,13 @@ public class MIPSampleServiceTest {
     }
 
     @Test (expected = EntityAlreadyExistsException.class)
-    public void mipSampleServiceTestCreateMIPSampleEntityAlreadyExistsException() throws Exception{
+    public void createMIPSampleEntityAlreadyExistsExceptionTest() throws Exception{
         this.mipSampleService.create(this.mipSample1);
         fail("EntityAlreadyExistsException it is not throws");
     }
 
     @Test (expected = AnyPersistenceException.class)
-    public void mipSampleServiceTestCreateMIPSampleAnyPersistenceException() throws Exception{
+    public void createMIPSampleAnyPersistenceExceptionTest() throws Exception{
         MIPSample mipSample3 = MIPSample.builder().id((long)3)
                 .daysAfterEmergence(43)
                 .defoliation(2)
@@ -286,12 +283,12 @@ public class MIPSampleServiceTest {
     }
 
     @Test
-    public void mipSampleServiceTestCreateAndCalculateDaysAfterEmergence() throws Exception{
+    public void createAndCalculateDaysAfterEmergenceTest() throws Exception{
         MIPSample mipSample3 = MIPSample.builder().id((long)3)
                 .defoliation(2)
                 .growthPhase(GrowthPhase.V2)
                 .sampleDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2006-10-12"))
-                .survey(survey2)
+                .survey(this.survey2)
                 .build();
 
         this.mipSample2.addPestOccurrence(this.pest1, 3.0);
@@ -302,13 +299,19 @@ public class MIPSampleServiceTest {
                 .thenReturn(Optional.ofNullable(this.survey2));
         when(this.mipSampleRepository.save(mipSample3))
                 .thenReturn(mipSample3);
+        when(this.mipSampleRepository.findById((long)3))
+                .thenReturn(Optional.ofNullable(mipSample3));
 
         this.mipSampleService.create(mipSample3);
-        assertThat(mipSample3.getDaysAfterEmergence()).isEqualTo(2);
+
+        this.mipSample1 = this.mipSampleService.readById((long) 3);
+        assertThat(this.mipSample1.getDaysAfterEmergence()).isEqualTo(2);
+        assertThat(this.mipSample1.getSurvey()).isEqualTo(this.survey2);
+        assertThat(this.mipSample1.getDefoliation()).isEqualTo(2);
     }
 
     @Test (expected = EntityNotFoundException.class)
-    public void mipSampleServiceTestDeleteMIPSampleEntityNotFoundException() throws Exception{
+    public void deleteMIPSampleEntityNotFoundExceptionTest() throws Exception{
         when(this.mipSampleRepository.findById((long)4))
                 .thenReturn(Optional.ofNullable(null));
         this.mipSampleService.delete((long)4);
@@ -316,7 +319,7 @@ public class MIPSampleServiceTest {
     }
 
     @Test (expected = EntityInUseException.class)
-    public void mipSampleServiceTestDeleteMIPSampleEntityInUseException() throws Exception{
+    public void deleteMIPSampleEntityInUseExceptionTest() throws Exception{
         when(this.mipSampleRepository.findById((long)1))
                 .thenReturn(Optional.ofNullable(this.mipSample1));
         doThrow(DataIntegrityViolationException.class)
@@ -326,7 +329,7 @@ public class MIPSampleServiceTest {
     }
 
     @Test (expected = AnyPersistenceException.class)
-    public void mipSampleServiceTestDeleteMIPSampleAnyPersistenceException() throws Exception{
+    public void deleteMIPSampleAnyPersistenceExceptionTest() throws Exception{
         when(this.mipSampleRepository.findById((long)1))
                 .thenReturn(Optional.ofNullable(this.mipSample1));
         doThrow(IllegalArgumentException.class)
@@ -336,12 +339,33 @@ public class MIPSampleServiceTest {
     }
 
     @Test
-    public void mipSampleServiceTestDeleteMIPSampleSucess() throws Exception{
+    public void deleteMIPSampleSucessTest() throws Exception{
         when(this.mipSampleRepository.findById((long)1))
                 .thenReturn(Optional.ofNullable(this.mipSample1));
         doNothing().when(this.mipSampleRepository)
                 .delete(this.mipSample1);
         this.mipSampleService.delete((long)1);
+        when(this.mipSampleRepository.findById((long)1))
+                .thenReturn(Optional.ofNullable(null));
+        try {
+            this.mipSampleService.readSurveyById((long)5);
+        } catch (EntityNotFoundException e){
+            assertThat(e.getClass()).isEqualTo(EntityNotFoundException.class);
+        }
+    }
+
+    @Ignore
+    @Test //SupervisorNotAllowedInCity nunca é lançada.
+    public void createSupervisorNotAllowedInCityTest() {
+        try {
+            MIPSample mipSampleTest = MIPSample.builder().survey(this.survey1).id((long) 99).defoliation(3).build();
+            this.mipSampleService.create(mipSampleTest);
+        }catch (SupervisorNotAllowedInCity e){
+            assertThat(e.getClass()).isEqualTo(SupervisorNotAllowedInCity.class);
+        } catch (Exception e){
+            Assertions.fail("SupervisorNotAllowedInCity it is not throws");
+        }
+            Assertions.fail("SupervisorNotAllowedInCity it is not throws");
     }
 
 

@@ -6,6 +6,9 @@ import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityAlreadyExistsExceptio
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityInUseException;
 import br.edu.utfpr.cp.emater.midmipsystem.exception.EntityNotFoundException;
 import java.util.List;
+
+import br.edu.utfpr.cp.emater.midmipsystem.repository.base.MacroRegionRepository;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.base.SupervisorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,7 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.survey;
 
 import br.edu.utfpr.cp.emater.midmipsystem.entity.base.*;
+import br.edu.utfpr.cp.emater.midmipsystem.repository.survey.SurveyRepository;
 import jdk.jfr.Description;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -8,11 +9,14 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.validation.ConstraintViolationException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 @SpringBootTest
@@ -24,6 +28,7 @@ public class SurveyTest {
     private Supervisor supervisor1 = Supervisor.builder().id((long)2).name("MariO").build();
     private Supervisor supervisor2 = Supervisor.builder().id((long)3).name("Francisco").build();
     private Supervisor supervisor3 = Supervisor.builder().id((long)4).name("jorge").build();
+    private SurveyRepository surveyRepository = mock(SurveyRepository.class);
 
     @Before
     public void setUp() throws ParseException {
@@ -304,6 +309,35 @@ public class SurveyTest {
         int value = survey.hashCode();
         value++;
         assertThat(survey.hashCode()==value).isFalse();
+    }
+
+    @Test (expected = ConstraintViolationException.class)
+    public  void setNameExceptionNameLessThan5SurveyTest() {
+        when(this.surveyRepository.save(this.survey)).thenThrow(ConstraintViolationException.class);
+        this.survey.setSeedName("test");
+        this.surveyRepository.save(this.survey);
+    }
+
+
+    @Test (expected = ConstraintViolationException.class)
+    public  void setNameExceptionNameBigThan50SurveyTest() {
+        when(this.surveyRepository.save(this.survey)).thenThrow(ConstraintViolationException.class);
+        this.survey.setSeedName("123456789-123456789-123456789-123456789-123456789-1");
+        this.surveyRepository.save(this.survey);
+    }
+
+    @Test (expected = ConstraintViolationException.class)
+    public  void setFieldNullExceptionSurveyTest() {
+        when(this.surveyRepository.save(this.survey)).thenThrow(ConstraintViolationException.class);
+        this.survey.setField(null);
+        this.surveyRepository.save(this.survey);
+    }
+
+    @Test (expected = ConstraintViolationException.class)
+    public void setHarvestNullExceptionSurveyTest() {
+        when(this.surveyRepository.save(this.survey)).thenThrow(ConstraintViolationException.class);
+        this.survey.setHarvest(null);
+        this.surveyRepository.save(this.survey);
     }
 
 }

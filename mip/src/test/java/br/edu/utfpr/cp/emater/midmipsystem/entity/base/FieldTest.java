@@ -8,6 +8,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import javax.validation.ConstraintViolationException;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -21,8 +22,8 @@ public class  FieldTest {
     private Field field;
     private  Farmer farmer;
 
-    @Mock
-    private FieldRepository fieldRepository=null;
+
+    private FieldRepository fieldRepository= mock(FieldRepository.class);
 
         @Before
         public void setUp(){
@@ -36,7 +37,6 @@ public class  FieldTest {
             this.supervisor1 = Supervisor.builder().name("Franciscano Souza").email("FranciscanoSouza@EMATER.COM").region(this.region).build();
             this.supervisor2 = Supervisor.builder().name("JOAO BEZERRA").email("JOAOBEZERRA@EMATER.COM").region(this.region).build();
             this.field = Field.builder().name("TEST casE").location("1").city(city).farmer(this.farmer).build();
-            MockitoAnnotations.initMocks(this);
         }
 
         @Test //testa novo supervisor

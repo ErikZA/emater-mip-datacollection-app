@@ -1,20 +1,25 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.base;
 
+import br.edu.utfpr.cp.emater.midmipsystem.repository.base.MacroRegionRepository;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.validation.ConstraintViolationException;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MacroRegionTest {
 
 //Avaliar mover esse tipo de teste para repository
-//    @Mock
-//    private MacroRegionRepository macroRegionRepository=null;
+
+    private MacroRegionRepository macroRegionRepository = mock(MacroRegionRepository.class);
 
     private MacroRegion macroRegion;
 
@@ -39,20 +44,20 @@ public class MacroRegionTest {
     }
 
 
-//    @Test (expected = ConstraintViolationException.class)
-//    public  void setNameExceptionNameLessThan5MacroRegionTest() {
-//        when(this.macroRegionRepository.save(this.macroRegion)).thenThrow(ConstraintViolationException.class);
-//        this.macroRegion.setName("test");
-//        this.macroRegionRepository.save(this.macroRegion);
-//    }
-//
-//
-//    @Test (expected = ConstraintViolationException.class)
-//    public  void setNameExceptionNameBigThan50MacroRegionTest() {
-//        when(this.macroRegionRepository.save(this.macroRegion)).thenThrow(ConstraintViolationException.class);
-//        this.macroRegion.setName("123456789-123456789-123456789-123456789-123456789-1");
-//        this.macroRegionRepository.save(this.macroRegion);
-//    }
+    @Test (expected = ConstraintViolationException.class)
+    public  void setNameExceptionNameLessThan5MacroRegionTest() {
+        when(this.macroRegionRepository.save(this.macroRegion)).thenThrow(ConstraintViolationException.class);
+        this.macroRegion.setName("test");
+        this.macroRegionRepository.save(this.macroRegion);
+    }
+
+
+    @Test (expected = ConstraintViolationException.class)
+    public  void setNameExceptionNameBigThan50MacroRegionTest() {
+        when(this.macroRegionRepository.save(this.macroRegion)).thenThrow(ConstraintViolationException.class);
+        this.macroRegion.setName("123456789-123456789-123456789-123456789-123456789-1");
+        this.macroRegionRepository.save(this.macroRegion);
+    }
 
 
     @Test

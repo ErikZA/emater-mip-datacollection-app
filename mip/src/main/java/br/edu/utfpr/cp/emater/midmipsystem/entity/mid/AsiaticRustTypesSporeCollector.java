@@ -1,6 +1,6 @@
 package br.edu.utfpr.cp.emater.midmipsystem.entity.mid;
 
-public enum AsiaticRustTypesSporeCollector {
+public enum  AsiaticRustTypesSporeCollector {
     NO_RUST_SPORES("Sem Esporos de Ferrugem"),
     NO_RUST_SPORES_NO_FEASIBILITY_TEST("Com Esporos - Mas, sem testar viabilidade"),
     UNFEASIBLE_SPORES_AFTER_TEST("Com Esporos - Mas, inviáveis após teste"),

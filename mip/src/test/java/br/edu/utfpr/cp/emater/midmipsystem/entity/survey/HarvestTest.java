@@ -57,7 +57,7 @@ public class HarvestTest {
     }
 
     @Test
-    public void getEnd() throws ParseException {
+    public void getEndTest() throws ParseException {
         this.harvest = Harvest.builder().id((long) 22).name("Test Case").build();
         Date dateSampleEnd= new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-12-2013");
         this.harvest.setEnd(dateSampleEnd);

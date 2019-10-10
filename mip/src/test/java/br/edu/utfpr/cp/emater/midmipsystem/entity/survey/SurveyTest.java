@@ -284,7 +284,7 @@ public class SurveyTest {
     }
 
     @Test
-    public void equalsFalseHarvestTest() throws ParseException {
+    public void equalsFalseHarvestTest() {
         Survey survey= Survey.builder().id((long) 22).seedName("test harves").rustResistant(true).build();
         assertThat(this.survey.equals(survey)).isFalse();
     }

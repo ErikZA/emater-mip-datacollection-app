@@ -163,7 +163,7 @@ public class  FieldTest {
 
 
         @Test (expected = ConstraintViolationException.class)
-        public  void setNameExceptionNameBigThan50FFieldTest() {
+        public  void setNameExceptionNameBigThan50FieldTest() {
             when(this.fieldRepository.save(this.field)).thenThrow(ConstraintViolationException.class);
             this.field.setName("123456789-123456789-123456789-123456789-123456789-1");
             this.fieldRepository.save(this.field);

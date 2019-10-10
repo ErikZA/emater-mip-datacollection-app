@@ -35,7 +35,7 @@ public class Target extends AuditingPersistenceEntity implements Serializable {
     @EqualsAndHashCode.Include
     @Enumerated(EnumType.STRING)
     private TargetCategory category;
-
+    //normaliza o nome somente se esta função for chamada
     public void description(String usualName) {
         this.description = WordUtils.capitalize(usualName.toLowerCase());
     }

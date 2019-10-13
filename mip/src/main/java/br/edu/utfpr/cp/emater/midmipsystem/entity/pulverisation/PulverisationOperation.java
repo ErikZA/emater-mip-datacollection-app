@@ -94,7 +94,7 @@ public class PulverisationOperation extends AuditingPersistenceEntity implements
     public boolean addOperationOccurrence (Product product, double productPrice, Target target) {
         
         var occurrence = PulverisationOperationOccurrence.builder().product(product).productPrice(productPrice).target(target).build();
-        occurrence.setProductCostQty(occurrence.getProductCostCurrency()/this.getSoyaPrice());
+            occurrence.setProductCostQty(occurrence.getProductCostCurrency()/this.getSoyaPrice());
         
         var result = this.getOperationOccurrences().add(occurrence);
         

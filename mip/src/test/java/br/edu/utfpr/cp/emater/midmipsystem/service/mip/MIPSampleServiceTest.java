@@ -167,12 +167,11 @@ public class MIPSampleServiceTest {
                 .isNotEmpty();
     }
 
-    //Deveria retornar somente uma survey??
     @Test
     public void readAllSurveysUniqueEntriesTest(){
 
         assertThat(this.mipSampleService.readAllSurveysUniqueEntries())
-                .containsExactly(this.survey1)
+                .contains(this.survey1,this.survey2)
                 .doesNotContainNull()
                 .isNotEmpty();
     }

@@ -17,8 +17,6 @@ import static org.mockito.Mockito.when;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MacroRegionTest {
 
-//Avaliar mover esse tipo de teste para repository
-
     private MacroRegionRepository macroRegionRepository = mock(MacroRegionRepository.class);
 
     private MacroRegion macroRegion;

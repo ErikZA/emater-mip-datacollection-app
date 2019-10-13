@@ -50,7 +50,16 @@ import org.junit.runners.Suite;
         br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestNaturalPredatorServiceTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestServiceTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.service.survey.HarvestServiceTest.class,
-        br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyServiceTest.class})
+        br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyServiceTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.service.mid.BladeReadingResponsibleEntityServiceTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.service.mid.MIDRustSampleServiceTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.service.mid.BladeReadingResponsiblePersonServiceTest.class})
 public class MipApplicationTest {
-
+//packt entity/base - classe FieldTest- seria intereçãote uma validação para supervisores e cidadess nulas
+    // packt entity/base - classe SupervisorTest - é dificil de fazer uma comparação exata pois a ordem das cidades pode mudar dee acordo com a alocação em ememoria, alterando o resultado do teste.
+    // packt entity/mip - classes PestDisease - pestDisease não normaliza o name - atraves do SETNAME
+    // packt entity/mip - classes Pest- pestnão normaliza o name - atraves do SETNAME
+    // packt service/mip - classe MIPSampleServiceTest - SupervisorNotAllowedInCity nunca é lançada.
+    // packt service/pulverisation - calsse TargetService - Nunca é lançada EntityNotFoundException.class;
+    // packt service/pulverisation - calsse ProductService - EntityNotFoundException Nunca é disparada
 }

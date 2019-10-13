@@ -46,7 +46,7 @@ public class MIPSampleService {
     public List<MIPSample> readAll() {
         return List.copyOf(mipSampleRepository.findAll());
     }
-    //utilizando mock este metodo não retorna todas as pesquisas vinculadas ao modelo MIP mas somente o indice 0 - Utilizanod o Repositorio lança um nullpointerException
+
     public List<Survey> readAllSurveysUniqueEntries() {
         return List.copyOf(mipSampleRepository.findAll().stream().map(MIPSample::getSurvey).distinct().collect(Collectors.toList()));
     }

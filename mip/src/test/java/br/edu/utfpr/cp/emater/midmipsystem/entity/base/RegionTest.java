@@ -24,7 +24,6 @@ public class RegionTest {
     private MacroRegion macroRegion;
     private Region region;
 
-//Avaliar mover esse tipo de teste para repository
 
     private RegionRepository regionRepository = mock(RegionRepository.class);
 

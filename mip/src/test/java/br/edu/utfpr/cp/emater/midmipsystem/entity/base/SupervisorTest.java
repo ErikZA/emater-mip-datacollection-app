@@ -57,7 +57,7 @@ public class SupervisorTest {
         assertThat(supervisorTest.getMacroRegionName()).isEqualTo("Macro-centro-oeste");
     }
 
-    //é dificil de fazer uma comparação exata pois a ordem das cidades pode mudar, alterando o resultado do teste.
+    //é dificil de fazer uma comparação exata pois a ordem das cidades pode mudar dee acordo com a alocação em ememoria, alterando o resultado do teste.
     @Test
     public  void getCitiesInRegionNamesSupervisorTest() {
         Supervisor supervisorTest = Supervisor.builder().id((long)10).name("João").region(this.region).build();

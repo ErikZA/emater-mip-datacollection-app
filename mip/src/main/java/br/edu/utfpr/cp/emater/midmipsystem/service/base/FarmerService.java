@@ -50,7 +50,7 @@ public class FarmerService implements ICRUDService<Farmer> {
     public void update(Farmer aFarmer) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
 
         var existentFarmer = farmerRepository.findById(aFarmer.getId()).orElseThrow(EntityNotFoundException::new);
-
+        //O farmer atual não é removido antes de vereficar se ha algum registro corresponddente
         if (farmerRepository.findAll().stream().anyMatch(currentFarmer -> currentFarmer.equals(aFarmer)))
             throw new EntityAlreadyExistsException();
                 

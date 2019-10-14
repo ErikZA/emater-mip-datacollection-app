@@ -44,7 +44,13 @@ import org.junit.runners.Suite;
         br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.PulverisationOperationTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.TargetCategoryTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.entity.pulverisation.TargetTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.service.base.FarmerServiceTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.service.base.CityServiceTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.service.base.MacroRegionServiceTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.service.base.LocalDateTimeConverterTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.service.base.FieldServiceTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.service.base.RegionServiceTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.service.base.SupervisorServiceTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.service.mip.MIPSampleServiceTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestDiseaseServiceTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.service.mip.PestNaturalPredatorServiceTest.class,
@@ -53,13 +59,21 @@ import org.junit.runners.Suite;
         br.edu.utfpr.cp.emater.midmipsystem.service.survey.SurveyServiceTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.service.mid.BladeReadingResponsibleEntityServiceTest.class,
         br.edu.utfpr.cp.emater.midmipsystem.service.mid.MIDRustSampleServiceTest.class,
-        br.edu.utfpr.cp.emater.midmipsystem.service.mid.BladeReadingResponsiblePersonServiceTest.class})
+        br.edu.utfpr.cp.emater.midmipsystem.service.mid.BladeReadingResponsiblePersonServiceTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.service.pulverisation.PulverisationOperationServiceTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.service.pulverisation.ProductServiceTest.class,
+        br.edu.utfpr.cp.emater.midmipsystem.service.pulverisation.TargetServiceTest.class})
 public class MipApplicationTest {
-//packt entity/base - classe FieldTest- seria intereçãote uma validação para supervisores e cidadess nulas
+    //packt entity/base - classe FieldTest- agregaria uma validação para supervisores e cidadess nulas
     // packt entity/base - classe SupervisorTest - é dificil de fazer uma comparação exata pois a ordem das cidades pode mudar dee acordo com a alocação em ememoria, alterando o resultado do teste.
     // packt entity/mip - classes PestDisease - pestDisease não normaliza o name - atraves do SETNAME
     // packt entity/mip - classes Pest- pestnão normaliza o name - atraves do SETNAME
     // packt service/mip - classe MIPSampleServiceTest - SupervisorNotAllowedInCity nunca é lançada.
     // packt service/pulverisation - calsse TargetService - Nunca é lançada EntityNotFoundException.class;
     // packt service/pulverisation - calsse ProductService - EntityNotFoundException Nunca é disparada
+    // packt service/pulverisation - calsse PulverisationOperationService EntityNotFoundException nunca é lançada
+    //***(IMPORTANTE)**** packt entity/base - classe MacroRegionService - A macroRegião atual não é removida antes de vereficar se ha algum registro corresponddente durante o update
+    //***(IMPORTANTE)**** packt entity/base - classe FarmerService - O farmer atual não é removido antes de vereficar se ha algum registro corresponddente durante o update
+    //***(IMPORTANTE)**** packt entity/base - classe RegionService - Ha o lançamento de um NullPointe pois o contrutor precisa de um nome para ser instanciado, não ha construtor vazio
+    //***(IMPORTANTE)**** packt entity/base - classe SupervisorService - Test falha pois - Ha o lançamento de um NullPointe pois o contrutor precisa de um nome, e região email para ser executado, não ha construtor vazio.
 }

@@ -50,7 +50,7 @@ public class RegionService implements ICRUDService<Region> {
             return this.macroRegionService.readById(id);
             
         } catch (EntityNotFoundException e) {
-            return MacroRegion.builder().build();
+            return MacroRegion.builder().build();//// Test falha pois - Ha o lançamento de um NullPointe pois o contrutor precisa de um nome para ser instanciado.
         }
     }
 

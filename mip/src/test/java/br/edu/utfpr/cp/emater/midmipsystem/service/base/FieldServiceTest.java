@@ -38,13 +38,6 @@ public class FieldServiceTest {
     private SupervisorRepository supervisorRepository;
     @MockBean
     private FieldRepository fieldRepository;
-    @MockBean
-    private SurveyRepository surveyRepository;
-    @MockBean
-    private HarvestRepository harvestRepository;
-    @MockBean
-    private MacroRegionRepository macroRegionRepository;
-
 
     @Autowired
     private FieldService fieldService;

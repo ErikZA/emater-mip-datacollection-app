@@ -1,21 +1,30 @@
 package br.edu.utfpr.cp.emater.midmipsystem.service.base;
 
-import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.Assert.*;
+import java.time.LocalDate;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class LocalDateTimeConverterTest {
 
-    @Before
-    public void setUp() throws Exception {
+    private LocalDateTimeConverter localDateTimeConverter = new LocalDateTimeConverter();
+
+    Object dateValue = LocalDate.of(2018, 07, 22);
+
+    @Test
+    public void getAsObjectLocalDateTimeConverterTest() {
+        assertThat(this.localDateTimeConverter.getAsObject(null,null,"2018-07-22")).isEqualTo(dateValue);
     }
 
     @Test
-    public void getAsObject() {
+    public void getAsStringLocalDateTimeConverterTest() {
+        assertThat(this.localDateTimeConverter.getAsString(null,null,dateValue)).isEqualTo("22/07/2018");
     }
 
-    @Test
-    public void getAsString() {
-    }
 }

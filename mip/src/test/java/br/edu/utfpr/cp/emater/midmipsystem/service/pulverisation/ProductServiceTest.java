@@ -19,6 +19,7 @@ import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -54,8 +55,8 @@ public class ProductServiceTest {
         this.target3 = Target.builder().id((long) 545).description("Test Target3").category(TargetCategory.ADUBO_FOLIAR).build();
 
         this.product1 = Product.builder().id((long) 121).unit(ProductUnit.L).name("Veneno Amarelo").target(this.target1).build();
-        this.product2 = Product.builder().id((long) 232).unit(ProductUnit.L).name("Veneno Amarelo").target(this.target2).build();
-        this.product3 = Product.builder().id((long) 454).unit(ProductUnit.L).name("Veneno Amarelo").target(this.target3).build();
+        this.product2 = Product.builder().id((long) 232).unit(ProductUnit.L).name("Veneno Laranja").target(this.target2).build();
+        this.product3 = Product.builder().id((long) 454).unit(ProductUnit.L).name("Veneno Vermelho").target(this.target3).build();
 
         List<Target> targets= asList(this.target1,this.target2);
         when(this.targetRepository.findAll())
@@ -99,8 +100,9 @@ public class ProductServiceTest {
         this.productService.create(this.product3);
         when(this.productRepository.findById((long) 454)).thenReturn(java.util.Optional.ofNullable(this.product3));
         Product productTemp = this.productService.readById((long) 454);
-        assertThat(productTemp.getTarget()).isEqualTo(this.target1);
+        assertThat(productTemp.getTarget()).isEqualTo(this.target3);
         assertThat(productTemp.getId()).isEqualTo(454);
+        assertThat(productTemp.getName()).isEqualTo("Veneno Vermelho");
     }
 
     @Test (expected = AnyPersistenceException.class)
@@ -134,8 +136,104 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void updateProductServiceTest() {
+    public void updateProductServiceTest() throws EntityNotFoundException, AnyPersistenceException, EntityAlreadyExistsException {
+        when(this.productRepository.findById((long) 121)).thenReturn(java.util.Optional.ofNullable(this.product1));
+        when(this.productRepository.saveAndFlush(this.product1)).thenReturn(this.product1);
+        Product productTemp = this.productService.readById((long) 121);
+        assertThat(productTemp.getTarget()).isEqualTo(this.target1);
+        assertThat(productTemp.getId()).isEqualTo((long)121);
+        assertThat(productTemp.getName()).isEqualTo("Veneno Amarelo");
+        assertThat(productTemp.getUnit()).isEqualTo(ProductUnit.L);
+
+        productTemp.setTarget(this.target2);
+        productTemp.setUnit(ProductUnit.G);
+        productTemp.setName("Pesticida Convenciolnal");
+
+        this.productService.update(productTemp);
+
+        when(this.productRepository.findById((long) 121)).thenReturn(java.util.Optional.ofNullable(productTemp));
+
+        this.product1 = this.productService.readById((long) 121);
+
+        assertThat(this.product1.getTarget()).isEqualTo(this.target2);
+        assertThat(this.product1.getId()).isEqualTo((long)121);
+        assertThat(this.product1.getName()).isEqualTo("Pesticida Convenciolnal");
+        assertThat(this.product1.getUnit()).isEqualTo(ProductUnit.G);
     }
+
+
+
+    @Test(expected = EntityNotFoundException.class)
+    public void updateProductServiceEntityNotFoundExceptionTest() throws EntityNotFoundException, AnyPersistenceException, EntityAlreadyExistsException {
+        when(this.productRepository.findById((long) 121)).thenReturn(java.util.Optional.ofNullable(this.product1));
+        when(this.productRepository.saveAndFlush(this.product1)).thenReturn(this.product1);
+        when(this.productRepository.findById((long) 1213)).thenReturn(java.util.Optional.ofNullable(null));
+
+        Product productTemp = this.productService.readById((long) 121);
+        assertThat(productTemp.getTarget()).isEqualTo(this.target1);
+        assertThat(productTemp.getId()).isEqualTo((long)121);
+        assertThat(productTemp.getName()).isEqualTo("Veneno Amarelo");
+        assertThat(productTemp.getUnit()).isEqualTo(ProductUnit.L);
+
+        productTemp.setTarget(this.target2);
+        productTemp.setUnit(ProductUnit.G);
+        productTemp.setName("Pesticida Convenciolnal");
+        productTemp.setId((long) 1213);
+
+        this.productService.update(productTemp);
+
+        fail("EntityNotFoundException it is not throws");
+
+    }
+
+
+    @Test (expected = AnyPersistenceException.class)
+    public void updateProductServiceAnyPersistenceExceptionTest() throws EntityNotFoundException, AnyPersistenceException, EntityAlreadyExistsException {
+        when(this.productRepository.findById((long) 121)).thenReturn(java.util.Optional.ofNullable(this.product1));
+        doThrow(IllegalArgumentException.class).when(this.productRepository).saveAndFlush(any(Product.class));
+
+        Product productTemp = this.productService.readById((long) 121);
+        assertThat(productTemp.getTarget()).isEqualTo(this.target1);
+        assertThat(productTemp.getId()).isEqualTo((long)121);
+        assertThat(productTemp.getName()).isEqualTo("Veneno Amarelo");
+        assertThat(productTemp.getUnit()).isEqualTo(ProductUnit.L);
+
+        productTemp.setTarget(this.target2);
+        productTemp.setUnit(ProductUnit.G);
+        productTemp.setName("Pesticida Convenciolnal");
+
+        this.productService.update(productTemp);
+
+
+        fail("AnyPersistenceException it is not throws");
+    }
+
+
+    @Test(expected = EntityAlreadyExistsException.class)
+    public void updateProductServiceEntityAlreadyExistsExceptionTest() throws EntityNotFoundException, AnyPersistenceException, EntityAlreadyExistsException {
+        Product productCopy = this.product1;
+
+        List<Product> products= asList(this.product1,this.product2,productCopy);
+        when(this.productRepository.findAll())
+                .thenReturn(products);
+
+        when(this.productRepository.findById((long) 121)).thenReturn(java.util.Optional.ofNullable(this.product1));
+        doThrow(DataIntegrityViolationException.class).when(this.productRepository).saveAndFlush(any(Product.class));
+
+        Product productTemp = this.productService.readById((long) 121);
+        assertThat(productTemp.getTarget()).isEqualTo(this.target1);
+        assertThat(productTemp.getId()).isEqualTo((long)121);
+        assertThat(productTemp.getName()).isEqualTo("Veneno Amarelo");
+        assertThat(productTemp.getUnit()).isEqualTo(ProductUnit.L);
+
+        productTemp.setTarget(this.target2);
+        productTemp.setUnit(ProductUnit.G);
+        productTemp.setName("Pesticida Convenciolnal");
+
+        this.productService.update(productTemp);
+        fail("EntityAlreadyExistsException it is not throws");
+    }
+
 
     @Test
     public void deleteProductServiceTest() throws EntityNotFoundException, AnyPersistenceException, EntityInUseException {
@@ -150,6 +248,30 @@ public class ProductServiceTest {
             assertThat(e.getClass()).isEqualTo(EntityNotFoundException.class);
         }
     }
+
+    @Test (expected = EntityNotFoundException.class)
+    public void deleteProductServiceEntityNotFoundExceptionTest() throws EntityNotFoundException, AnyPersistenceException, EntityInUseException {
+        when(this.productRepository.findById((long) 1214)).thenReturn(java.util.Optional.ofNullable(null));
+        this.productService.delete((long) 1214);
+        fail("EntityNotFoundException it is not throws");
+      }
+
+
+    @Test (expected = AnyPersistenceException.class)
+    public void deleteProductAnyPersistenceExceptionServiceTest() throws EntityNotFoundException, AnyPersistenceException, EntityInUseException {
+        when(this.productRepository.findById((long) 121)).thenReturn(java.util.Optional.ofNullable(this.product1));
+        doThrow(IllegalArgumentException.class).when(this.productRepository).delete(any(Product.class));
+        this.productService.delete((long) 121);
+        fail("AnyPersistenceException it is not throws");
+      }
+
+    @Test (expected = EntityInUseException.class)
+    public void deleteProductServiceEntityInUseExceptionTest() throws EntityNotFoundException, AnyPersistenceException, EntityInUseException {
+        when(this.productRepository.findById((long) 121)).thenReturn(java.util.Optional.ofNullable(this.product1));
+        doThrow(DataIntegrityViolationException.class).when(this.productRepository).delete(any(Product.class));
+        this.productService.delete((long) 121);
+            fail("EntityInUseException it is not throws");
+       }
 
     @Test
     public void readAllTargetsProductServiceTest() {

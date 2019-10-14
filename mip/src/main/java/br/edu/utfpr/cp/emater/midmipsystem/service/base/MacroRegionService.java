@@ -48,7 +48,7 @@ public class MacroRegionService {
     public void update(MacroRegion aMacroRegion) throws EntityAlreadyExistsException, EntityNotFoundException, AnyPersistenceException {
 
         MacroRegion existentEntity = macroRegionRepository.findById(aMacroRegion.getId()).orElseThrow(EntityNotFoundException::new);
-
+        // A macroRegiao atual não é removida antes da verificação.
         if (macroRegionRepository.findAll().stream().anyMatch(currentMR -> currentMR.equals(aMacroRegion)))
             throw new EntityAlreadyExistsException();
                 
